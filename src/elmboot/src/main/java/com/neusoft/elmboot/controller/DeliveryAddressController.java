@@ -40,15 +40,15 @@ public class DeliveryAddressController {
 		return deliveryAddressService.saveDeliveryAddress(deliveryAddress);
 	} 
 	
-	//@RequestMapping("/updateDeliveryAddress")
-	@PutMapping
-	public int updateDeliveryAddress(@RequestBody DeliveryAddress deliveryAddress) throws Exception{
-		return deliveryAddressService.updateDeliveryAddress(deliveryAddress);
-	} 
-	
-	//@RequestMapping("/removeDeliveryAddress")
-	@DeleteMapping("/{daId}")
-	public int removeDeliveryAddress(@PathVariable Integer daId) throws Exception{
-		return deliveryAddressService.removeDeliveryAddress(daId);
-	} 
+//	//@RequestMapping("/updateDeliveryAddress")
+//	@PutMapping
+//	public int updateDeliveryAddress(@RequestBody DeliveryAddress deliveryAddress) throws Exception{
+//		return deliveryAddressService.updateDeliveryAddress(deliveryAddress);
+//	} 
+//	
+//	//@RequestMapping("/removeDeliveryAddress")
+//	@DeleteMapping("/{daId}")
+//	public int removeDeliveryAddress(@PathVariable Integer daId) throws Exception{
+//		return deliveryAddressService.removeDeliveryAddress(daId);
+//	} 
 }

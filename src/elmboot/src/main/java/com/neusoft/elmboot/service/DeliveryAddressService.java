@@ -10,6 +10,6 @@ public interface DeliveryAddressService {
 	
 	public DeliveryAddress getDeliveryAddressById(Integer daId);
 	public int saveDeliveryAddress(DeliveryAddress deliveryAddress);
-	public int updateDeliveryAddress(DeliveryAddress deliveryAddress);
-	public int removeDeliveryAddress(Integer daId);
+//	public int updateDeliveryAddress(DeliveryAddress deliveryAddress);
+//	public int removeDeliveryAddress(Integer daId);
 }

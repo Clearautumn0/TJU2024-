@@ -33,18 +33,18 @@ public class FoodController {
 		return foodService.getFoodById(foodId);
 	}
 	
-	@PostMapping
-	public Integer addFood(@RequestBody Food food) {
-		return foodService.addFood(food);
-	}
-	
-	@PutMapping
-	public Integer updateFood(@RequestBody Food food) {
-		return foodService.updateFood(food);
-	}
-	
-	@DeleteMapping
-	public Integer removeFood(Food food) {
-		return foodService.removeFood(food);
-	}
+//	@PostMapping
+//	public Integer addFood(@RequestBody Food food) {
+//		return foodService.addFood(food);
+//	}
+//	
+//	@PutMapping
+//	public Integer updateFood(@RequestBody Food food) {
+//		return foodService.updateFood(food);
+//	}
+//	
+//	@DeleteMapping
+//	public Integer removeFood(Food food) {
+//		return foodService.removeFood(food);
+//	}
 }

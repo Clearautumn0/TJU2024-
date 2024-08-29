@@ -44,9 +44,9 @@ public class BusinessController {
 		return businessService.updateBusiness(business);
 	}
 	
-	@DeleteMapping("/{businessId}")
-	public Integer deleteBusiness(@PathVariable Integer businessId) {
-		return businessService.deleteBusiness(businessId);
-	}
+//	@DeleteMapping("/{businessId}")
+//	public Integer deleteBusiness(@PathVariable Integer businessId) {
+//		return businessService.deleteBusiness(businessId);
+//	}
 
 }

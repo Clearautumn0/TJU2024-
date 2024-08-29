@@ -25,19 +25,19 @@ public class FoodServiceImpl implements FoodService{
 		return foodMapper.getFoodById(foodId);
 	}
 
-	@Override
-	public Integer addFood(Food food) {
-		return foodMapper.addFood(food);
-	}
-
-	@Override
-	public Integer updateFood(Food food) {
-		return foodMapper.updateFood(food);
-	}
-	
-	@Override
-	public Integer removeFood(Food food) {
-		return foodMapper.removeFood(food);
-	}
+//	@Override
+//	public Integer addFood(Food food) {
+//		return foodMapper.addFood(food);
+//	}
+//
+//	@Override
+//	public Integer updateFood(Food food) {
+//		return foodMapper.updateFood(food);
+//	}
+//	
+//	@Override
+//	public Integer removeFood(Food food) {
+//		return foodMapper.removeFood(food);
+//	}
 
 }
