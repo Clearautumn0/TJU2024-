@@ -21,7 +21,7 @@ public class UserController {
 	private UserService userService;
 
 	//@RequestMapping("/getUserByIdByPass")
-	@GetMapping
+	@PostMapping("/login")
 	public User getUserByIdByPass(@RequestBody User user) throws Exception{
 		return userService.getUserByIdByPass(user);
 	}
