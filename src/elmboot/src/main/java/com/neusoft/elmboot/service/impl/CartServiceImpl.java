@@ -16,7 +16,10 @@ public class CartServiceImpl implements CartService{
 	private CartMapper cartMapper;
 
 	@Override
-	public List<Cart> listCart(Cart cart) {
+	public List<Cart> listCart(String userId, Integer businessId) {
+		Cart cart = new Cart();
+		cart.setUserId(userId);
+		cart.setBusinessId(businessId);
 		return cartMapper.listCart(cart);
 	}
 	

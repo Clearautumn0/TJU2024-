@@ -26,10 +26,7 @@ public class CartController {
 	@GetMapping("/user")
 	public List<Cart> listCart(@RequestParam(required = true) String userId, 
 			@RequestParam(required = false) Integer businessId) throws Exception{
-		Cart cart = new Cart();
-		cart.setUserId(userId);
-		cart.setBusinessId(businessId);
-		return cartService.listCart(cart);
+		return cartService.listCart(userId, businessId);
 	}
 	
 	//public List<Cart> listCart(@RequestBody Cart cart) throws Exception{
