@@ -16,7 +16,7 @@ import com.neusoft.elmboot.po.Food;
 import com.neusoft.elmboot.service.FoodService;
 
 @RestController
-@RequestMapping("/FoodController")
+@RequestMapping("/foods")
 public class FoodController {
 	
 	@Autowired
