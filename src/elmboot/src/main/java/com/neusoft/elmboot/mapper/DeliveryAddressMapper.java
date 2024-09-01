@@ -22,9 +22,9 @@ public interface DeliveryAddressMapper {
 	@Insert("insert into deliveryAddress values(null,#{contactName},#{contactSex},#{contactTel},#{address},#{userId})")
 	public int saveDeliveryAddress(DeliveryAddress deliveryAddress);
 	
-	//@Update("update deliveryAddress set contactName=#{contactName},contactSex=#{contactSex},contactTel=#{contactTel},address=#{address} where daId=#{daId}")
-	//public int updateDeliveryAddress(DeliveryAddress deliveryAddress);
+	@Update("update deliveryAddress set contactName=#{contactName},contactSex=#{contactSex},contactTel=#{contactTel},address=#{address} where daId=#{daId}")
+	public int updateDeliveryAddress(DeliveryAddress deliveryAddress);
 	
-	//@Delete("delete from deliveryAddress where daId=#{daId}")
-	//public int removeDeliveryAddress(Integer daId);
+	@Delete("delete from deliveryAddress where daId=#{daId}")
+	public int removeDeliveryAddress(Integer daId);
 }

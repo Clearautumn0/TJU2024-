@@ -68,9 +68,8 @@
 		created() {
 			this.user = this.$getSessionStorage('user');
 			
-			this.$axios.post('DeliveryAddressController/getDeliveryAddressById', this.$qs.stringify({
-				daId:this.daId
-			})).then(response => {
+			this.$axios.get(`delivery-addresses/${this.daId}`
+			).then(response => {
 				this.deliveryAddress = response.data;
 			}).catch(error => {
 				console.error(error);
@@ -94,9 +93,8 @@
 					return;
 				}
 
-				this.$axios.post('DeliveryAddressController/updateDeliveryAddress', this.$qs.stringify(
-					this.deliveryAddress
-				)).then(response => {
+				this.$axios.put('delivery-addresses', this.deliveryAddress
+				).then(response => {
 					if (response.data > 0) {
 						this.$router.push({
 							path: '/userAddress',

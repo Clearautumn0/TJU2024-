@@ -78,9 +78,8 @@
 		created() {
 			this.user = this.$getSessionStorage('user');
 			
-			this.$axios.post('OrdersController/listOrdersByUserId',this.$qs.stringify({
-				userId:this.user.userId
-			})).then(response=>{
+			this.$axios.get(`orders/user/${this.user.userId}`
+			).then(response=>{
 				let result = response.data;
 				for(let orders of result){
 					orders.isShowDetailet = false;

@@ -30,13 +30,13 @@ public class DeliveryAddressServiceImpl implements DeliveryAddressService{
 		return deliveryAddressMapper.saveDeliveryAddress(deliveryAddress);
 	}
 	
-//	@Override
-//	public int updateDeliveryAddress(DeliveryAddress deliveryAddress) {
-//		return deliveryAddressMapper.updateDeliveryAddress(deliveryAddress);
-//	}
-//	
-//	@Override
-//	public int removeDeliveryAddress(Integer daId) {
-//		return deliveryAddressMapper.removeDeliveryAddress(daId);
-//	}
+	@Override
+	public int updateDeliveryAddress(DeliveryAddress deliveryAddress) {
+		return deliveryAddressMapper.updateDeliveryAddress(deliveryAddress);
+	}
+	
+	@Override
+	public int removeDeliveryAddress(Integer daId) {
+		return deliveryAddressMapper.removeDeliveryAddress(daId);
+	}
 }
