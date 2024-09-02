@@ -7,7 +7,7 @@
             <h2 class="username">用户名</h2>
         </header>
         <ul class="profile-menu">
-            <li class="profile-menu-item">个人信息</li>
+            <li @click="toindividual_inf" class="profile-menu-item">个人信息</li>
             <li class="profile-menu-item">会员</li>
             <li class="profile-menu-item">设置</li>
             <li @click="backfun" class="profile-menu-item">返回主界面</li>
@@ -25,6 +25,9 @@ export default {
     methods: {
         backfun() {
             this.$router.push({ path: '/index' });
+        },
+        toindividual_inf(){
+            this.$router.push({});
         }
     },
     components: {
