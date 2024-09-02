@@ -5,7 +5,7 @@
 		<header>
 			<!-- 返回按钮 -->
 			<!-- <img @click="goBack" src="../assets/backer.png" alt="返回" class="back-button"> -->
-			 <Backer></Backer>
+			<Backer></Backer>
 			<p>商家列表</p>
 		</header>
 
@@ -22,6 +22,9 @@
 					<p>{{ item.businessExplain }}</p>
 				</div>
 			</li>
+			<li class="empty-li">
+				<div class="empty-message">已经拉到底了</div>
+			</li>
 		</ul>
 
 		<!-- 底部菜单部分 -->
@@ -33,7 +36,6 @@
 <script>
 import Footer from '../components/Footer.vue';
 import Backer from '../components/backer.vue';
-import backer from '../components/backer.vue';
 
 export default {
 	name: 'BusinessList',
@@ -192,8 +194,6 @@ export default {
 	color: #888;
 	margin-top: 2vw;
 }
-<<<<<<< HEAD
-=======
 
 .empty-li {
 	width: 200vw;
@@ -223,5 +223,4 @@ export default {
 	color: #000;
 	/* 设置文字颜色 */
 }
->>>>>>> 336289ef3fa8c3e4723048f59a2aaf1390128c95
 </style>
