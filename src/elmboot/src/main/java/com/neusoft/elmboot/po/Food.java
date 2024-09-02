@@ -9,7 +9,7 @@ public class Food {
 	private Double foodPrice;
 	private Integer businessId;
 	private String remarks;
-	private Integer quantity;
+	private Integer delTag;
 	
 	public Integer getFoodId() {
 		return foodId;
@@ -53,10 +53,10 @@ public class Food {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
-	public Integer getQuantity() {
-		return quantity;
+	public Integer getDelTag() {
+		return delTag;
 	}
-	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
+	public void setDelTag(Integer delTag) {
+		this.delTag = delTag;
 	}
 }

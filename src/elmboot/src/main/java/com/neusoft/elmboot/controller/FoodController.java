@@ -33,10 +33,10 @@ public class FoodController {
 		return foodService.getFoodById(foodId);
 	}
 	
-//	@PostMapping
-//	public Integer addFood(@RequestBody Food food) {
-//		return foodService.addFood(food);
-//	}
+	@PostMapping
+	public Integer addFood(@RequestBody Food food) {
+		return foodService.addFood(food);
+	}
 //	
 //	@PutMapping
 //	public Integer updateFood(@RequestBody Food food) {
