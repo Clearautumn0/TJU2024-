@@ -9998,3 +9998,4 @@ src/elmclient/node_modules/.store/@babel+plugin-transform-async-generator-functi
 src/elmclient/node_modules/.store/@babel+plugin-transform-async-generator-functions@7.25.4/node_modules/@babel/traverse/lib/scope/index.js.map
 src/elmclient/node_modules/.store/@babel+plugin-transform-async-generator-functions@7.25.4/node_modules/@babel/traverse/lib/scope/lib/renamer.js
 src/elmclient/node_modules/.store/@babel+plugin-transform-async-generator-functions@7.25.4/node_modules/@babel/traverse/lib/scope/lib/renamer.js.map
+.vscode/settings.json
