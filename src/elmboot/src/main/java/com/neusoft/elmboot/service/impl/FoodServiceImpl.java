@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.neusoft.elmboot.mapper.FoodMapper;
 import com.neusoft.elmboot.po.Food;
@@ -29,15 +30,18 @@ public class FoodServiceImpl implements FoodService{
 	public Integer addFood(Food food) {
 		return foodMapper.addFood(food);
 	}
-//
-//	@Override
-//	public Integer updateFood(Food food) {
-//		return foodMapper.updateFood(food);
-//	}
-//	
-//	@Override
-//	public Integer removeFood(Food food) {
-//		return foodMapper.removeFood(food);
-//	}
+
+	@Override
+	@Transactional
+	public Integer updateFood(Food food) {
+		int count = foodMapper.copyFood(food);
+		count+=foodMapper.deleteFood(food);
+		return count;
+	}
+	
+	@Override
+	public Integer removeFood(Food food) {
+		return foodMapper.deleteFood(food);
+	}
 
 }
