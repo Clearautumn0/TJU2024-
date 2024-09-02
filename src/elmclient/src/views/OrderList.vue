@@ -58,7 +58,7 @@
 			</li>
 
 			<li class="empty-li">
-				<div class="empty-message">已经拉到底了</div>
+				<div class="empty-message">已经拉到底了...</div>
 			</li>
 		</ul>
 

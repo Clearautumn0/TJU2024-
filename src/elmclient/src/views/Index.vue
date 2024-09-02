@@ -330,7 +330,7 @@
 			</li>
 
 			<li class="empty-li">
-				<div class="empty-message">已经拉到底了</div>
+				<div class="empty-message">已经到底了...</div>
 			</li>
 
 
@@ -763,6 +763,7 @@ export default {
 	/* 设置矩形的高度 */
 	/* border: 2px solid #000; */
 	/* 添加一个2像素的黑色边框 */
+
 	background-color: transparent;
 	/* 背景色为透明 */
 	list-style: none;
@@ -770,7 +771,6 @@ export default {
 
 .empty-message {
 	position: absolute;
-	/* display: flex; */
 	top: -25;
 	/* 将文字放置在顶部 */
 	left: 50%;
