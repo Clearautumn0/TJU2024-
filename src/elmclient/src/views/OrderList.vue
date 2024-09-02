@@ -17,7 +17,7 @@
 					</p>
 					<div class="order-info-right">
 						<p>&#165;{{ item.orderTotal }}</p>
-						<div class="order-info-right-icon">去支付</div>
+						  <div class="order-info-right-icon" @click="goToPayment(item.orderId)">去支付</div>
 					</div>
 				</div>
 				<ul class="order-detailet" v-show="item.isShowDetailet">
@@ -95,6 +95,11 @@ export default {
 		});
 	},
 	methods: {
+		goToPayment(orderId) {
+		    this.$router.push({
+		      path: '/payment',
+		      query: { orderId: orderId }
+		    });},
 		detailetShow(orders) {
 			orders.isShowDetailet = !orders.isShowDetailet;
 		}
