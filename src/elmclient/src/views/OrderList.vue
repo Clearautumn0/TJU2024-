@@ -3,7 +3,6 @@
 
 		<!-- header部分 -->
 		<header>
-			<Backer></Backer>
 			<p>我的订单</p>
 		</header>
 
@@ -67,7 +66,7 @@
 
 <script>
 	import Footer from '../components/Footer.vue';
-	import Backer from '../components/backer.vue';
+	// import Backer from '../components/backer.vue';
 	
 	export default{
 		name:'OrderList',
@@ -97,8 +96,7 @@
 			}
 		},
 		components:{
-			Footer,
-			Backer
+			Footer
 		}
 	}
 </script>
