@@ -229,7 +229,7 @@ export default {
 			for (let item of this.foodArr) {
 				total += item.foodPrice * item.quantity;
 			}
-			return total;
+			return parseFloat(total.toFixed(2));
 		},
 		//食品总数量
 		totalQuantity() {
