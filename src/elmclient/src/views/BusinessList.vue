@@ -23,7 +23,7 @@
 				</div>
 			</li>
 			<li class="empty-li">
-				<div class="empty-message">已经拉到底了</div>
+				<!-- <div class="empty-message"></div> -->
 			</li>
 		</ul>
 
@@ -75,15 +75,15 @@ export default {
 			}).then(response => {
 				let cartArr = response.data;
 				//遍历所有食品列表
-				for (let foodItem of this.foodArr) {
-					foodItem.quantity = 0;
+				for (let businessItem of this.businessArr) {
+					businessItem.quantity = 0;
 					for (let cartItem of cartArr) {
-						if (cartItem.foodId == foodItem.foodId) {
-							foodItem.quantity = cartItem.quantity;
+						if (cartItem.businessId == businessItem.businessId) {
+							businessItem.quantity += cartItem.quantity;
 						}
 					}
 				}
-				this.foodArr.sort();
+				this.businessArr.sort();
 			}).catch(error => {
 				console.error(error);
 			});
