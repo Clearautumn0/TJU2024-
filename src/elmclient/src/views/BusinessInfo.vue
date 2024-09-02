@@ -41,7 +41,7 @@
 				</div>
 			</li>
 			<li class="empty-li">
-				<!-- <div class="empty-message"></div> -->
+				<div class="empty-message">已经到底了...</div>
 			</li>
 		</ul>
 
@@ -485,6 +485,20 @@ export default {
 	/* 移除li的默认列表样式 */
 	/* margin: 10px; */
 	/* 添加一些外边距让矩形之间有间隔 */
+}
+
+.empty-message {
+	position: absolute;
+	top: -25;
+	/* 将文字放置在顶部 */
+	left: 50%;
+	/* 从左边开始居中 */
+	transform: translateX(-50%);
+	/* 修正left 50%带来的偏移，使其完全居中 */
+	font-size: 4vw;
+	/* 设置字体大小 */
+	color: #000;
+	/* 设置文字颜色 */
 }
 
 /*不够起送费时的样式（只有背景色和鼠标样式的区别）*/
