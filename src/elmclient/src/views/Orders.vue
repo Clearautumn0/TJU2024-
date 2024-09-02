@@ -3,6 +3,7 @@
 
 		<!-- header部分 -->
 		<header>
+			<Backer></Backer>
 			<p>确认订单</p>
 		</header>
 
@@ -25,7 +26,7 @@
 					<img :src="item.food.foodImg">
 					<p>{{ item.food.foodName }} x {{ item.quantity }}</p>
 				</div>
-				<p>&#165;{{ item.food.foodPrice * item.quantity }}</p>
+				<p>&#165;{{parseFloat( (item.food.foodPrice * item.quantity).toFixed(2)) }}</p>
 			</li>
 		</ul>
 		<div class="order-deliveryfee">
@@ -36,7 +37,7 @@
 		<!-- 合计部分 -->
 		<div class="total">
 			<div class="total-left">
-				&#165;{{ totalPrice }}
+				&#165;{{ parseFloat(totalPrice.toFixed(2)) }}
 			</div>
 			<div class="total-right" @click="toPayment">
 				去支付
@@ -46,6 +47,8 @@
 </template>
 
 <script>
+import Backer from '../components/backer.vue';
+// import backer from '../components/backer.vue';
 export default {
 	name: 'Orders',
 	data() {
@@ -88,7 +91,7 @@ export default {
 				totalPrice += cartItem.food.foodPrice * cartItem.quantity;
 			}
 			totalPrice += this.business.deliveryPrice;
-			return totalPrice;
+			return parseFloat(totalPrice.toFixed(2));
 		}
 	},
 	filters: {
@@ -125,6 +128,10 @@ export default {
 				console.error(error);
 			});
 		}
+	},
+	components:{
+		
+		Backer
 	}
 }
 </script>

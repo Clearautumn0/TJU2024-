@@ -3,6 +3,7 @@
 
 		<!-- header部分 -->
 		<header>
+			<Backer></Backer>
 			<p>商家信息</p>
 		</header>
 
@@ -71,6 +72,7 @@
 </template>
 
 <script>
+import Backer from '../components/backer.vue'
 export default {
 	name: 'BusinessInfo',
 	data() {
@@ -229,7 +231,7 @@ export default {
 			for (let item of this.foodArr) {
 				total += item.foodPrice * item.quantity;
 			}
-			return total;
+			return parseFloat(total.toFixed(2));
 		},
 		//食品总数量
 		totalQuantity() {
@@ -243,6 +245,9 @@ export default {
 		totalSettle() {
 			return this.totalPrice + this.business.deliveryPrice;
 		}
+	},
+	components:{
+		Backer
 	}
 }
 </script>

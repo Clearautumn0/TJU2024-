@@ -3,6 +3,7 @@
 
 		<!-- header部分 -->
 		<header>
+			<Backer></Backer>
 			<p>我的订单</p>
 		</header>
 
@@ -23,7 +24,7 @@
 				<ul class="order-detailet" v-show="item.isShowDetailet">
 					<li v-for="odItem in item.list">
 						<p>{{odItem.food.foodName}} x {{odItem.quantity}}</p>
-						<p>&#165;{{odItem.food.foodPrice*odItem.quantity}}</p>
+						<p>&#165;{{parseFloat((odItem.food.foodPrice*odItem.quantity).toFixed(2))}}</p>
 					</li>
 					<li>
 						<p>配送费</p>
@@ -48,7 +49,7 @@
 				<ul class="order-detailet" v-show="item.isShowDetailet">
 					<li v-for="odItem in item.list">
 						<p>{{odItem.food.foodName}} x {{odItem.quantity}}</p>
-						<p>&#165;{{odItem.food.foodPrice*odItem.quantity}}</p>
+						<p>&#165;{{parseFloat((odItem.food.foodPrice*odItem.quantity).toFixed(2))}}</p>
 					</li>
 					<li>
 						<p>配送费</p>
@@ -66,6 +67,7 @@
 
 <script>
 	import Footer from '../components/Footer.vue';
+	import Backer from '../components/backer.vue';
 	
 	export default{
 		name:'OrderList',
@@ -95,7 +97,8 @@
 			}
 		},
 		components:{
-			Footer
+			Footer,
+			Backer
 		}
 	}
 </script>
