@@ -766,20 +766,18 @@ export default {
 	background-color: transparent;
 	/* 背景色为透明 */
 	list-style: none;
-	/* 移除li的默认列表样式 */
-	/* margin: 10px; */
-	/* 添加一些外边距让矩形之间有间隔 */
 }
 
 .empty-message {
 	position: absolute;
+	/* display: flex; */
 	top: -25;
 	/* 将文字放置在顶部 */
 	left: 50%;
 	/* 从左边开始居中 */
 	transform: translateX(-50%);
 	/* 修正left 50%带来的偏移，使其完全居中 */
-	font-size: 15px;
+	font-size: 4vw;
 	/* 设置字体大小 */
 	color: #000;
 	/* 设置文字颜色 */

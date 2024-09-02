@@ -218,7 +218,7 @@ export default {
 	/* 从左边开始居中 */
 	transform: translateX(-50%);
 	/* 修正left 50%带来的偏移，使其完全居中 */
-	font-size: 15px;
+	font-size: 4vw;
 	/* 设置字体大小 */
 	color: #000;
 	/* 设置文字颜色 */
