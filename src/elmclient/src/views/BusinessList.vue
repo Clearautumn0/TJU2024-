@@ -33,7 +33,6 @@
 <script>
 import Footer from '../components/Footer.vue';
 import Backer from '../components/backer.vue';
-import backer from '../components/backer.vue';
 
 export default {
 	name: 'BusinessList',
