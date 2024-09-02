@@ -3,6 +3,7 @@
 
 		<!-- header部分 -->
 		<header>
+			<Backer></Backer>
 			<p>确认订单</p>
 		</header>
 
@@ -46,6 +47,8 @@
 </template>
 
 <script>
+import Backer from '../components/backer.vue';
+// import backer from '../components/backer.vue';
 export default {
 	name: 'Orders',
 	data() {
@@ -125,6 +128,10 @@ export default {
 				console.error(error);
 			});
 		}
+	},
+	components:{
+		
+		Backer
 	}
 }
 </script>

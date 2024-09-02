@@ -3,6 +3,7 @@
 
 		<!-- header部分 -->
 		<header>
+			<Backer></Backer>
 			<p>地址管理</p>
 		</header>
 
@@ -32,6 +33,7 @@
 </template>
 
 <script>
+import Backer from '../components/backer.vue';
 import Footer from '../components/Footer.vue';
 
 export default {
@@ -49,7 +51,8 @@ export default {
 		this.listDeliveryAddressByUserId();
 	},
 	components: {
-		Footer
+		Footer,
+		Backer
 	},
 	filters: {
 		sexFilter(value) {

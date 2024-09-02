@@ -3,6 +3,7 @@
 
 		<!-- header部分 -->
 		<header>
+			<Backer></Backer>
 			<p>在线支付</p>
 		</header>
 
@@ -48,7 +49,8 @@
 </template>
 
 <script>
-	import Footer from '../components/Footer.vue';
+	import Backer from '../components/backer.vue';
+import Footer from '../components/Footer.vue';
 
 	export default {
 		name: 'Payment',
@@ -87,7 +89,8 @@
 			}
 		},
 		components: {
-			Footer
+			Footer,
+			Backer
 		}
 	}
 </script>
