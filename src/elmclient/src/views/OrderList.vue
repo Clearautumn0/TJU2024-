@@ -194,9 +194,9 @@ export default {
 }
 
 .empty-li {
-	width: 200px;
+	width: 200vw;
 	/* 设置矩形的宽度 */
-	height: 120px;
+	height: 30vw;
 	/* 设置矩形的高度 */
 	/* border: 2px solid #000; */
 	/* 添加一个2像素的黑色边框 */
@@ -216,7 +216,7 @@ export default {
 	/* 从左边开始居中 */
 	transform: translateX(-50%);
 	/* 修正left 50%带来的偏移，使其完全居中 */
-	font-size: 15px;
+	font-size: 4vw;
 	/* 设置字体大小 */
 	color: #000;
 	/* 设置文字颜色 */
