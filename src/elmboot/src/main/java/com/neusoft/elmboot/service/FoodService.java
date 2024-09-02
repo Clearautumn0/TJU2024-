@@ -8,7 +8,7 @@ public interface FoodService {
 
 	public List<Food> listFoodByBusinessId(Integer businessId);
 	public Food getFoodById(Integer foodId);
-//	public Integer addFood(Food food);
+	public Integer addFood(Food food);
 //	public Integer updateFood(Food food);
 //	public Integer removeFood(Food food);
 }
