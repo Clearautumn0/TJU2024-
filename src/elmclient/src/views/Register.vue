@@ -2,8 +2,10 @@
 	<div class="wrapper">
 
 		<!-- header部分 -->
-		<header>
-			<p>用户注册</p>
+		
+		<header> 
+			<Backer></Backer>
+			<p font-color="#fff">用户注册</p>
 		</header>
 
 		<!-- 表单部分 -->
@@ -62,6 +64,8 @@
 
 <script>
 	import Footer from '../components/Footer.vue';
+import Backer from '../components/backer.vue';
+	import backer from '../components/backer.vue';
 
 	export default {
 		name: 'Register',
@@ -121,7 +125,8 @@
 			}
 		},
 		components: {
-			Footer
+			Footer,
+			Backer
 		}
 	}
 </script>
