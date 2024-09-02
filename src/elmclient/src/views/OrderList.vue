@@ -191,7 +191,7 @@ export default {
 .empty-li {
 	width: 200vw;
 	/* 设置矩形的宽度 */
-	height: 30vw;
+	height: 50vw;
 	/* 设置矩形的高度 */
 	/* border: 2px solid #000; */
 	/* 添加一个2像素的黑色边框 */
