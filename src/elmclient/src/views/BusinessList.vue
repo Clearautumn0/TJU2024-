@@ -74,23 +74,6 @@ export default {
 					businessId: this.businessId,
 					userId: this.user.userId
 				}
-<<<<<<< HEAD
-			}).then(response=>{
-					let cartArr = response.data;
-					//遍历所有食品列表
-					for(let businessItem of this.businessArr){
-						businessItem.quantity = 0;
-						for(let cartItem of cartArr){
-							if(cartItem.businessId==businessItem.businessId){
-								businessItem.quantity += cartItem.quantity;
-							}
-						}
-					}
-					this.businessArr.sort();
-				}).catch(error=>{
-					console.error(error);
-				});
-=======
 			}).then(response => {
 				let cartArr = response.data;
 				//遍历所有食品列表
@@ -106,7 +89,6 @@ export default {
 			}).catch(error => {
 				console.error(error);
 			});
->>>>>>> origin/master
 		},
 		toBusinessInfo(businessId) {
 			this.$router.push({ path: '/businessInfo', query: { businessId: businessId } });
