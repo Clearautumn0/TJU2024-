@@ -20,55 +20,58 @@
 </template>
 
 <script>
-	export default{
-		name:'Footer',
-		methods:{
-			toIndex(){
-				this.$router.push({path:'/index'});
-			},
-			toOrderList(){
-				this.$router.push({path:'/orderList'});
-			},
-			toselfpage(){
-				this.$router.push({path:'/selfpage'});
-			}
+export default {
+	name: 'Footer',
+	methods: {
+		toIndex() {
+			this.$router.push({ path: '/index' });
+		},
+		toOrderList() {
+			this.$router.push({ path: '/orderList' });
+		},
+		toselfpage() {
+			this.$router.push({ path: '/selfpage' });
 		}
 	}
+}
 </script>
 
 <style>
-	.wrapper .footer {
-		width: 100%;
-		height: 14vw;
-		border-top: solid 1px #DDD;
-		background-color: #fff;
+.footer {
+	width: 100%;
+	height: 14vw;
+	border-top: solid 1px #DDD;
+	background-color: #fff;
 
-		position: fixed;
-		left: 0;
-		bottom: 0;
+	position: fixed;
+	left: 0;
+	bottom: 0;
 
-		display: flex;
-		justify-content: space-around;
-		align-items: center;
-	}
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
 
-	.wrapper .footer li {
-		/*li本身的尺寸完全由内容撑起*/
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
+	/* z-index: 1000; */
+	/* 确保在其他内容之上 */
+}
 
-		color: #999;
-		user-select: none;
-		cursor: pointer;
-	}
+.footer li {
+	/*li本身的尺寸完全由内容撑起*/
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 
-	.wrapper .footer li p {
-		font-size: 2.8vw;
-	}
+	color: #999;
+	user-select: none;
+	cursor: pointer;
+}
 
-	.wrapper .footer li i {
-		font-size: 5vw;
-	}
+.footer li p {
+	font-size: 2.8vw;
+}
+
+.footer li i {
+	font-size: 5vw;
+}
 </style>

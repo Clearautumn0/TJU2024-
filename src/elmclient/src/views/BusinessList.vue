@@ -5,7 +5,7 @@
 		<header>
 			<!-- 返回按钮 -->
 			<!-- <img @click="goBack" src="../assets/backer.png" alt="返回" class="back-button"> -->
-			 <Backer></Backer>
+			<Backer></Backer>
 			<p>商家列表</p>
 		</header>
 
@@ -21,6 +21,11 @@
 					<p>&#165;{{ item.starPrice }}起送 | &#165;{{ item.deliveryPrice }}配送</p>
 					<p>{{ item.businessExplain }}</p>
 				</div>
+			</li>
+			<li class="empty-li">
+
+				<div class="empty-message">已经到底了...</div>
+
 			</li>
 		</ul>
 
@@ -69,6 +74,7 @@ export default {
 					businessId: this.businessId,
 					userId: this.user.userId
 				}
+<<<<<<< HEAD
 			}).then(response=>{
 					let cartArr = response.data;
 					//遍历所有食品列表
@@ -84,6 +90,23 @@ export default {
 				}).catch(error=>{
 					console.error(error);
 				});
+=======
+			}).then(response => {
+				let cartArr = response.data;
+				//遍历所有食品列表
+				for (let businessItem of this.businessArr) {
+					businessItem.quantity = 0;
+					for (let cartItem of cartArr) {
+						if (cartItem.businessId == businessItem.businessId) {
+							businessItem.quantity += cartItem.quantity;
+						}
+					}
+				}
+				this.businessArr.sort();
+			}).catch(error => {
+				console.error(error);
+			});
+>>>>>>> origin/master
 		},
 		toBusinessInfo(businessId) {
 			this.$router.push({ path: '/businessInfo', query: { businessId: businessId } });
@@ -190,5 +213,34 @@ export default {
 	font-size: 3vw;
 	color: #888;
 	margin-top: 2vw;
+}
+
+.empty-li {
+	width: 200vw;
+	/* 设置矩形的宽度 */
+	height: 30vw;
+	/* 设置矩形的高度 */
+	/* border: 2px solid #000; */
+	/* 添加一个2像素的黑色边框 */
+	background-color: transparent;
+	/* 背景色为透明 */
+	list-style: none;
+	/* 移除li的默认列表样式 */
+	/* margin: 10px; */
+	/* 添加一些外边距让矩形之间有间隔 */
+}
+
+.empty-message {
+	position: absolute;
+	top: -25;
+	/* 将文字放置在顶部 */
+	left: 50%;
+	/* 从左边开始居中 */
+	transform: translateX(-50%);
+	/* 修正left 50%带来的偏移，使其完全居中 */
+	font-size: 4vw;
+	/* 设置字体大小 */
+	color: #000;
+	/* 设置文字颜色 */
 }
 </style>

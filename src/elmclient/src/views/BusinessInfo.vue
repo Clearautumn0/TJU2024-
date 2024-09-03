@@ -40,6 +40,9 @@
 					</div>
 				</div>
 			</li>
+			<li class="empty-li">
+				<div class="empty-message">已经到底了...</div>
+			</li>
 		</ul>
 
 		<!-- 购物车部分 -->
@@ -246,7 +249,7 @@ export default {
 			return this.totalPrice + this.business.deliveryPrice;
 		}
 	},
-	components:{
+	components: {
 		Backer
 	}
 }
@@ -467,6 +470,35 @@ export default {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+.empty-li {
+	width: 200vw;
+	/* 设置矩形的宽度 */
+	height: 30vw;
+	/* 设置矩形的高度 */
+	/* border: 2px solid #000; */
+	/* 添加一个2像素的黑色边框 */
+	background-color: transparent;
+	/* 背景色为透明 */
+	list-style: none;
+	/* 移除li的默认列表样式 */
+	/* margin: 10px; */
+	/* 添加一些外边距让矩形之间有间隔 */
+}
+
+.empty-message {
+	position: absolute;
+	top: -25;
+	/* 将文字放置在顶部 */
+	left: 50%;
+	/* 从左边开始居中 */
+	transform: translateX(-50%);
+	/* 修正left 50%带来的偏移，使其完全居中 */
+	font-size: 4vw;
+	/* 设置字体大小 */
+	color: #000;
+	/* 设置文字颜色 */
 }
 
 /*不够起送费时的样式（只有背景色和鼠标样式的区别）*/
