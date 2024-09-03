@@ -26,8 +26,7 @@ public interface BusinessMapper {
 			+ "orderTypeId=#{orderTypeId}, starPrice=#{starPrice}, deliveryPrice=#{deliveryPrice}, remarks=#{remarks} where businessId=#{businessId}")
 	public Integer updateBusiness(Business business);
 	
-	//@Delete("delete from business where businessId=#{businessId}")
-	//@Update("update business set delTag=0 where businessId=#{businessId}")
-	//public Integer deleteBusiness(Integer businessId);
+	@Update("update business set delTag=0 where businessId=#{businessId}")
+	public Integer deleteBusiness(Integer businessId);
 }
 

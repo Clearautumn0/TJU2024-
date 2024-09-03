@@ -19,10 +19,10 @@ public interface FoodMapper {
 	@Select("select * from food where foodId=#{foodId} and delTag=1")
 	public Food getFoodById(Integer foodId);
 	
-	@Insert("insert into food(foodName, foodExplain, foodImg, foodPrice, businessId, remarks) values(#{foodName}, #{foodExplain}, #{foodImg}, #{foodPrice}, #{businessId}, #{remarks})")
-	@Options(useGeneratedKeys=true,keyProperty="foodId",keyColumn="foodId")
+	@Insert("insert into food values(null, #{foodName}, #{foodExplain}, #{foodImg}, #{foodPrice}, #{businessId}, #{remarks}, 1)")
 	public Integer addFood(Food food);
 	
+	@Insert("insert into food values (null, #{foodName}, #{foodExplain}, #{foodImg}, #{foodPrice}, #{businessId}, #{remarks}, 1)")
 	public Integer copyFood(Food food);
 	
 	@Update("update food set delTag=0 where businessId=#{businessId} and foodId=#{foodId}")

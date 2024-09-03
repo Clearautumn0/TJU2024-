@@ -35,8 +35,8 @@ public class BusinessServiceImpl implements BusinessService{
 		return businessMapper.updateBusiness(business);
 	}
 	
-//	@Override
-//	public Integer deleteBusiness(Integer businessId) {
-//		return businessMapper.deleteBusiness(businessId);
-//	}
+	@Override
+	public Integer removeBusiness(Integer businessId) {
+		return businessMapper.deleteBusiness(businessId);
+	}
 }

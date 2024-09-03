@@ -11,5 +11,5 @@ public interface BusinessService {
 	public Business getBusinessById(Integer businessId);
 	public Integer registerBusiness(Business business);
 	public Integer updateBusiness(Business business);
-//	public Integer deleteBusiness(Integer businessId);
+	public Integer removeBusiness(Integer businessId);
 }

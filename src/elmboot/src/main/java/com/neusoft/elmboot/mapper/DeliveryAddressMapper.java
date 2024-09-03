@@ -18,9 +18,10 @@ public interface DeliveryAddressMapper {
 	@Select("select * from deliveryAddress where daId=#{daId} and delTag=1")
 	public DeliveryAddress getDeliveryAddressById(Integer daId);
 	
-	@Insert("insert into deliveryAddress values(null,#{contactName},#{contactSex},#{contactTel},#{address},#{userId})")
+	@Insert("insert into deliveryAddress values(null,#{contactName},#{contactSex},#{contactTel},#{address},#{userId}, 1)")
 	public int saveDeliveryAddress(DeliveryAddress deliveryAddress);
 	
+	@Insert("insert into deliveryAddress values (null, #{contactName}, #{contactSex}, #{contactTel}, #{address}, #{userId}, 1)")
 	public int copyDeliveryAddress(DeliveryAddress deliveryAddress);
 	
 	@Delete("update deliveryAddress set delTag=0 where daId=#{daId}")
