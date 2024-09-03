@@ -28,7 +28,7 @@ export default {
             this.$router.push({ path: '/index' });
         },
         toindividual_inf() {
-            this.$router.push({});
+            this.$router.push({path: '/person'});
         }
     },
     components: {
