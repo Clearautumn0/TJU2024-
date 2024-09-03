@@ -15,8 +15,10 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public User getUserByIdByPass(User user) {
-		
-		return userMapper.getUserByIdByPass(user);
+		User reuser = new User();
+		reuser = userMapper.getUserByIdByPass(user);
+		reuser.setPassword(null);
+		return reuser;
 	}
 	
 	@Override
