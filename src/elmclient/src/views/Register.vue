@@ -2,8 +2,8 @@
 	<div class="wrapper">
 
 		<!-- header部分 -->
-		
-		<header> 
+
+		<header>
 			<Backer></Backer>
 			<p font-color="#fff">用户注册</p>
 		</header>
@@ -64,37 +64,45 @@
 
 <script>
 	import Footer from '../components/Footer.vue';
-import Backer from '../components/backer.vue';
-	import backer from '../components/backer.vue';
+	import Backer from '../components/backer.vue';
+	
 
 	export default {
 		name: 'Register',
 		data() {
 			return {
-				user:{
-					userId:'',
-					password:'',
-					userName:'',
-					userSex:1
+				user: {
+					userId: '',
+					password: '',
+					userName: '',
+					userSex: 1
 				},
-				confirmPassword:''
+				confirmPassword: ''
 			}
 		},
 		methods: {
-			checkUserId(){
+			checkUserId() {
 				this.$axios.get(`users/${this.user.userId}`)
-				.then(response => {
-					if(response.data==1){
-						this.user.userId = '';
-						alert('此手机号码已存在！')
-					}
-				}).catch(error => {
-					console.error(error);
-				});
+					.then(response => {
+						if (response.data == 1) {
+							this.user.userId = '';
+							alert('此手机号码已存在！')
+						}
+					}).catch(error => {
+						console.error(error);
+					});
 			},
 			register() {
 				if (this.user.userId == '') {
 					alert('手机号码不能为空！');
+					return;
+				}
+				// 中国大陆手机号验证正则表达式
+				const phoneRegex = /^1[3-9]\d{9}$/;
+
+				// 验证手机号码是否符合规范
+				if (!phoneRegex.test(this.user.userId)) {
+					alert('请输入正确的手机号码！');
 					return;
 				}
 				if (this.user.password == '') {
@@ -111,12 +119,11 @@ import Backer from '../components/backer.vue';
 				}
 
 				//注册请求
-				this.$axios.post('users', this.user
-				).then(response => {
-					if(response.data>0){
+				this.$axios.post('users', this.user).then(response => {
+					if (response.data > 0) {
 						alert('注册成功！');
 						this.$router.go(-1);
-					}else{
+					} else {
 						alert('注册失败！');
 					}
 				}).catch(error => {
