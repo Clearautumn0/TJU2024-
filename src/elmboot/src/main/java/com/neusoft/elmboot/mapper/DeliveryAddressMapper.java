@@ -12,18 +12,18 @@ import com.neusoft.elmboot.po.DeliveryAddress;
 @Mapper
 public interface DeliveryAddressMapper {
 
-	@Select("select * from deliveryAddress where userId=#{userId} and delTag=1 order by daId")
+	@Select("select * from deliveryAddress where userId=#{userId} and delTag=0 order by daId")
 	public List<DeliveryAddress> listDeliveryAddressByUserId(String userId);
 	
-	@Select("select * from deliveryAddress where daId=#{daId} and delTag=1")
+	@Select("select * from deliveryAddress where daId=#{daId} and delTag=0")
 	public DeliveryAddress getDeliveryAddressById(Integer daId);
 	
-	@Insert("insert into deliveryAddress values(null,#{contactName},#{contactSex},#{contactTel},#{address},#{userId}, 1)")
+	@Insert("insert into deliveryAddress values(null,#{contactName},#{contactSex},#{contactTel},#{address},#{userId}, 0)")
 	public int saveDeliveryAddress(DeliveryAddress deliveryAddress);
 	
-	@Insert("insert into deliveryAddress values (null, #{contactName}, #{contactSex}, #{contactTel}, #{address}, #{userId}, 1)")
+	@Insert("insert into deliveryAddress values (null, #{contactName}, #{contactSex}, #{contactTel}, #{address}, #{userId}, 0)")
 	public int copyDeliveryAddress(DeliveryAddress deliveryAddress);
 	
-	@Delete("update deliveryAddress set delTag=0 where daId=#{daId}")
+	@Delete("update deliveryAddress set delTag=1 where daId=#{daId}")
 	public int deleteDeliveryAddress(Integer daId);
 }

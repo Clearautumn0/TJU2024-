@@ -13,18 +13,18 @@ import com.neusoft.elmboot.po.Food;
 @Mapper
 public interface FoodMapper {
 
-	@Select("select * from food where businessId=#{businessId} and delTag=1 order by foodId")
+	@Select("select * from food where businessId=#{businessId} and delTag=0 order by foodId")
 	public List<Food> listFoodByBusinessId(Integer businessId);
 	
-	@Select("select * from food where foodId=#{foodId} and delTag=1")
+	@Select("select * from food where foodId=#{foodId} and delTag=0")
 	public Food getFoodById(Integer foodId);
 	
-	@Insert("insert into food values(null, #{foodName}, #{foodExplain}, #{foodImg}, #{foodPrice}, #{businessId}, #{remarks}, 1)")
+	@Insert("insert into food values(null, #{foodName}, #{foodExplain}, #{foodImg}, #{foodPrice}, #{businessId}, #{remarks}, 0)")
 	public Integer addFood(Food food);
 	
-	@Insert("insert into food values (null, #{foodName}, #{foodExplain}, #{foodImg}, #{foodPrice}, #{businessId}, #{remarks}, 1)")
+	@Insert("insert into food values (null, #{foodName}, #{foodExplain}, #{foodImg}, #{foodPrice}, #{businessId}, #{remarks}, 0)")
 	public Integer copyFood(Food food);
 	
-	@Update("update food set delTag=0 where businessId=#{businessId} and foodId=#{foodId}")
+	@Update("update food set delTag=1 where businessId=#{businessId} and foodId=#{foodId}")
 	public Integer deleteFood(Food food);
 }
