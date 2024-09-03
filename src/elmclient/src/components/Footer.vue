@@ -34,7 +34,7 @@ export default {
 		}
 		,
 		test(){
-			this.$router.push({path: '/BusinessInfo'});
+			this.$router.push({path: '/'});
 		}
 	}
 }

@@ -75,14 +75,14 @@
 		<!-- 购物车详情模态框 -->
 		<div v-if="showCartDetails" class="cart-details">
 			<div class="cart-details-content">
-				<h2>购物车</h2>
-				<ul>
+				<h2 class="bigname">购物车</h2>
+				<ul class="foodlist">
 					<li v-for="(item, index) in foodArr" v-if="item.quantity > 0" :key="index">
 						<span>{{ item.foodName }}</span>
 						<span>x {{ item.quantity }}</span>
 					</li>
 				</ul>
-				<button @click="closeCartDetails">关闭</button>
+				<button class="guanbi_ziti" @click="closeCartDetails" >关闭</button>
 			</div>
 		</div>
 
@@ -500,7 +500,7 @@ export default {
 .empty-li {
 	width: 200vw;
 	/* 设置矩形的宽度 */
-	height: 30vw;
+	height: 40vw;
 	/* 设置矩形的高度 */
 	/* border: 2px solid #000; */
 	/* 添加一个2像素的黑色边框 */
@@ -514,7 +514,7 @@ export default {
 
 .empty-message {
 	position: absolute;
-	top: -25;
+	top: -10;
 	/* 将文字放置在顶部 */
 	left: 50%;
 	/* 从左边开始居中 */
@@ -572,6 +572,19 @@ export default {
 	padding: 10px 20px;
 	border-radius: 5px;
 	cursor: pointer;
+}
+
+/*调字体的*/
+.bigname{
+	font-size: 6vw;
+}
+.foodlist{
+
+	font-size: 3vw;
+}
+
+.guanbi_ziti{
+	font-size: 3vw;
 }
 
 
