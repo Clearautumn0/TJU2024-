@@ -10,7 +10,7 @@
                 <li @click="toindividual_inf" class="profile-menu-item">个人信息</li>
                 <li class="profile-menu-item">会员</li>
                 <li class="profile-menu-item">设置</li>
-                <li @click="backfun" class="profile-menu-item">返回主界面</li>
+                <!-- <li @click="backfun" class="profile-menu-item">返回主界面</li> -->
             </ul>
 
         <Footer></Footer>
