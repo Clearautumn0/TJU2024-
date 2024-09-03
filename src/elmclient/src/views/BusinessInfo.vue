@@ -49,7 +49,8 @@
 		<div class="cart">
 			<div class="cart-left">
 				<div class="cart-left-icon"
-					:style="totalQuantity == 0 ? 'background-color:#505051;' : 'background-color:#3190E8;'">
+					:style="totalQuantity == 0 ? 'background-color:#505051;' : 'background-color:#3190E8;'"
+					@click="openCartDetails"><!---添加按钮-->
 					<i class="fa fa-shopping-cart"></i>
 					<div class="cart-left-icon-quantity" v-show="totalQuantity != 0">{{ totalQuantity }}</div>
 				</div>
@@ -71,6 +72,21 @@
 			</div>
 		</div>
 
+		<!-- 购物车详情模态框 -->
+		<div v-if="showCartDetails" class="cart-details">
+			<div class="cart-details-content">
+				<h2>购物车</h2>
+				<ul>
+					<li v-for="(item, index) in foodArr" v-if="item.quantity > 0" :key="index">
+						<span>{{ item.foodName }}</span>
+						<span>x {{ item.quantity }}</span>
+					</li>
+				</ul>
+				<button @click="closeCartDetails">关闭</button>
+			</div>
+		</div>
+
+
 	</div>
 </template>
 
@@ -83,7 +99,8 @@ export default {
 			businessId: this.$route.query.businessId,
 			business: {},
 			foodArr: [],
-			user: {}
+			user: {},
+			showCartDetails: false // 控制模态框显示的布尔值
 		}
 	},
 	created() {
@@ -225,6 +242,14 @@ export default {
 		},
 		toOrder() {
 			this.$router.push({ path: '/orders', query: { businessId: this.business.businessId } });
+		},
+		// 打开购物车详情
+		openCartDetails() {
+			this.showCartDetails = true;
+		},
+		// 关闭购物车详情
+		closeCartDetails() {
+			this.showCartDetails = false;
 		}
 	},
 	computed: {
@@ -500,6 +525,55 @@ export default {
 	color: #000;
 	/* 设置文字颜色 */
 }
+
+.cart-details {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 50%;
+	/* 半屏大小 */
+	background-color: rgba(255, 255, 255, 0.95);
+	/* 半透明背景 */
+	z-index: 1001;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.cart-details-content {
+	width: 90%;
+	background-color: #fff;
+	border-radius: 10px;
+	padding: 20px;
+	text-align: center;
+}
+
+.cart-details h2 {
+	margin-bottom: 20px;
+}
+
+.cart-details ul {
+	list-style: none;
+	padding: 0;
+}
+
+.cart-details ul li {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 10px;
+}
+
+.cart-details button {
+	background-color: #3190E8;
+	color: #fff;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
 
 /*不够起送费时的样式（只有背景色和鼠标样式的区别）*/
 /*

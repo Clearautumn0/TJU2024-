@@ -5,7 +5,7 @@
 			<p>首页</p>
 		</li>
 		<li>
-			<i class="fa fa-compass"></i>
+			<i @click="test" class="fa fa-compass"></i>
 			<p>发现</p>
 		</li>
 		<li @click="toOrderList">
@@ -31,6 +31,10 @@ export default {
 		},
 		toselfpage() {
 			this.$router.push({ path: '/selfpage' });
+		}
+		,
+		test(){
+			this.$router.push({path: '/BusinessInfo'});
 		}
 	}
 }
