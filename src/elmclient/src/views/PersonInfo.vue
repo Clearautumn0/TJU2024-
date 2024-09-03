@@ -51,7 +51,7 @@
 				</div>
 				<hr>
 			</li>
-			<li>
+			<li @click="toUserAddress">
 				<div class="left">
 					<p>收货地址</p>
 				</div>
@@ -126,6 +126,14 @@
 </template>
 
 <script>
+	export default{
+		name: 'PersonInfo',
+		methods :{
+			toUserAddress(){
+				this.$router.push({ path: '/userAddress'});
+			}
+		}
+	}
 </script>
 
 <style>
