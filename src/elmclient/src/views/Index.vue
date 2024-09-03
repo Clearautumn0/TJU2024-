@@ -767,6 +767,7 @@ export default {
 	background-color: transparent;
 	/* 背景色为透明 */
 	list-style: none;
+	border-bottom: 0px;
 }
 
 .empty-message {
@@ -781,5 +782,6 @@ export default {
 	/* 设置字体大小 */
 	color: #000;
 	/* 设置文字颜色 */
+	border-bottom: 0px;
 }
 </style>

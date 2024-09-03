@@ -1,17 +1,18 @@
 <template>
-    <div class="profile-page">
-        <header class="profile-header">
-            <div class="avatar-frame">
-                <img src="../assets/logo.png" alt="无法加载图片">
-            </div>
-            <h2 class="username">用户名</h2>
-        </header>
-        <ul class="profile-menu">
-            <li @click="toindividual_inf" class="profile-menu-item">个人信息</li>
-            <li class="profile-menu-item">会员</li>
-            <li class="profile-menu-item">设置</li>
-            <li @click="backfun" class="profile-menu-item">返回主界面</li>
-        </ul>
+    <div class="wrapper">
+            <header class="profile-header">
+                <div class="avatar-frame">
+                    <img src="../assets/logo.png" alt="无法加载图片">
+                </div>
+                <h2 class="username">用户名</h2>
+            </header>
+            <ul class="profile-menu">
+                <li @click="toindividual_inf" class="profile-menu-item">个人信息</li>
+                <li class="profile-menu-item">会员</li>
+                <li class="profile-menu-item">设置</li>
+                <li @click="backfun" class="profile-menu-item">返回主界面</li>
+            </ul>
+
         <Footer></Footer>
     </div>
 
@@ -26,7 +27,7 @@ export default {
         backfun() {
             this.$router.push({ path: '/index' });
         },
-        toindividual_inf(){
+        toindividual_inf() {
             this.$router.push({});
         }
     },
@@ -37,23 +38,23 @@ export default {
 </script>
 
 <style>
-.profile-page {
+.wrapper {
     width: 100%;
     height: 100%;
-    display: flex;
+    /* display: flex;
     flex-direction: column;
-    padding-bottom: 14vw;
+    padding-bottom: 14vw; */
     /* 为底部菜单留出空间 */
 }
 
-.profile-header {
+.wrapper header {
     width: 100%;
     height: 20vw;
     background-color: #0097FF;
-    text-align: center;
+    /* text-align: center; */
     display: flex;
     align-items: center;
-    padding: 0 2vw;
+    /* padding: 0 2vw; */
 }
 
 .avatar-frame {
@@ -65,6 +66,7 @@ export default {
     /* overflow: hidden; */
     border: 3px solid #ccc;
     margin-right: 5vw;
+    margin-left: 2vw;
 }
 
 .avatar-frame img {
