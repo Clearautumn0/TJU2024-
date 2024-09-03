@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neusoft.elmboot.mapper.DeliveryAddressMapper">
+	
+	<insert id="copyDeliveryAddress" parameterType="DeliveryAddress" useGeneratedKeys="true" keyProperty="daId">
+    	<!-- 插入一条新记录，数据来自原记录 -->
+    	INSERT INTO deliveryAddress (contactName, contactSex, contactTel, address, userId, delTag)
+    	VALUES (#{contactName}, #{contactSex}, #{contactTel}, #{address}, #{userId}, 1)
+    </insert>
+
+</mapper>    

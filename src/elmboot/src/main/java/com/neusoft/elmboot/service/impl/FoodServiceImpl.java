@@ -31,17 +31,17 @@ public class FoodServiceImpl implements FoodService{
 		return foodMapper.addFood(food);
 	}
 
-//	@Override
-//	@Transactional
-//	public Integer updateFood(Food food) {
-//		int count = foodMapper.copyFood(food);
-//		count+=foodMapper.deleteFood(food);
-//		return count;
-//	}
-//	
-//	@Override
-//	public Integer removeFood(Food food) {
-//		return foodMapper.deleteFood(food);
-//	}
+	@Override
+	@Transactional
+	public Integer updateFood(Food food) {
+		int count = foodMapper.deleteFood(food);
+		count+=foodMapper.copyFood(food);
+		return count;
+	}
+	
+	@Override
+	public Integer removeFood(Food food) {
+		return foodMapper.deleteFood(food);
+	}
 
 }

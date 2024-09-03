@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.neusoft.elmboot.mapper.DeliveryAddressMapper;
 import com.neusoft.elmboot.po.DeliveryAddress;
@@ -31,12 +32,15 @@ public class DeliveryAddressServiceImpl implements DeliveryAddressService{
 	}
 	
 	@Override
+	@Transactional
 	public int updateDeliveryAddress(DeliveryAddress deliveryAddress) {
-		return deliveryAddressMapper.updateDeliveryAddress(deliveryAddress);
+		int count = deliveryAddressMapper.deleteDeliveryAddress(deliveryAddress.getDaId());
+		count+=deliveryAddressMapper.copyDeliveryAddress(deliveryAddress);
+		return count;
 	}
 	
 	@Override
 	public int removeDeliveryAddress(Integer daId) {
-		return deliveryAddressMapper.removeDeliveryAddress(daId);
+		return deliveryAddressMapper.deleteDeliveryAddress(daId);
 	}
 }
