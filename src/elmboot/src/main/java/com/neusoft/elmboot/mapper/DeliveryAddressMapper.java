@@ -6,25 +6,24 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
 
 import com.neusoft.elmboot.po.DeliveryAddress;
 
 @Mapper
 public interface DeliveryAddressMapper {
 
-	@Select("select * from deliveryAddress where userId=#{userId} order by daId")
+	@Select("select * from deliveryAddress where userId=#{userId} and delTag=0 order by daId")
 	public List<DeliveryAddress> listDeliveryAddressByUserId(String userId);
 	
-	@Select("select * from deliveryAddress where daId=#{daId}")
+	@Select("select * from deliveryAddress where daId=#{daId} and delTag=0")
 	public DeliveryAddress getDeliveryAddressById(Integer daId);
 	
-	@Insert("insert into deliveryAddress values(null,#{contactName},#{contactSex},#{contactTel},#{address},#{userId})")
+	@Insert("insert into deliveryAddress values(null,#{contactName},#{contactSex},#{contactTel},#{address},#{userId}, 0)")
 	public int saveDeliveryAddress(DeliveryAddress deliveryAddress);
 	
-	@Update("update deliveryAddress set contactName=#{contactName},contactSex=#{contactSex},contactTel=#{contactTel},address=#{address} where daId=#{daId}")
-	public int updateDeliveryAddress(DeliveryAddress deliveryAddress);
+	@Insert("insert into deliveryAddress values (null, #{contactName}, #{contactSex}, #{contactTel}, #{address}, #{userId}, 0)")
+	public int copyDeliveryAddress(DeliveryAddress deliveryAddress);
 	
-	@Delete("delete from deliveryAddress where daId=#{daId}")
-	public int removeDeliveryAddress(Integer daId);
+	@Delete("update deliveryAddress set delTag=1 where daId=#{daId}")
+	public int deleteDeliveryAddress(Integer daId);
 }
