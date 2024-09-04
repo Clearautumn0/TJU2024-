@@ -80,7 +80,7 @@
 					<li v-for="(item, index) in foodArr" v-if="item.quantity > 0" :key="index">
 						<span>{{ item.foodName }}</span>
 
-						<span>单价 {{ parseFloat(item.foodPrice).toFixed(2) }} x {{ item.quantity }} </span>
+						<span>单价 {{ parseFloat(item.foodPrice).toFixed(2) }} x {{ item.quantity }} &nbsp</span><!--加空格为了使滑动条不遮挡左侧的数字-->
 					</li>
 				</ul>
 			</div>
@@ -572,6 +572,7 @@ export default {
 
 .foodlist {
 	font-size: 3vw;
+	
 }
 
 
