@@ -46,10 +46,17 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
 		<dependency>
   			<groupId>org.mockito</groupId>
   			<artifactId>mockito-core</artifactId>
 		</dependency>
+		
+		<dependency>	<!-- 注册密码加密依赖 -->
+    		<groupId>org.springframework.boot</groupId>
+    		<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
