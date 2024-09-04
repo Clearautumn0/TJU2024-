@@ -49,7 +49,8 @@
 		<div class="cart">
 			<div class="cart-left">
 				<div class="cart-left-icon"
-					:style="totalQuantity == 0 ? 'background-color:#505051;' : 'background-color:#3190E8;'">
+					:style="totalQuantity == 0 ? 'background-color:#505051;' : 'background-color:#3190E8;'"
+					@click="open_and_close_CartDetails"><!---添加按钮-->
 					<i class="fa fa-shopping-cart"></i>
 					<div class="cart-left-icon-quantity" v-show="totalQuantity != 0">{{ totalQuantity }}</div>
 				</div>
@@ -71,6 +72,21 @@
 			</div>
 		</div>
 
+		<!-- 购物车详情模态框 -->
+		<div v-if="showCartDetails" class="cart-details">
+			<div class="cart-details-content">
+				<h2 class="bigname">_____ 购物车详情 _____</h2>
+				<ul class="foodlist">
+					<li v-for="(item, index) in foodArr" v-if="item.quantity > 0" :key="index">
+						<span>{{ item.foodName }}</span>
+
+						<span>数量 x {{ item.quantity }} 总价 {{ parseFloat(item.foodPrice * item.quantity).toFixed(2) }} &nbsp</span><!--加空格为了使滑动条不遮挡左侧的数字-->
+					</li>
+				</ul>
+			</div>
+		</div>
+
+
 	</div>
 </template>
 
@@ -83,7 +99,8 @@ export default {
 			businessId: this.$route.query.businessId,
 			business: {},
 			foodArr: [],
-			user: {}
+			user: {},
+			showCartDetails: false // 控制模态框显示的布尔值
 		}
 	},
 	created() {
@@ -225,6 +242,10 @@ export default {
 		},
 		toOrder() {
 			this.$router.push({ path: '/orders', query: { businessId: this.business.businessId } });
+		},
+		// 打开&关闭购物车详情
+		open_and_close_CartDetails() {
+			this.showCartDetails = ~this.showCartDetails;
 		}
 	},
 	computed: {
@@ -396,6 +417,8 @@ export default {
 	bottom: 0;
 
 	display: flex;
+	z-index: 1010;
+	/* 调整展示优先级，让购物车图标显示在购物车框的上部 */
 }
 
 .wrapper .cart .cart-left {
@@ -475,7 +498,7 @@ export default {
 .empty-li {
 	width: 200vw;
 	/* 设置矩形的宽度 */
-	height: 30vw;
+	height: 40vw;
 	/* 设置矩形的高度 */
 	/* border: 2px solid #000; */
 	/* 添加一个2像素的黑色边框 */
@@ -489,7 +512,7 @@ export default {
 
 .empty-message {
 	position: absolute;
-	top: -25;
+	top: -10;
 	/* 将文字放置在顶部 */
 	left: 50%;
 	/* 从左边开始居中 */
@@ -500,6 +523,59 @@ export default {
 	color: #000;
 	/* 设置文字颜色 */
 }
+
+.cart-details {
+	position: fixed;
+	width: 100%;
+	height: 40%;
+	bottom: 14vw;
+	background-color: rgba(255, 255, 255, 0.95);
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	box-shadow: 0px -2px 30px rgba(0, 0, 0, 0.5);
+	/* z-index: 1100; */
+}
+
+.cart-details-content {
+	width: 90%;
+	background-color: #fff;
+	border-radius: 10px;
+	padding: 20px;
+	text-align: center;
+	/* 允许内容溢出时显示滚动条 */
+	overflow-y: auto;
+	max-height: 100%; /* 确保内容不超过父容器的高度 */
+}
+
+.cart-details h2 {
+	margin-bottom: 20px;
+}
+
+.cart-details ul {
+	list-style: none;
+	padding: 0;
+	margin: 0; /* 移除默认的外边距 */
+	max-height: calc(40vh - 80px); /* 设置最大高度，减去标题和 padding 的高度 */
+	overflow-y: auto; /* 如果内容超出，则允许滚动 */
+}
+
+.cart-details ul li {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 10px;
+}
+
+.bigname {
+	font-size: 5vw;
+}
+
+.foodlist {
+	font-size: 3vw;
+	
+}
+
+
 
 /*不够起送费时的样式（只有背景色和鼠标样式的区别）*/
 /*

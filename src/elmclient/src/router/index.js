@@ -12,6 +12,7 @@ import AddUserAddress from '../views/AddUserAddress.vue'
 import EditUserAddress from '../views/EditUserAddress.vue'
 import Register from '../views/Register.vue'
 import Selfpage from '../views/Selfpage.vue'
+import Person from '../views/Person.vue'
 
 Vue.use(VueRouter)
 
@@ -67,6 +68,10 @@ const routes = [{
 		path: '/selfpage',
 		name: 'Selfpage',
 		component: Selfpage
+	}, {
+		path: '/person',
+		name: 'Person',
+		component: Person
 	}
 ]
 
