@@ -14,27 +14,38 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private UserMapper userMapper;
 	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+//	@Autowired
+//	private PasswordEncoder passwordEncoder;
 
+//	@Override
+//	public User getUserByIdByPass(String userId, String password) {
+//		User user = userMapper.getUserById(userId);
+//		return userMapper.getUserByIdByPass(user);
+//	}
+	
 	@Override
 	public User getUserByIdByPass(String userId, String password) {
-		User user = userMapper.getUserById(userId);
+		User user = new User();
+		user.setUserId(userId);
+		user.setPassword(password);
 		return userMapper.getUserByIdByPass(user);
 	}
 	
 	@Override
 	public int getUserById(String userId) {
-		
-		
 		return userMapper.getUserById(userId);
 	}
 	
+//	@Override
+//	public int saveUser(User user) {
+//		//对前端传入的明文密码进行加密
+//		String encodedPassword = passwordEncoder.encode(user.getPassword());
+//		user.setPassword(encodedPassword);
+//		return userMapper.saveUser(user);
+//	}
+	
 	@Override
 	public int saveUser(User user) {
-		//对前端传入的明文密码进行加密
-		String encodedPassword = passwordEncoder.encode(user.getPassword());
-		user.setPassword(encodedPassword);
 		return userMapper.saveUser(user);
 	}
 
