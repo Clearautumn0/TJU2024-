@@ -50,7 +50,7 @@
 			<div class="cart-left">
 				<div class="cart-left-icon"
 					:style="totalQuantity == 0 ? 'background-color:#505051;' : 'background-color:#3190E8;'"
-					@click="openCartDetails"><!---添加按钮-->
+					@click="open_and_close_CartDetails"><!---添加按钮-->
 					<i class="fa fa-shopping-cart"></i>
 					<div class="cart-left-icon-quantity" v-show="totalQuantity != 0">{{ totalQuantity }}</div>
 				</div>
@@ -82,7 +82,6 @@
 						<span>x {{ item.quantity }}</span>
 					</li>
 				</ul>
-				<button class="guanbi_ziti" @click="closeCartDetails" >关闭</button>
 			</div>
 		</div>
 
@@ -243,13 +242,9 @@ export default {
 		toOrder() {
 			this.$router.push({ path: '/orders', query: { businessId: this.business.businessId } });
 		},
-		// 打开购物车详情
-		openCartDetails() {
-			this.showCartDetails = true;
-		},
-		// 关闭购物车详情
-		closeCartDetails() {
-			this.showCartDetails = false;
+		// 打开&关闭购物车详情
+		open_and_close_CartDetails() {
+			this.showCartDetails = ~this.showCartDetails;
 		}
 	},
 	computed: {
@@ -421,6 +416,8 @@ export default {
 	bottom: 0;
 
 	display: flex;
+	z-index: 1010;
+	/* 调整展示优先级，让购物车图标显示在购物车框的上部 */
 }
 
 .wrapper .cart .cart-left {
@@ -528,14 +525,14 @@ export default {
 
 .cart-details {
 	position: fixed;
-	bottom: 0;
-	left: 0;
+	/* left: 0; */
 	width: 100%;
-	height: 50%;
-	/* 半屏大小 */
+	height: 40%;
+	bottom: 14vw;
+	/* 让下面的结算行不被遮挡 */
 	background-color: rgba(255, 255, 255, 0.95);
 	/* 半透明背景 */
-	z-index: 1001;
+	/* z-index: 1001; */
 	display: flex;
 	justify-content: center;
 	align-items: center;
