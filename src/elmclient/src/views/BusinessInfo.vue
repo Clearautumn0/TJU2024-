@@ -80,7 +80,7 @@
 					<li v-for="(item, index) in foodArr" v-if="item.quantity > 0" :key="index">
 						<span>{{ item.foodName }}</span>
 
-						<span>数量 x {{ item.quantity }} 总价 {{ parseFloat(item.foodPrice * item.quantity).toFixed(2) }} &nbsp</span><!--加空格为了使滑动条不遮挡左侧的数字-->
+						<span>数量 x {{ item.quantity }} 总价 ￥{{ parseFloat(item.foodPrice * item.quantity).toFixed(2) }} &nbsp</span><!--加空格为了使滑动条不遮挡左侧的数字-->
 					</li>
 				</ul>
 			</div>
