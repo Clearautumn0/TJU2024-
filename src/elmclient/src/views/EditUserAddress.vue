@@ -3,6 +3,7 @@
 
 		<!-- header部分 -->
 		<header>
+			<Backer></Backer>
 			<p>编辑送货地址</p>
 		</header>
 
@@ -53,7 +54,8 @@
 </template>
 
 <script>
-	import Footer from '../components/Footer.vue';
+	import Backer from '../components/backer.vue';
+import Footer from '../components/Footer.vue';
 
 	export default {
 		name: 'EditUserAddress',
@@ -76,7 +78,8 @@
 			});
 		},
 		components: {
-			Footer
+			Footer,
+			Backer
 		},
 		methods: {
 			editUserAddress() {

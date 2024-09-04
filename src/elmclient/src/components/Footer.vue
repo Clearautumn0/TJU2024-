@@ -37,7 +37,7 @@ export default {
 </script>
 
 <style>
-.footer {
+.wrapper .footer {
 	width: 100%;
 	height: 14vw;
 	border-top: solid 1px #DDD;
@@ -55,7 +55,7 @@ export default {
 	/* 确保在其他内容之上 */
 }
 
-.footer li {
+.wrapper .footer li {
 	/*li本身的尺寸完全由内容撑起*/
 	display: flex;
 	flex-direction: column;
@@ -67,11 +67,11 @@ export default {
 	cursor: pointer;
 }
 
-.footer li p {
+.wrapper .footer li p {
 	font-size: 2.8vw;
 }
 
-.footer li i {
+.wrapper .footer li i {
 	font-size: 5vw;
 }
 </style>
