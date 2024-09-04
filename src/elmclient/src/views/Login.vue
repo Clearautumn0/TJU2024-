@@ -66,7 +66,7 @@
 					password:this.password
 				}).then(response=>{
 					let user = response.data;
-					if(user==null){
+					if(user==null || user==''){
 						alert('用户名或密码不正确！');
 					}else{
 						//sessionstorage有容量限制，为了防止数据溢出，所以不将userImg数据放入session中

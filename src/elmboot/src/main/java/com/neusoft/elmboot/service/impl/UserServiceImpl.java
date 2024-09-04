@@ -15,11 +15,17 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public User getUserByIdByPass(User user) {
-		User reuser = new User();
-		reuser = userMapper.getUserByIdByPass(user);
-		reuser.setPassword(null);
-		return reuser;
+	    User reuser = userMapper.getUserByIdByPass(user);
+	    if (reuser != null) {
+	        reuser.setPassword("");
+	    }
+	    return reuser; // 这里返回null也是安全的，因为已经做了非空检查
 	}
+	
+//	@Override
+//	public User getUserByIdByPass(User user) {
+//	    return userMapper.getUserByIdByPass(user);
+//	}
 	
 	@Override
 	public int getUserById(String userId) {
