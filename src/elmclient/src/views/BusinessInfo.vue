@@ -75,7 +75,7 @@
 		<!-- 购物车详情模态框 -->
 		<div v-if="showCartDetails" class="cart-details">
 			<div class="cart-details-content">
-				<h2 class="bigname">购物车</h2>
+				<h2 class="bigname">_____ 购物车详情 _____</h2>
 				<ul class="foodlist">
 					<li v-for="(item, index) in foodArr" v-if="item.quantity > 0" :key="index">
 						<span>{{ item.foodName }}</span>
@@ -567,7 +567,7 @@ export default {
 }
 
 .bigname {
-	font-size: 6vw;
+	font-size: 5vw;
 }
 
 .foodlist {
