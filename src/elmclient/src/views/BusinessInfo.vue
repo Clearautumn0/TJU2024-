@@ -525,18 +525,15 @@ export default {
 
 .cart-details {
 	position: fixed;
-	/* left: 0; */
 	width: 100%;
 	height: 40%;
 	bottom: 14vw;
-	/* 让下面的结算行不被遮挡 */
 	background-color: rgba(255, 255, 255, 0.95);
-	/* 半透明背景 */
-	/* z-index: 1001; */
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.3);
+	box-shadow: 0px -2px 30px rgba(0, 0, 0, 0.5);
+	/* z-index: 1100; */
 }
 
 .cart-details-content {
@@ -545,6 +542,9 @@ export default {
 	border-radius: 10px;
 	padding: 20px;
 	text-align: center;
+	/* 允许内容溢出时显示滚动条 */
+	overflow-y: auto;
+	max-height: 100%; /* 确保内容不超过父容器的高度 */
 }
 
 .cart-details h2 {
@@ -554,6 +554,9 @@ export default {
 .cart-details ul {
 	list-style: none;
 	padding: 0;
+	margin: 0; /* 移除默认的外边距 */
+	max-height: calc(40vh - 80px); /* 设置最大高度，减去标题和 padding 的高度 */
+	overflow-y: auto; /* 如果内容超出，则允许滚动 */
 }
 
 .cart-details ul li {
@@ -562,27 +565,14 @@ export default {
 	margin-bottom: 10px;
 }
 
-.cart-details button {
-	background-color: #3190E8;
-	color: #fff;
-	border: none;
-	padding: 10px 20px;
-	border-radius: 5px;
-	cursor: pointer;
-}
-
-/*调字体的*/
-.bigname{
+.bigname {
 	font-size: 6vw;
 }
-.foodlist{
 
+.foodlist {
 	font-size: 3vw;
 }
 
-.guanbi_ziti{
-	font-size: 3vw;
-}
 
 
 /*不够起送费时的样式（只有背景色和鼠标样式的区别）*/
