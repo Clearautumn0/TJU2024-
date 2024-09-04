@@ -79,7 +79,8 @@
 				<ul class="foodlist">
 					<li v-for="(item, index) in foodArr" v-if="item.quantity > 0" :key="index">
 						<span>{{ item.foodName }}</span>
-						<span>x {{ item.quantity }}</span>
+
+						<span>单价 {{ parseFloat(item.foodPrice).toFixed(2) }} x {{ item.quantity }} </span>
 					</li>
 				</ul>
 			</div>
