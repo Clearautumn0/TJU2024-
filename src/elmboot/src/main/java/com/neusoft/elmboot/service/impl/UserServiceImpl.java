@@ -9,11 +9,11 @@ import com.neusoft.elmboot.po.User;
 import com.neusoft.elmboot.service.UserService;
 
 @Service
-public class UserServiceImpl implements UserService{
-	
+public class UserServiceImpl implements UserService {
+
 	@Autowired
 	private UserMapper userMapper;
-	
+
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService{
 //		User user = userMapper.getUserById(userId);
 //		return userMapper.getUserByIdByPass(user);
 //	}
-	
+
 //	@Override
 //	public User getUserByIdByPass(User user) {
 //	    User reuser = userMapper.getUserByIdByPass(user);
@@ -31,41 +31,41 @@ public class UserServiceImpl implements UserService{
 //	    }
 //	    return reuser; // 这里返回null也是安全的，因为已经做了非空检查
 //	}
-	
+
 	@Override
 	public User getUserByIdByPass(User user) {
 		User storedUser = userMapper.getUserById(user.getUserId());
-		//无对应用户
-		if(storedUser == null) {
+		// 无对应用户
+		if (storedUser == null) {
 			return null;
 		}
-		//密码不符
-		if(!passwordEncoder.matches(user.getPassword(), storedUser.getPassword())) {
+		// 密码不符
+		if (!passwordEncoder.matches(user.getPassword(), storedUser.getPassword())) {
 			return null;
 		}
 		storedUser.setPassword("");
 		return storedUser;
 	}
-	
+
 	@Override
 	public int getUserById(String userId) {
-
+		String regex = "^1[3-9]\\d{9}$";//中国大陆手机号规范
 		User user = userMapper.getUserById(userId);
-		if(user!=null) {
+		if (user != null && userId.matches(regex)) {
 			return 1;
 		}
 		return 0;
 
 	}
-	
+
 	@Override
 	public int saveUser(User user) {
-		//对前端传入的明文密码进行加密
+		// 对前端传入的明文密码进行加密
 		String encodedPassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(encodedPassword);
 		return userMapper.saveUser(user);
 	}
-	
+
 //	@Override
 //	public int saveUser(User user) {
 //		return userMapper.saveUser(user);
@@ -74,12 +74,12 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public int updateUser(User user) {
 		User storedUser = userMapper.getUserById(user.getUserId());
-		//无对应用户
-		if(storedUser == null) {
+		// 无对应用户
+		if (storedUser == null) {
 			return 0;
 		}
-		//密码不符
-		if(!passwordEncoder.matches(user.getPassword(), storedUser.getPassword())) {
+		// 密码不符
+		if (!passwordEncoder.matches(user.getPassword(), storedUser.getPassword())) {
 			return 0;
 		}
 		return userMapper.updateUser(user);
@@ -88,16 +88,15 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public int deleteUser(User user) {
 		User storedUser = userMapper.getUserById(user.getUserId());
-		//无对应用户
-		if(storedUser == null) {
+		// 无对应用户
+		if (storedUser == null) {
 			return 0;
 		}
-		//密码不符
-		if(!passwordEncoder.matches(user.getPassword(), storedUser.getPassword())) {
+		// 密码不符
+		if (!passwordEncoder.matches(user.getPassword(), storedUser.getPassword())) {
 			return 0;
 		}
 		return userMapper.deleteUser(user);
 	}
-
 
 }
