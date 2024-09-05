@@ -31,6 +31,9 @@
 					</li>
 				</ul>
 			</li>
+			<li class="empty-li">
+				<div class="empty-message">已经到底了...</div>
+			</li>
 		</ul>
 
 		<h3>已支付订单信息：</h3>
@@ -58,7 +61,7 @@
 			</li>
 
 			<li class="empty-li">
-				<div class="empty-message">已经拉到底了...</div>
+				<div class="empty-message">已经到底了...</div>
 			</li>
 		</ul>
 
