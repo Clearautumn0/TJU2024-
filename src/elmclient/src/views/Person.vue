@@ -4,7 +4,7 @@
         <!--  header部分 -->
         <header>
             <Backer></Backer>
-            <p  class="nessage">个人资料</p>
+            <p class="nessage">个人资料</p>
         </header>
 
         <!--  基础信息部分 -->
@@ -30,7 +30,8 @@
                     <p>账号</p>
                 </div>
                 <div class="right">
-                    &gt;
+                    {{ user.userId }} <!--新增-->
+                    <!--&gt;-->
                 </div>
                 <hr>
             </li>
@@ -39,7 +40,8 @@
                     <p>昵称</p>
                 </div>
                 <div class="right">
-                    &gt;
+                    {{ user.userName }} <!--新增-->
+                    <!--&gt;-->
                 </div>
                 <hr>
             </li>
@@ -54,9 +56,10 @@
             </li>
             <li @click="toUserAddress">
                 <div class="left">
-                    <p>收货地址</p>
+                    <p>收货地址编辑</p>
                 </div>
                 <div class="right">
+                    {{ deliveryaddersss.address }}
                     &gt;
                 </div>
                 <hr>
@@ -129,12 +132,22 @@
 <script>
 import Backer from '../components/backer.vue';
 export default {
+    data() {
+        return {
+            user: {},
+            deliveryaddersss: {}
+        }
+    },
+    created() {
+        this.user = this.$getSessionStorage('user');
+        this.deliveryaddress = this.$getLocalStorage(this.user.userId);
+    },
     methods: {
         toUserAddress() {
             this.$router.push({ path: '/userAddress' });
         }
     },
-    components:{
+    components: {
         Backer
     }
 }
@@ -153,7 +166,7 @@ export default {
     height: 12vw;
     background-color: #0097FF;
     font-weight: 800;
-    color:#e2e2e2;
+    color: #e2e2e2;
     font-size: 4.5vw;
 
     display: flex;
