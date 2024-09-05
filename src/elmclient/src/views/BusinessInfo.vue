@@ -70,36 +70,38 @@
 				</div>
 			</div>
 
-			<div v-if="isCartOpen" class="overlay"></div>
+			<div v-if="isCartOpen" class="overlay" v-show="totalQuantity != 0"></div><!--阴影背景  v-show="totalQuantity != 0" 表示有food的时候显示购物车-->
 
 			<!-- 购物车详情部分 -->
-			<div v-if="isCartOpen" class="cart-details">
-				<div class="cart-top">
-					<div class="cart-topfirst">
-						<p>已享优惠</p>
-					</div>
-					<div class="cart-topsecond">
-						<p>已选商品</p>
-					</div>
-					<hr />
-				</div>
-				<ul>
-					<li v-for="(item, index) in foodArr" v-if="item.quantity > 0" :key="index">
-						<div class="cart-leftbox">
-							<div class="foodimg-box">
-								<img :src="item.foodImg">
-							</div>
-							<div class="foodinfo-box"><span>{{ item.foodName }}</span>
-								<p>&#165;{{ item.foodPrice }}</p>
-							</div>
+			<div v-if="isCartOpen" class="cart-details" >
+				<!-- <transition name="slide-fade"> -->
+					<div class="cart-top" v-show="totalQuantity != 0"><!---v-show="totalQuantity != 0" 表示有food的时候显示购物车上面的两个-->
+						<div class="cart-topfirst">
+							<p>已享优惠</p>
 						</div>
-						<div class="cart-rightbox">
-							<i class="fa fa-minus-circle" @click="minus(index)" v-show="item.quantity != 0"></i>
-							<span>{{ item.quantity }}</span>
-							<i class="fa fa-plus-circle" @click="add(index)"></i>
+						<div class="cart-topsecond">
+							<p>已选商品</p>
+							<hr />
 						</div>
-					</li>
-				</ul>
+					</div>
+					<ul>
+						<li v-for="(item, index) in foodArr" v-if="item.quantity > 0" :key="index">
+							<div class="cart-leftbox">
+								<div class="foodimg-box">
+									<img :src="item.foodImg">
+								</div>
+								<div class="foodinfo-box"><span>{{ item.foodName }}</span>
+									<p>&#165;{{ item.foodPrice }}</p>
+								</div>
+							</div>
+							<div class="cart-rightbox">
+								<i class="fa fa-minus-circle" @click="minus(index)" v-show="item.quantity != 0"></i>
+								<span>{{ item.quantity }}</span>
+								<i class="fa fa-plus-circle" @click="add(index)"></i>
+							</div>
+						</li>
+					</ul>
+				<!-- </transition> -->
 			</div>
 		</div>
 	</div>
@@ -443,6 +445,9 @@
 		flex: 2;
 		background-color: #505051;
 		display: flex;
+		
+		position: relative;
+		z-index: 1100;
 	}
 
 	.wrapper .cart .cart-left .cart-left-icon {
@@ -496,6 +501,8 @@
 
 	.wrapper .cart .cart-right {
 		flex: 1;
+		position: relative;
+		z-index: 1100;
 	}
 
 	/*达到起送费时的样式*/
@@ -564,7 +571,7 @@
 		top: 0;
 		left: 0;
 		width: 100%;
-		height: 80%;
+		height: 100%;
 
 		background-color: rgba(0, 0, 0, 0.5);
 		z-index: 1000;
@@ -584,14 +591,14 @@
 		/* box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); */
 		overflow-y: auto;
 	}
-	
-	.wrapper .cart-details .cart-top{
+
+	.wrapper .cart-details .cart-top {
 		width: 100vw;
 		height: 20vw;
 		background-color: #fff;
 	}
-	
-	.wrapper .cart-details .cart-topfirst{
+
+	.wrapper .cart-details .cart-topfirst {
 		width: 100vw;
 		height: 10vw;
 		background-color: #fdf6e1;
@@ -600,35 +607,45 @@
 		border-top-left-radius: 3vw;
 		border-top-right-radius: 3vw;
 	}
-	
-	.wrapper .cart-details .cart-topfirst p{
+
+	.wrapper .cart-details .cart-topfirst p {
 		font-size: 3.5vw;
 		font-weight: 550;
 		margin-left: 2vw;
 	}
-	
-	.wrapper .cart-details .cart-topsecond{
+
+	.wrapper .cart-details .cart-topsecond {
 		width: 100vw;
 		height: 10vw;
 		background-color: #fff;
 		display: flex;
 		align-items: center;
+		position: relative;
 	}
 
-    .wrapper .cart-details .cart-topsecond p{
+	.wrapper .cart-details .cart-topsecond p {
 		font-size: 3.5vw;
 		font-weight: 550;
 		margin-left: 2vw;
 	}
-	
-	.wrapper .cart-details hr{
-		width: 98vw;
-		margin-bottom: -1vw;
-		display: flex;
-		justify-content: center;
-		align-items: center
+
+	.wrapper .cart-details .cart-topsecond hr {
+		width: 96vw;
+		margin-left: 2vw;
+		margin-right: 2vw;
+
+		position: absolute;
+		bottom: 0;
+		/* 将分割线对齐到父元素的底部 */
+
+		background-color: #e2e2e2;
+		border: none;
+		/* 移除默认的边框 */
+		height: 0.02vw;
+		/* 设置分割线的高度 */
+		margin-bottom: 0;
 	}
-	
+
 	.wrapper .cart-details li {
 		width: 100%;
 		box-sizing: border-box;
@@ -660,7 +677,7 @@
 		margin-top: 4vw;
 	}
 
-	.wrapper .cart-details li .cart-leftbox .foodinfo-box li span {
+	.wrapper .cart-details li .cart-leftbox .foodinfo-box span {
 		font-size: 3.5vw;
 	}
 
@@ -671,8 +688,8 @@
 		cursor: pointer;
 		margin: 0 2vw;
 	}
-	
-	.wrapper .cart-details li .cart-rightbox{
+
+	.wrapper .cart-details li .cart-rightbox {
 		font-size: 4vw;
 	}
 	

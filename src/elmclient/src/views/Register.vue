@@ -82,11 +82,15 @@
 		},
 		methods: {
 			checkUserId() {
+				if (this.user.userId == '') {
+					alert('手机号码不能为空！');
+					return;
+				}
 				this.$axios.get(`users/${this.user.userId}`)
 					.then(response => {
 						if (response.data == 1) {
 							this.user.userId = '';
-							alert('此手机号码已存在！')
+							alert('此手机号码已存在！');
 						}
 					}).catch(error => {
 						console.error(error);
