@@ -14,7 +14,7 @@
 				<p>{{ deliveryaddress != null ? deliveryaddress.address : '请选择送货地址' }}</p>
 				<i class="fa fa-angle-right"></i>
 			</div>
-			<p>{{ user.userName }}{{ user.userSex | sexFilter }} {{ user.userId }}</p>
+			<p>{{ deliveryaddress.contactName }}{{ user.userSex | sexFilter }} {{ user.userId }}</p> <!--deliveryaddress.contactName 之前显示的是登录用户的name-->
 		</div>
 
 		<h3>{{ business.businessName }}</h3>

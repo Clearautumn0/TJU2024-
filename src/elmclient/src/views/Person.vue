@@ -21,7 +21,10 @@
                     <p>头像</p>
                 </div>
                 <div class="right">
-                    &gt;
+                    <div class="avatar-frame">
+                        <img src="../assets/默认头像.png" alt="无法加载图片" class="avatar-img">
+                    </div>
+                    <!-- &gt; -->
                 </div>
                 <hr>
             </li>
@@ -45,7 +48,7 @@
                 </div>
                 <hr>
             </li>
-            <li>
+            <!-- <li>
                 <div class="left">
                     <p>个人简介</p>
                 </div>
@@ -53,7 +56,7 @@
                     &gt;
                 </div>
                 <hr>
-            </li>
+            </li> -->
             <li @click="toUserAddress">
                 <div class="left">
                     <p>收货地址编辑</p>
@@ -243,6 +246,30 @@ export default {
 
     cursor: pointer;
 }
+
+/*头像显示*/
+.avatar-frame {
+    width: 10vw;
+    /* 使用视口宽度的10%作为宽度 */
+    height: 10vw;
+    /* 使用视口宽度的10%作为高度 */
+    border-radius: 50%;
+    /* overflow: hidden; */
+    border: 2px solid #ccc;
+    margin-right: 0vw; /*调整右对齐 */
+    /* margin-left: 2vw; */
+    /* overflow: hidden; */
+}
+
+.avatar-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* ************ */
+
 
 .wrapper .message-list li hr {
     width: 98vw;
