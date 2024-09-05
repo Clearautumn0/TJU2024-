@@ -22,13 +22,11 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	public User getUserByIdByPass(User user) {
-
 	    User reuser = userMapper.getUserByIdByPass(user);
 	    if (reuser != null) {
 	        reuser.setPassword("");//返回时不返回用户的密码
 	    }
 	    return reuser; // 这里返回null也是安全的，因为已经做了非空检查
-
 	}
 	
 //	@Override
@@ -38,22 +36,26 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	public int getUserById(String userId) {
-		return userMapper.getUserById(userId);
-	}
-	
-	@Override
-	public int saveUser(User user) {
-		//对前端传入的明文密码进行加密
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		String encodedPassword = passwordEncoder.encode(user.getPassword());
-		user.setPassword(encodedPassword);
-		return userMapper.saveUser(user);
+		User user = userMapper.getUserById(userId);
+		if(user!=null) {
+			return 1;
+		}
+		return 0;
 	}
 	
 //	@Override
 //	public int saveUser(User user) {
+//		//对前端传入的明文密码进行加密
+//		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//		String encodedPassword = passwordEncoder.encode(user.getPassword());
+//		user.setPassword(encodedPassword);
 //		return userMapper.saveUser(user);
 //	}
+	
+	@Override
+	public int saveUser(User user) {
+		return userMapper.saveUser(user);
+	}
 
 	@Override
 	public int updateUser(User user) {

@@ -13,8 +13,8 @@ public interface UserMapper {
 	@Select("select * from user where userId=#{userId} and password=#{password} and delTag=0")
 	public User getUserByIdByPass(User user);
 	
-	@Select("select count(*) from user where userId=#{userId} and delTag=0")
-	public int getUserById(String userId);
+	@Select("select * from user where userId=#{userId} and delTag=0")
+	public User getUserById(String userId);
 	
 	@Insert("insert into user values(#{userId},#{password},#{userName},#{userSex},null,0)")
 	public int saveUser(User user);
