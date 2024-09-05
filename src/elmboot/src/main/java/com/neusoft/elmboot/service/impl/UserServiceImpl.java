@@ -23,15 +23,6 @@ public class UserServiceImpl implements UserService{
 //		return userMapper.getUserByIdByPass(user);
 //	}
 	
-//	@Override
-//	public User getUserByIdByPass(User user) {
-//	    User reuser = userMapper.getUserByIdByPass(user);
-//	    if (reuser != null) {
-//	        reuser.setPassword("");//返回时不返回用户的密码
-//	    }
-//	    return reuser; // 这里返回null也是安全的，因为已经做了非空检查
-//	}
-	
 	@Override
 	public User getUserByIdByPass(User user) {
 		User storedUser = userMapper.getUserById(user.getUserId());
@@ -71,11 +62,6 @@ public class UserServiceImpl implements UserService{
 		user.setPassword(encodedPassword);
 		return userMapper.saveUser(user);
 	}
-	
-//	@Override
-//	public int saveUser(User user) {
-//		return userMapper.saveUser(user);
-//	}
 
 	@Override
 	public int updateUser(User user) {
