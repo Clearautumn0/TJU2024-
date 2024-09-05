@@ -48,9 +48,8 @@
 		<!-- 购物车部分 -->
 		<div class="cart">
 			<div class="cart-left">
-				<div class="cart-left-icon"
-					:style="totalQuantity == 0 ? 'background-color:#505051;' : 'background-color:#3190E8;'"
-					@click="open_and_close_CartDetails"><!---添加按钮-->
+				<div class="cart-left-icon" @click="toggleCart"
+					:style="totalQuantity == 0 ? 'background-color:#505051;' : 'background-color:#3190E8;'">
 					<i class="fa fa-shopping-cart"></i>
 					<div class="cart-left-icon-quantity" v-show="totalQuantity != 0">{{ totalQuantity }}</div>
 				</div>
@@ -70,23 +69,43 @@
 					去结算
 				</div>
 			</div>
-		</div>
 
-		<!-- 购物车详情模态框 -->
-		<div v-if="showCartDetails" class="cart-details">
-			<div class="cart-details-content">
-				<h2 class="bigname">_____ 购物车详情 _____</h2>
-				<ul class="foodlist">
+			<div v-if="isCartOpen" class="overlay" v-show="totalQuantity != 0"></div>
+			<!--阴影背景  v-show="totalQuantity != 0" 表示有food的时候显示购物车-->
+
+			<!-- 购物车详情部分 -->
+			<div v-if="isCartOpen" class="cart-details">
+				<!-- <transition name="slide-fade"> -->
+				<div class="cart-top" v-show="totalQuantity != 0">
+					<!---v-show="totalQuantity != 0" 表示有food的时候显示购物车上面的两个-->
+					<div class="cart-topfirst">
+						<p>已享优惠</p>
+					</div>
+					<div class="cart-topsecond">
+						<p>已选商品</p>
+						<hr />
+					</div>
+				</div>
+				<ul>
 					<li v-for="(item, index) in foodArr" v-if="item.quantity > 0" :key="index">
-						<span>{{ item.foodName }}</span>
-
-						<span>数量 x {{ item.quantity }} 总价 ￥{{ parseFloat(item.foodPrice * item.quantity).toFixed(2) }} &nbsp</span><!--加空格为了使滑动条不遮挡左侧的数字-->
+						<div class="cart-leftbox">
+							<div class="foodimg-box">
+								<img :src="item.foodImg">
+							</div>
+							<div class="foodinfo-box"><span>{{ item.foodName }}</span>
+								<p>&#165;{{ item.foodPrice }}</p>
+							</div>
+						</div>
+						<div class="cart-rightbox">
+							<i class="fa fa-minus-circle" @click="minus(index)" v-show="item.quantity != 0"></i>
+							<span>{{ item.quantity }}</span>
+							<i class="fa fa-plus-circle" @click="add(index)"></i>
+						</div>
 					</li>
 				</ul>
+				<!-- </transition> -->
 			</div>
 		</div>
-
-
 	</div>
 </template>
 
@@ -100,7 +119,7 @@ export default {
 			business: {},
 			foodArr: [],
 			user: {},
-			showCartDetails: false // 控制模态框显示的布尔值
+			isCartOpen: false //设置购物车是否打开的状态
 		}
 	},
 	created() {
@@ -115,8 +134,7 @@ export default {
 			});
 
 		//根据businessId查询所属食品信息
-		this.$axios.get(`foods/business/${this.businessId}`
-		).then(response => {
+		this.$axios.get(`foods/business/${this.businessId}`).then(response => {
 			this.foodArr = response.data;
 			for (let i = 0; i < this.foodArr.length; i++) {
 				this.foodArr[i].quantity = 0;
@@ -156,7 +174,9 @@ export default {
 		add(index) {
 			//首先做登录验证
 			if (this.user == null) {
-				this.$router.push({ path: '/login' });
+				this.$router.push({
+					path: '/login'
+				});
 				return;
 			}
 
@@ -171,7 +191,9 @@ export default {
 		minus(index) {
 			//首先做登录验证
 			if (this.user == null) {
-				this.$router.push({ path: '/login' });
+				this.$router.push({
+					path: '/login'
+				});
 				return;
 			}
 
@@ -184,13 +206,11 @@ export default {
 			}
 		},
 		saveCart(index) {
-			this.$axios.post('carts',
-				{
-					businessId: this.businessId,
-					userId: this.user.userId,
-					foodId: this.foodArr[index].foodId
-				}
-			).then(response => {
+			this.$axios.post('carts', {
+				businessId: this.businessId,
+				userId: this.user.userId,
+				foodId: this.foodArr[index].foodId
+			}).then(response => {
 				if (response.data == 1) {
 					//此食品数量要更新为1；
 					this.foodArr[index].quantity = 1;
@@ -208,8 +228,7 @@ export default {
 				userId: this.user.userId,
 				foodId: this.foodArr[index].foodId,
 				quantity: this.foodArr[index].quantity + num
-			}
-			).then(response => {
+			}).then(response => {
 				if (response.data == 1) {
 					//此食品数量要更新为1或-1；
 					this.foodArr[index].quantity += num;
@@ -241,11 +260,20 @@ export default {
 			});
 		},
 		toOrder() {
-			this.$router.push({ path: '/orders', query: { businessId: this.business.businessId } });
+			this.$router.push({
+				path: '/orders',
+				query: {
+					businessId: this.business.businessId
+				}
+			});
 		},
-		// 打开&关闭购物车详情
-		open_and_close_CartDetails() {
-			this.showCartDetails = ~this.showCartDetails;
+		toggleCart() {
+			if (this.totalQuantity != 0) {//添加购物车为空的提示
+				this.isCartOpen = !this.isCartOpen;//点击时取反
+			} else {
+				alert('当前购物车为空');
+			}
+
 		}
 	},
 	computed: {
@@ -417,14 +445,16 @@ export default {
 	bottom: 0;
 
 	display: flex;
-	z-index: 1010;
-	/* 调整展示优先级，让购物车图标显示在购物车框的上部 */
+	z-index: 1100;
 }
 
 .wrapper .cart .cart-left {
 	flex: 2;
 	background-color: #505051;
 	display: flex;
+
+	position: relative;
+	z-index: 1100;
 }
 
 .wrapper .cart .cart-left .cart-left-icon {
@@ -445,6 +475,7 @@ export default {
 	margin-left: 3vw;
 
 	position: relative;
+	z-index: 1100;
 }
 
 .wrapper .cart .cart-left .cart-left-icon-quantity {
@@ -477,6 +508,8 @@ export default {
 
 .wrapper .cart .cart-right {
 	flex: 1;
+	position: relative;
+	z-index: 1100;
 }
 
 /*达到起送费时的样式*/
@@ -498,7 +531,7 @@ export default {
 .empty-li {
 	width: 200vw;
 	/* 设置矩形的宽度 */
-	height: 40vw;
+	height: 30vw;
 	/* 设置矩形的高度 */
 	/* border: 2px solid #000; */
 	/* 添加一个2像素的黑色边框 */
@@ -512,7 +545,7 @@ export default {
 
 .empty-message {
 	position: absolute;
-	top: -10;
+	top: -25;
 	/* 将文字放置在顶部 */
 	left: 50%;
 	/* 从左边开始居中 */
@@ -523,59 +556,6 @@ export default {
 	color: #000;
 	/* 设置文字颜色 */
 }
-
-.cart-details {
-	position: fixed;
-	width: 100%;
-	height: 40%;
-	bottom: 14vw;
-	background-color: rgba(255, 255, 255, 0.95);
-	display: flex;
-	justify-content: center;
-	align-items: flex-start;
-	box-shadow: 0px -2px 30px rgba(0, 0, 0, 0.5);
-	/* z-index: 1100; */
-}
-
-.cart-details-content {
-	width: 90%;
-	background-color: #fff;
-	border-radius: 10px;
-	padding: 20px;
-	text-align: center;
-	/* 允许内容溢出时显示滚动条 */
-	overflow-y: auto;
-	max-height: 100%; /* 确保内容不超过父容器的高度 */
-}
-
-.cart-details h2 {
-	margin-bottom: 20px;
-}
-
-.cart-details ul {
-	list-style: none;
-	padding: 0;
-	margin: 0; /* 移除默认的外边距 */
-	max-height: calc(40vh - 80px); /* 设置最大高度，减去标题和 padding 的高度 */
-	overflow-y: auto; /* 如果内容超出，则允许滚动 */
-}
-
-.cart-details ul li {
-	display: flex;
-	justify-content: space-between;
-	margin-bottom: 10px;
-}
-
-.bigname {
-	font-size: 5vw;
-}
-
-.foodlist {
-	font-size: 3vw;
-	
-}
-
-
 
 /*不够起送费时的样式（只有背景色和鼠标样式的区别）*/
 /*
@@ -593,4 +573,130 @@ export default {
 		align-items: center;
 	}
 	*/
+.cart .overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 1000;
+}
+
+
+/****************** 购物车详情部分 ******************/
+
+.wrapper .cart-details {
+	width: 100vw;
+	max-height: 80vw;
+	background-color: #fff;
+	position: fixed;
+	z-index: 1000;
+	bottom: 14vw;
+	/* left: 0; */
+	/* box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); */
+	overflow-y: auto;
+}
+
+.wrapper .cart-details .cart-top {
+	width: 100vw;
+	height: 20vw;
+	background-color: #fff;
+}
+
+.wrapper .cart-details .cart-topfirst {
+	width: 100vw;
+	height: 10vw;
+	background-color: #fdf6e1;
+	display: flex;
+	align-items: center;
+	border-top-left-radius: 3vw;
+	border-top-right-radius: 3vw;
+}
+
+.wrapper .cart-details .cart-topfirst p {
+	font-size: 3.5vw;
+	font-weight: 550;
+	margin-left: 2vw;
+}
+
+.wrapper .cart-details .cart-topsecond {
+	width: 100vw;
+	height: 10vw;
+	background-color: #fff;
+	display: flex;
+	align-items: center;
+	position: relative;
+}
+
+.wrapper .cart-details .cart-topsecond p {
+	font-size: 3.5vw;
+	font-weight: 550;
+	margin-left: 2vw;
+}
+
+.wrapper .cart-details .cart-topsecond hr {
+	width: 96vw;
+	margin-left: 2vw;
+	margin-right: 2vw;
+
+	position: absolute;
+	bottom: 0;
+	/* 将分割线对齐到父元素的底部 */
+
+	background-color: #e2e2e2;
+	border: none;
+	/* 移除默认的边框 */
+	height: 0.02vw;
+	/* 设置分割线的高度 */
+	margin-bottom: 0;
+}
+
+.wrapper .cart-details li {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 2.5vw;
+	user-select: none;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.wrapper .cart-details li .cart-leftbox {
+	display: flex;
+	align-items: center;
+}
+
+.wrapper .cart-details li .cart-leftbox .foodimg-box img {
+	width: 15vw;
+	height: 15vw;
+	border-radius: 2vw;
+}
+
+.wrapper .cart-details li .cart-leftbox .foodinfo-box {
+	margin-left: 2vw;
+}
+
+.wrapper .cart-details li .cart-leftbox .foodinfo-box p {
+	font-size: 3.5vw;
+	color: #e84d00;
+	margin-top: 4vw;
+}
+
+.wrapper .cart-details li .cart-leftbox .foodinfo-box span {
+	font-size: 3.5vw;
+}
+
+.wrapper .cart-details li .cart-rightbox .fa-minus-circle,
+li .fa-plus-circle {
+	font-size: 5vw;
+	color: #0097EF;
+	cursor: pointer;
+	margin: 0 2vw;
+}
+
+.wrapper .cart-details li .cart-rightbox {
+	font-size: 4vw;
+}
 </style>
