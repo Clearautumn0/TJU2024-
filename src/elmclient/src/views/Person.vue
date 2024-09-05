@@ -151,7 +151,7 @@ export default {
 .wrapper header {
     width: 100%;
     height: 12vw;
-    background-color: #0097FF;
+    background-color: #ffffff;
     font-weight: 800;
     color:#e2e2e2;
     font-size: 4.5vw;
@@ -161,9 +161,10 @@ export default {
     justify-content: center;
 }
 
-/* .wrapper header .message{
-
-} */
+.wrapper header p{
+	color: #000000;
+	font-weight: 600;
+}
 
 /********************* message  *********************/
 .wrapper .message-box {
@@ -329,7 +330,7 @@ export default {
 
 .wrapper .bottom {
     width: 100%;
-    height: 40vw;
+    height: 100vw;
     background-color: #ebebeb;
 }
 </style>

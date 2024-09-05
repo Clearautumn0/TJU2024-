@@ -213,7 +213,7 @@ export default {
 .wrapper .system-setting{
 	width: 95%;
 	height: 30vw;
-	margin-top: 1vw;
+	margin-top: 2vw;
 	
 	display: flex;
 	flex-wrap: wrap;
