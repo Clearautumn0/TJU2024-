@@ -1,7 +1,7 @@
 package com.neusoft.elmboot.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.neusoft.elmboot.mapper.UserMapper;
@@ -13,9 +13,6 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private UserMapper userMapper;
-	
-//	@Autowired
-//	private PasswordEncoder passwordEncoder;
 
 //	@Override
 //	public User getUserByIdByPass(String userId, String password) {
@@ -44,18 +41,19 @@ public class UserServiceImpl implements UserService{
 		return userMapper.getUserById(userId);
 	}
 	
-//	@Override
-//	public int saveUser(User user) {
-//		//对前端传入的明文密码进行加密
-//		String encodedPassword = passwordEncoder.encode(user.getPassword());
-//		user.setPassword(encodedPassword);
-//		return userMapper.saveUser(user);
-//	}
-	
 	@Override
 	public int saveUser(User user) {
+		//对前端传入的明文密码进行加密
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String encodedPassword = passwordEncoder.encode(user.getPassword());
+		user.setPassword(encodedPassword);
 		return userMapper.saveUser(user);
 	}
+	
+//	@Override
+//	public int saveUser(User user) {
+//		return userMapper.saveUser(user);
+//	}
 
 	@Override
 	public int updateUser(User user) {
