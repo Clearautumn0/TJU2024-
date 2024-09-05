@@ -29,13 +29,7 @@ public class UserController {
 	//@RequestMapping("/getUserById")
 	@GetMapping("/{userId}")
 	public int getUserById(@PathVariable String userId) throws Exception{
-		 // 正则表达式验证手机号格式
-	    String regex = "^1[3-9]\\d{9}$";
-	    
-	    if (!userId.matches(regex)) {
-	        // 如果手机号格式不正确，抛出异常或返回错误信息
-	        throw new IllegalArgumentException("Invalid phone number format for userId: " + userId);
-	    }
+	
 		return userService.getUserById(userId);
 	}
 	
