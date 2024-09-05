@@ -52,10 +52,12 @@
   			<artifactId>mockito-core</artifactId>
 		</dependency>
 		
-		<dependency>	<!-- 注册密码加密依赖 -->
-    		<groupId>org.springframework.boot</groupId>
-    		<artifactId>spring-boot-starter-security</artifactId>
+		<dependency>
+    		<groupId>org.springframework.security</groupId>
+    		<artifactId>spring-security-crypto</artifactId>
 		</dependency>
+		
+		
 
 	</dependencies>
 
