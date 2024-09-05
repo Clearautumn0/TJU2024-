@@ -1,34 +1,80 @@
 <template>
     <div class="wrapper">
-            <header class="profile-header">
-                <div class="avatar-frame">
-                    <img src="../assets/logo.png" alt="无法加载图片">
-                </div>
-                <h2 class="username">用户名</h2>
-            </header>
-            <ul class="profile-menu">
-                <li @click="toPersonInfo" class="profile-menu-item">个人信息</li>
-                <li class="profile-menu-item">会员</li>
-                <li class="profile-menu-item">设置</li>
-                <!-- <li @click="backfun" class="profile-menu-item">返回主界面</li> -->
-            </ul>
+        <header class="profile-header">
+			<div class="header-left">
+				<div class="avatar-frame">
+				    <img src="../assets/defaultphoto.png" alt="无法加载图片">
+				</div>
+				<h2 class="username">{{ user.userName }}</h2>
+			</div>
+			<div class="header-right">
+				<img @click="toindividual_inf" src="../assets/setting.png">
+			</div>
+        </header>
+		<ul class="money">
+			<li>
+				<img src="../assets/money.png">
+				<p>我的资产</p>
+			</li>
+			<li>
+				<img src="../assets/hongbao.png">
+				<p>红包</p>
+			</li>
+			<li>
+				<img src="../assets/kaquan.png">
+				<p>券包</p>
+			</li>
+		</ul>
+		<ul class="system-setting">
+			<li>
+				<img src="../assets/address.png">
+				<p>我的地址</p>
+			</li>
+			<li>
+				<img src="../assets/kefu.png">
+				<p>我的客服</p>
+			</li>
+			<li>
+				<img src="../assets/guanyu.png">
+				<p>关于饿了么</p>
+			</li>
+			<li>
+				<img src="../assets/protect.png">
+				<p>用户隐私</p>
+			</li>
+			<li>
+				<img src="../assets/rule.png">
+				<p>规则中心</p>
+			</li>
+		</ul>
 
         <Footer></Footer>
     </div>
-
-
-
 </template>
 
 <script>
 import Footer from '../components/Footer.vue';
 export default {
+    data() {
+        return {
+            user: {}
+        }
+    },
+    created() {
+        this.user = this.$getSessionStorage('user');
+        // this.$axios.get(`users/${this.user}`)
+        //     .then(response => {
+        //         this.user = response.data;
+        //     }).catch(error => {
+        //         console.error(error);
+        //     });
+    },
     methods: {
         backfun() {
             this.$router.push({ path: '/index' });
         },
-        toPersonInfo() {
-            this.$router.push({ path: '/personinfo'});
+        toindividual_inf() {
+            this.$router.push({ path: '/person' });
         }
     },
     components: {
@@ -41,16 +87,25 @@ export default {
 .wrapper {
     width: 100%;
     height: 100%;
+	background-color: #f5f5f5;
     /* display: flex;
     flex-direction: column;
     padding-bottom: 14vw; */
     /* 为底部菜单留出空间 */
 }
 
-.wrapper header {
-    width: 100%;
+.wrapper header{
+	width: 100%;
+	height: 20vw;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.wrapper header .header-left{
+    width: 80vw;
     height: 20vw;
-    background-color: #0097FF;
+    background-color: #f5f5f5;
     /* text-align: center; */
     display: flex;
     align-items: center;
@@ -64,8 +119,8 @@ export default {
     /* 使用视口宽度的10%作为高度 */
     border-radius: 50%;
     /* overflow: hidden; */
-    border: 3px solid #ccc;
-    margin-right: 5vw;
+    /* border: 3px solid #ccc; */
+    margin-right: 2vw;
     margin-left: 2vw;
 }
 
@@ -79,8 +134,22 @@ export default {
     font-size: 5vw;
     /* 使用视口宽度的2%作为字体大小 */
     color: #333;
-    margin-top: 5vw;
+    /* margin-top: 5vw; */
     /* 使用视口宽度的1%作为上边距 */
+}
+
+.wrapper header .header-right{
+	width: 20vw;
+	height: 20vw;
+	display: flex;
+	align-items: center;
+}
+
+.wrapper header .header-right img{
+	width: 7vw;
+	height: 7vw;
+	font-weight: 600;
+	margin-left: 10vw;
 }
 
 .profile-menu {
@@ -105,4 +174,78 @@ export default {
 .profile-menu-item:hover {
     background-color: #e9e9e9;
 }
+
+.wrapper .money{
+	width: 95%;
+	height: 30vw;
+	
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	background-color: #fff;
+	border-radius: 5vw;
+	margin-left: 2vw;
+	margin-right: 2vw;
+}
+
+.wrapper .money li{
+	width: 30vw;
+	height: 20vw;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	
+/* 	user-select: none;
+	cursor: pointer; */
+}
+
+.wrapper .money li img {
+	width: 6vw;
+	height: 6vw;
+}
+
+.wrapper .money li p{
+	margin-top: 1vw;
+	font-size: 3.2vw;
+}
+
+.wrapper .system-setting{
+	width: 95%;
+	height: 30vw;
+	margin-top: 1vw;
+	
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between; 
+	align-items: center;
+	background-color: #fff;
+	border-radius: 5vw;
+	margin-left: 2.5vw;
+	margin-right: 2.5vw;
+}
+
+.wrapper .system-setting li{
+	width: 22vw;
+	height: 15vw;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	
+/* 	user-select: none;
+	cursor: pointer; */
+}
+
+.wrapper .system-setting li img {
+	width: 6vw;
+	height: 6vw;
+}
+
+.wrapper .system-setting li p{
+	margin-top: 1vw;
+	font-size: 3.2vw;
+}
+
 </style>
+

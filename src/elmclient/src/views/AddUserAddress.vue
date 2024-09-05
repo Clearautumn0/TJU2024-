@@ -81,6 +81,7 @@ import Footer from '../components/Footer.vue';
 		},
 		methods: {
 			addUserAddress(){
+				const phoneRegex = /^1[3-9]\d{9}$/;//验证手机号规范
 				if(this.deliveryAddress.contactName==''){
 					alert('联系人姓名不能为空！');
 					return;
@@ -88,6 +89,11 @@ import Footer from '../components/Footer.vue';
 				if(this.deliveryAddress.contactTel==''){
 					alert('联系人电话不能为空！');
 					return;
+				}
+				if(!phoneRegex.test(this.deliveryAddress.contactTel)){
+					alert('联系人电话格式不正确');
+					return;
+
 				}
 				if(this.deliveryAddress.address==''){
 					alert('联系人地址不能为空！');
