@@ -13,6 +13,9 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private UserMapper userMapper;
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 
 //	@Override
 //	public User getUserByIdByPass(String userId, String password) {
@@ -20,19 +23,29 @@ public class UserServiceImpl implements UserService{
 //		return userMapper.getUserByIdByPass(user);
 //	}
 	
-	@Override
-	public User getUserByIdByPass(User user) {
-	    User reuser = userMapper.getUserByIdByPass(user);
-	    if (reuser != null) {
-	        reuser.setPassword("");//返回时不返回用户的密码
-	    }
-	    return reuser; // 这里返回null也是安全的，因为已经做了非空检查
-	}
-	
 //	@Override
 //	public User getUserByIdByPass(User user) {
-//	    return userMapper.getUserByIdByPass(user);
+//	    User reuser = userMapper.getUserByIdByPass(user);
+//	    if (reuser != null) {
+//	        reuser.setPassword("");//返回时不返回用户的密码
+//	    }
+//	    return reuser; // 这里返回null也是安全的，因为已经做了非空检查
 //	}
+	
+	@Override
+	public User getUserByIdByPass(User user) {
+		User storedUser = userMapper.getUserById(user.getUserId());
+		//无对应用户
+		if(storedUser == null) {
+			return null;
+		}
+		//密码不符
+		if(!passwordEncoder.matches(user.getPassword(), storedUser.getPassword())) {
+			return null;
+		}
+		storedUser.setPassword("");
+		return storedUser;
+	}
 	
 	@Override
 	public int getUserById(String userId) {
@@ -46,7 +59,6 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public int saveUser(User user) {
 		//对前端传入的明文密码进行加密
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String encodedPassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(encodedPassword);
 		return userMapper.saveUser(user);
@@ -59,11 +71,31 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public int updateUser(User user) {
+		User storedUser = userMapper.getUserById(user.getUserId());
+		//无对应用户
+		if(storedUser == null) {
+			return 0;
+		}
+		//密码不符
+		if(!passwordEncoder.matches(user.getPassword(), storedUser.getPassword())) {
+			return 0;
+		}
 		return userMapper.updateUser(user);
 	}
 
 	@Override
 	public int deleteUser(User user) {
+		User storedUser = userMapper.getUserById(user.getUserId());
+		//无对应用户
+		if(storedUser == null) {
+			return 0;
+		}
+		//密码不符
+		if(!passwordEncoder.matches(user.getPassword(), storedUser.getPassword())) {
+			return 0;
+		}
 		return userMapper.deleteUser(user);
 	}
+
+
 }
