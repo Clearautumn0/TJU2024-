@@ -65,7 +65,7 @@
 <script>
 	import Footer from '../components/Footer.vue';
 	import Backer from '../components/backer.vue';
-	
+
 
 	export default {
 		name: 'Register',
@@ -82,15 +82,19 @@
 		},
 		methods: {
 			checkUserId() {
-				this.$axios.get(`users/${this.user.userId}`)
-					.then(response => {
-						if (response.data == 1) {
-							this.user.userId = '';
-							alert('此手机号码已存在！')
-						}
-					}).catch(error => {
-						console.error(error);
-					});
+				if (this.user.userId == '') {
+					alert('请输入手机号码!');
+				} else {
+					this.$axios.get(`users/${this.user.userId}`)
+						.then(response => {
+							if (response.data == 1) {
+								this.user.userId = '';
+								alert('此手机号码已存在！')
+							}
+						}).catch(error => {
+							console.error(error);
+						});
+				}
 			},
 			register() {
 				if (this.user.userId == '') {
