@@ -13,10 +13,10 @@ import com.neusoft.elmboot.po.Food;
 @Mapper
 public interface FoodMapper {
 
-	@Select("select * from food where businessId=#{businessId}  and delTag=0  order by foodId")
+	@Select("select * from food where businessId=#{businessId}  and delTag=0 and soldOut =0 order by foodId")
 	public List<Food> listFoodByBusinessId(Integer businessId);
 	
-	@Select("select * from food where foodId=#{foodId} and and soudOut=0 delTag=0")
+	@Select("select * from food where foodId=#{foodId} and and soldOut=0 delTag=0")
 	public Food getFoodById(Integer foodId);
 	
 	@Insert("insert into food values(null, #{foodName}, #{foodExplain}, #{foodImg}, #{foodPrice}, #{businessId}, #{remarks},0, 0)")
@@ -26,7 +26,7 @@ public interface FoodMapper {
 	public Integer copyFood(Food food);
 	
 	//设置商品是否告罄
-	@Update("update food set soudOut=#{soudOut} where businessId=#{businessId} and foodId=#{foodId}")
+	@Update("update food set soldOut=#{soldOut} where businessId=#{businessId} and foodId=#{foodId}")
 	public Integer setFood(Food food);
 
 	@Update("update food set delTag=1 where businessId=#{businessId} and foodId=#{foodId}")
