@@ -65,7 +65,7 @@
 <script>
 	import Footer from '../components/Footer.vue';
 	import Backer from '../components/backer.vue';
-	
+
 
 	export default {
 		name: 'Register',
@@ -77,34 +77,41 @@
 					userName: '',
 					userSex: 1
 				},
-				confirmPassword: ''
+				confirmPassword: '',
+				
 			}
 		},
 		methods: {
+			
+			
 			checkUserId() {
+				const phoneRegex = /^1[3-9]\d{9}$/;
 				if (this.user.userId == '') {
 					alert('手机号码不能为空！');
 					return;
+				} 
+				// 验证手机号码是否符合规范
+				if (!phoneRegex.test(this.user.userId)) {
+					alert('请输入正确的手机号码！');
+					return;
 				}
-				this.$axios.get(`users/${this.user.userId}`)
-					.then(response => {
-						if (response.data == 1) {
-							this.user.userId = '';
-							alert('此手机号码已存在！');
-						}
-					}).catch(error => {
-						console.error(error);
-					});
+					this.$axios.get(`users/${this.user.userId}`)
+						.then(response => {
+							if (response.data == 1) {
+								this.user.userId = '';
+								alert('此手机号码已存在！');
+							}
+						}).catch(error => {
+							console.error(error);
+						});
+				
 			},
 			register() {
+				const phoneRegex = /^1[3-9]\d{9}$/;
 				if (this.user.userId == '') {
 					alert('手机号码不能为空！');
 					return;
 				}
-				// 中国大陆手机号验证正则表达式
-				const phoneRegex = /^1[3-9]\d{9}$/;
-
-				// 验证手机号码是否符合规范
 				if (!phoneRegex.test(this.user.userId)) {
 					alert('请输入正确的手机号码！');
 					return;
