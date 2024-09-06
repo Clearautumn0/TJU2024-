@@ -34,7 +34,7 @@
 					<div>
 						<i class="fa fa-minus-circle" @click="minus(index)" v-show="item.quantity != 0"></i>
 					</div>
-					<p><span v-show="item.quantity != 0 ">{{ item.quantity }}</span></p>
+					<p><span v-show="item.quantity != 0">{{ item.quantity }}</span></p>
 					<div>
 						<i class="fa fa-plus-circle" @click="add(index)"></i>
 					</div>
@@ -234,7 +234,8 @@ export default {
 					this.foodArr[index].quantity += num;
 					this.foodArr.sort();
 				} else {
-					alert('updateCart:向购物车中更新食品失败！');
+					
+					alert('向购物车中更新食品失败！');
 				}
 			}).catch(error => {
 				console.error(error);
