@@ -83,7 +83,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .wrapper {
     width: 100%;
     height: 100%;
