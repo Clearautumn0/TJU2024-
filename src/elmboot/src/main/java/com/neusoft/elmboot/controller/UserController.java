@@ -44,7 +44,7 @@ public class UserController {
 	}
 	
 	@DeleteMapping
-	public int daleteUser(@RequestBody User user) throws Exception{
+	public int deleteUser(@RequestBody User user) throws Exception{
 		return userService.deleteUser(user);
 	}
 }
