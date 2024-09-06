@@ -10,5 +10,6 @@ public interface FoodService {
 	public Food getFoodById(Integer foodId);
 	public Integer addFood(Food food);
 	public Integer updateFood(Food food);
+	public Integer setFood(Food food);
 	public Integer removeFood(Food food);
 }
