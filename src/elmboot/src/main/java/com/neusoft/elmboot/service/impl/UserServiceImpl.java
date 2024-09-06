@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.neusoft.elmboot.mapper.UserMapper;
 import com.neusoft.elmboot.po.User;
 import com.neusoft.elmboot.service.UserService;
+import com.neusoft.elmboot.util.TokenUtil;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -34,6 +35,8 @@ public class UserServiceImpl implements UserService{
 		if(!passwordEncoder.matches(user.getPassword(), storedUser.getPassword())) {
 			return null;
 		}
+		String token = TokenUtil.sign(storedUser);
+		storedUser.setToken(token);
 		storedUser.setPassword("");
 		return storedUser;
 	}
