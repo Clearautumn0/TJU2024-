@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: elmboot
+Bundle-SymbolicName: elmboot
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Automatic-Module-Name: elmboot
+Export-Package: com.neusoft.elmboot,
+ com.neusoft.elmboot.controller,
+ com.neusoft.elmboot.mapper,
+ com.neusoft.elmboot.po,
+ com.neusoft.elmboot.service,
+ com.neusoft.elmboot.service.impl,
+ com.neusoft.elmboot.util
