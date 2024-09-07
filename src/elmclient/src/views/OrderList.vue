@@ -88,7 +88,7 @@ export default {
 
 		this.$axios.get(`orders/user/${this.user.userId}`
 		).then(response => {
-			let result = response.data;
+			let result = response;
 			for (let orders of result) {
 				orders.isShowDetailet = false;
 			}

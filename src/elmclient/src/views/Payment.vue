@@ -66,7 +66,7 @@ import Footer from '../components/Footer.vue';
 		created() {
 			this.$axios.get(`orders/${this.orderId}`
 			).then(response=>{
-				this.orders = response.data;
+				this.orders = response;
 			}).catch(error=>{
 				console.error(error);
 			});

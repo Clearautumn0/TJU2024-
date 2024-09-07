@@ -65,14 +65,15 @@
 					userId: this.userId,
 					password: this.password
 				}).then(response => {
-					let user = response.data;
-
+					let user = response;
 					if (user == null || user == '') {
 						alert('用户名或密码不正确！');
 					} else {
 						//sessionstorage有容量限制，为了防止数据溢出，所以不将userImg数据放入session中
 						user.userImg = '';
+
 						this.$setSessionStorage('user', user);
+						this.$setSessionStorage('token', user.token);
 						this.$router.go(-1);
 					}
 				}).catch(error => {
