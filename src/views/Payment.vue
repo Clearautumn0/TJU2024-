@@ -49,50 +49,68 @@
 </template>
 
 <script>
-	import Backer from '../components/backer.vue';
+import { ref, reactive, onMounted, onBeforeUnmount } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import Backer from '../components/backer.vue';
 import Footer from '../components/Footer.vue';
+import axios from 'axios'; // 确保 axios 已正确导入
 
-	export default {
-		name: 'Payment',
-		data(){
-			return {
-				orderId:this.$route.query.orderId,
-				orders:{
-					business:{}
-				},
-				isShowDetailet:false
-			}
-		},
-		created() {
-			this.$axios.get(`orders/${this.orderId}`
-			).then(response=>{
-				this.orders = response.data;
-			}).catch(error=>{
-				console.error(error);
-			});
-		},
-		mounted() {
-			//这里的代码是实现：一旦路由到在线支付组件，就不能回到订单确认组件。
-			//先将当前url添加到history对象中
-			history.pushState(null,null,document.URL);
-			//popstate事件能够监听history对象的变化
-			window.onpopstate = () => {
-				this.$router.push({path:'/index'});
-			}
-		},
-		destroyed() {
-			window.onpopstate = null;
-		},
-		methods:{
-			detailetShow(){
-				this.isShowDetailet = !this.isShowDetailet;
-			}
-		},
-		components: {
-			Footer,
-			Backer
-		}
-	}
+export default {
+  name: 'Payment',
+  components: {
+    Footer,
+    Backer
+  },
+  setup() {
+    const route = useRoute();
+    const router = useRouter();
+    const orderId = ref(route.query.orderId);
+    const orders = reactive({
+      business: {}
+    });
+    const isShowDetailet = ref(false);
+
+    // 获取订单数据
+    const getOrderData = () => {
+      axios.get(`orders/${orderId.value}`)
+        .then(response => {
+          Object.assign(orders, response.data);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    };
+
+    // 切换订单详情显示
+    const detailetShow = () => {
+      isShowDetailet.value = !isShowDetailet.value;
+    };
+
+    // 阻止返回上一页
+    const preventBackNavigation = () => {
+      history.pushState(null, null, document.URL);
+      window.onpopstate = () => {
+        router.push({ path: '/index' });
+      };
+    };
+
+    onMounted(() => {
+      getOrderData();
+      preventBackNavigation();
+    });
+
+    onBeforeUnmount(() => {
+      window.onpopstate = null; // 清除监听
+    });
+
+    return {
+      orderId,
+      orders,
+      isShowDetailet,
+      detailetShow
+    };
+  }
+};
 </script>
 
 <style scoped>
