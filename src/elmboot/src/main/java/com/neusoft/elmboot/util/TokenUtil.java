@@ -41,10 +41,11 @@ public class TokenUtil {
             JWTVerifier verifier = JWT.require(Algorithm.HMAC256(TOKEN_SECRET)).withIssuer("elbServer").build();
             DecodedJWT jwt = verifier.verify(token);
             System.out.println("认证通过：");
-            System.out.println("username: " + jwt.getClaim("username").asString());
+            System.out.println("userId: " + jwt.getClaim("userId").asString());
             System.out.println("过期时间：      " + jwt.getExpiresAt());
             return true;
         } catch (Exception e){
+        	System.out.println("验证失败： " + e.getMessage()); // 打印异常信息
             return false;
         }
     }

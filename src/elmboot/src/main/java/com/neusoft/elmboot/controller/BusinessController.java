@@ -1,6 +1,8 @@
 package com.neusoft.elmboot.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,18 +37,24 @@ public class BusinessController {
 	}
 	
 	@PostMapping
-	public Integer registerBusiness(@RequestBody Business business) {
-		return businessService.registerBusiness(business);
+	public Map<String, Integer> registerBusiness(@RequestBody Business business) {
+		Map<String, Integer> response = new HashMap<>();
+		response.put("data", businessService.registerBusiness(business));
+		return response;
 	}
 	
 	@PutMapping
-	public Integer updateBusiness(@RequestBody Business business) {
-		return businessService.updateBusiness(business);
+	public Map<String, Integer> updateBusiness(@RequestBody Business business) {
+		Map<String, Integer> response = new HashMap<>();
+		response.put("data", businessService.updateBusiness(business));
+		return response;
 	}
 	
 	@DeleteMapping("/{businessId}")
-	public Integer removeBusiness(@PathVariable Integer businessId) {
-		return businessService.removeBusiness(businessId);
+	public Map<String, Integer> removeBusiness(@PathVariable Integer businessId) {
+		Map<String, Integer> response = new HashMap<>();
+		response.put("data", businessService.removeBusiness(businessId));
+		return response;
 	}
 
 }

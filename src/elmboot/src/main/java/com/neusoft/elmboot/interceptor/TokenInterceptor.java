@@ -28,17 +28,17 @@ public class TokenInterceptor implements HandlerInterceptor {
             return true;
         }
     	//	查询商家信息
-    	if(requestURI.startsWith("businesses") && httpMethod.equals("GET")) {
+    	if(requestURI.startsWith("/elm/businesses") && httpMethod.equals("GET")) {
     		response.setStatus(HttpServletResponse.SC_OK);
             return true;
     	}
     	//	查询食品信息
-    	if(requestURI.startsWith("foods") && httpMethod.equals("GET")) {
+    	if(requestURI.startsWith("/elm/foods") && httpMethod.equals("GET")) {
     		response.setStatus(HttpServletResponse.SC_OK);
             return true;
     	}
     	//	登录 注册
-    	if(requestURI.startsWith("foods") && httpMethod.equals("POST")) {
+    	if(requestURI.startsWith("/elm/users") && (httpMethod.equals("POST") || httpMethod.equals("GET"))) {
     		response.setStatus(HttpServletResponse.SC_OK);
             return true;
     	}

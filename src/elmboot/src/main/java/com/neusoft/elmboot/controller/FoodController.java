@@ -1,6 +1,8 @@
 package com.neusoft.elmboot.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,17 +36,23 @@ public class FoodController {
 	}
 	
 	@PostMapping
-	public Integer addFood(@RequestBody Food food) {
-		return foodService.addFood(food);
+	public Map<String, Integer> addFood(@RequestBody Food food) {
+		Map<String, Integer> response = new HashMap<>();
+		response.put("data", foodService.addFood(food));
+		return response;
 	}
 	
 	@PutMapping
-	public Integer updateFood(@RequestBody Food food) {
-		return foodService.updateFood(food);
+	public Map<String, Integer> updateFood(@RequestBody Food food) {
+		Map<String, Integer> response = new HashMap<>();
+		response.put("data", foodService.updateFood(food));
+		return response;
 	}
 	
 	@DeleteMapping
-	public Integer removeFood(@RequestBody Food food) {
-		return foodService.removeFood(food);
+	public Map<String, Integer> removeFood(@RequestBody Food food) {
+		Map<String, Integer> response = new HashMap<>();
+		response.put("data", foodService.removeFood(food));
+		return response;
 	}
 }

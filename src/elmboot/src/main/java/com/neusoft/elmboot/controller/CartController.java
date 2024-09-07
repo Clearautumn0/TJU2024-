@@ -1,6 +1,8 @@
 package com.neusoft.elmboot.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,18 +37,24 @@ public class CartController {
 	
 	//@RequestMapping("/saveCart")
 	@PostMapping
-	public int saveCart(@RequestBody Cart cart) throws Exception{
-		return cartService.saveCart(cart);
+	public Map<String, Integer> saveCart(@RequestBody Cart cart) throws Exception{
+		Map<String, Integer> response = new HashMap<>();
+		response.put("data", cartService.saveCart(cart));
+		return response;
 	}
 	
 	//@RequestMapping("/updateCart")
 	@PutMapping
-	public int updateCart(@RequestBody Cart cart) throws Exception{
-		return cartService.updateCart(cart);
+	public Map<String, Integer> updateCart(@RequestBody Cart cart) throws Exception{
+		Map<String, Integer> response = new HashMap<>();
+		response.put("data", cartService.updateCart(cart));
+		return response;
 	}
 	
 	@DeleteMapping
-	public int removeCart(@RequestBody Cart cart) throws Exception{
-		return cartService.removeCart(cart);
+	public Map<String, Integer> removeCart(@RequestBody Cart cart) throws Exception{
+		Map<String, Integer> response = new HashMap<>();
+		response.put("data", cartService.removeCart(cart));
+		return response;
 	}
 }
