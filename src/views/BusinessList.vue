@@ -35,69 +35,79 @@
 	</div>
 </template>
 
-<script>
+<script setup>
+import { ref, reactive, onMounted } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import axios from 'axios'; // 确保你在项目中安装并引入了 axios
 import Footer from '../components/Footer.vue';
 import Backer from '../components/backer.vue';
 
-export default {
-	name: 'BusinessList',
-	data() {
-		return {
-			orderTypeId: this.$route.query.orderTypeId,
-			businessArr: [],
-			user: {}
-		}
-	},
-	created() {
-		this.user = this.$getSessionStorage('user');
+// 获取路由参数
+const route = useRoute();
+const router = useRouter();
 
-		//根据orderTypeId查询商家信息
-		this.$axios.get(`businesses/orderType/${this.orderTypeId}`)
-			.then(response => {
-				this.businessArr = response.data;
-				//判断是否登录
-				if (this.user != null) {
-					this.listCart();
-				}
-			}).catch(error => {
-				console.error(error);
-			});
-	},
-	components: {
-		Footer,
-		Backer
-	},
-	methods: {
-		listCart() {
-			this.$axios.get('carts/user', {
-				params: {
-					businessId: this.businessId,
-					userId: this.user.userId
-				}
-			}).then(response => {
-				let cartArr = response.data;
-				//遍历所有食品列表
-				for (let businessItem of this.businessArr) {
-					businessItem.quantity = 0;
-					for (let cartItem of cartArr) {
-						if (cartItem.businessId == businessItem.businessId) {
-							businessItem.quantity += cartItem.quantity;
-						}
-					}
-				}
-				this.businessArr.sort();
-			}).catch(error => {
-				console.error(error);
-			});
-		},
-		toBusinessInfo(businessId) {
-			this.$router.push({ path: '/businessInfo', query: { businessId: businessId } });
-		},
-		goBack() {
-			this.$router.go(-1);
-		}
-	}
-}
+// 声明响应式状态
+const orderTypeId = ref(route.query.orderTypeId);
+const businessArr = reactive([]);
+const user = ref({});
+const businessId = ref(route.query.businessId); // 初始化 businessId
+
+// 获取用户信息
+const getSessionStorage = key => {
+  return JSON.parse(window.sessionStorage.getItem(key));
+};
+
+const listCart = async () => {
+  try {
+    const response = await axios.get('carts/user', {
+      params: {
+        businessId: businessId.value, // 需要确保你定义了 businessId 变量
+        userId: user.value.userId
+      }
+    });
+    const cartArr = response.data;
+
+    // 遍历所有食品列表
+    for (let businessItem of businessArr) {
+      businessItem.quantity = 0;
+      for (let cartItem of cartArr) {
+        if (cartItem.businessId == businessItem.businessId) {
+          businessItem.quantity += cartItem.quantity;
+        }
+      }
+    }
+    businessArr.sort(); // 确保你定义了 sort 方法
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const fetchBusinessData = async () => {
+  try {
+    const response = await axios.get(`businesses/orderType/${orderTypeId.value}`);
+    businessArr.splice(0, businessArr.length, ...response.data); // 使用 splice 进行响应式更新
+    if (user.value != null) {
+      listCart();
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// 路由导航
+const toBusinessInfo = (businessId) => {
+  router.push({ path: '/businessInfo', query: { businessId } });
+};
+
+const goBack = () => {
+  router.go(-1);
+};
+
+// 在组件挂载时调用
+onMounted(() => {
+  user.value = getSessionStorage('user');
+  fetchBusinessData();
+});
 </script>
 
 <style scoped>

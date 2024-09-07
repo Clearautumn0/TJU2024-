@@ -53,68 +53,75 @@
 	</div>
 </template>
 
-<script>
-	import Backer from '../components/backer.vue';
+<script setup>
+import { ref, reactive, onMounted } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import axios from 'axios'; // 确保你在项目中安装并引入了 axios
 import Footer from '../components/Footer.vue';
+import Backer from '../components/backer.vue';
 
-	export default {
-		name: 'EditUserAddress',
-		data() {
-			return {
-				businessId: this.$route.query.businessId,
-				daId: this.$route.query.daId,
-				user: {},
-				deliveryAddress: {}
-			}
-		},
-		created() {
-			this.user = this.$getSessionStorage('user');
-			
-			this.$axios.get(`delivery-addresses/${this.daId}`
-			).then(response => {
-				this.deliveryAddress = response.data;
-			}).catch(error => {
-				console.error(error);
-			});
-		},
-		components: {
-			Footer,
-			Backer
-		},
-		methods: {
-			editUserAddress() {
-				if (this.deliveryAddress.contactName == '') {
-					alert('联系人姓名不能为空！');
-					return;
-				}
-				if (this.deliveryAddress.contactTel == '') {
-					alert('联系人电话不能为空！');
-					return;
-				}
-				if (this.deliveryAddress.address == '') {
-					alert('联系人地址不能为空！');
-					return;
-				}
+// 获取路由参数
+const route = useRoute();
+const router = useRouter();
 
-				this.$axios.put('delivery-addresses', this.deliveryAddress
-				).then(response => {
-					if (response.data > 0) {
-						this.$router.push({
-							path: '/userAddress',
-							query: {
-								businessId: this.businessId
-							}
-						});
-					} else {
-						alert('更新地址失败！');
-					}
-				}).catch(error => {
-					console.error(error);
-				});
-			}
-		}
-	}
+// 声明响应式状态
+const businessId = ref(route.query.businessId);
+const daId = ref(route.query.daId);
+const user = ref({});
+const deliveryAddress = reactive({});
+
+// 获取用户信息
+const getSessionStorage = key => {
+  return JSON.parse(window.sessionStorage.getItem(key));
+};
+
+const fetchDeliveryAddress = async () => {
+  try {
+    const response = await axios.get(`delivery-addresses/${daId.value}`);
+    deliveryAddress.value = response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const editUserAddress = async () => {
+  if (deliveryAddress.contactName === '') {
+    alert('联系人姓名不能为空！');
+    return;
+  }
+  if (deliveryAddress.contactTel === '') {
+    alert('联系人电话不能为空！');
+    return;
+  }
+  if (deliveryAddress.address === '') {
+    alert('联系人地址不能为空！');
+    return;
+  }
+
+  try {
+    const response = await axios.put('delivery-addresses', deliveryAddress);
+    if (response.data > 0) {
+      router.push({
+        path: '/userAddress',
+        query: {
+          businessId: businessId.value
+        }
+      });
+    } else {
+      alert('更新地址失败！');
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// 在组件挂载时调用
+onMounted(() => {
+  user.value = getSessionStorage('user');
+  fetchDeliveryAddress();
+});
 </script>
+
 
 <style scoped>
 	/*************** 总容器 ***************/
