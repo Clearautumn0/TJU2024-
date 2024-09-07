@@ -62,7 +62,7 @@
                     <p>收货地址编辑</p>
                 </div>
                 <div class="right">
-                    {{ deliveryaddersss.address }}
+                    <!-- {{ deliveryaddersss.address }} -->
                     &gt;
                 </div>
                 <hr>
@@ -133,25 +133,37 @@
 </template>
 
 <script>
+import { useRouter } from 'vue-router';
+import { ref, onMounted } from 'vue';
 import Backer from '../components/backer.vue';
+import { getSessionStorage, getLocalStorage } from '../common.js';
+
 export default {
-    data() {
-        return {
-            user: {},
-            deliveryaddersss: {}
-        }
-    },
-    created() {
-        this.user = this.$getSessionStorage('user');
-        this.deliveryaddress = this.$getLocalStorage(this.user.userId);
-    },
-    methods: {
-        toUserAddress() {
-            this.$router.push({ path: '/userAddress' });
-        }
-    },
     components: {
         Backer
+    },
+    setup() {
+        const user = ref({});
+        const deliveryaddress = ref({});
+
+        const router = useRouter();
+
+        // 使用 onMounted 生命周期钩子来代替 created
+        onMounted(() => {
+            user.value = getSessionStorage('user');
+            deliveryaddress.value = getLocalStorage(user.value.userId);
+        });
+
+        const toUserAddress = () => {
+            router.push({ path: '/userAddress' });
+        };
+
+        // 返回响应式数据和方法，使其在模板中可用
+        return {
+            user,
+            deliveryaddress,
+            toUserAddress
+        };
     }
 }
 </script>
@@ -177,9 +189,9 @@ export default {
     justify-content: center;
 }
 
-.wrapper header p{
-	color: #000000;
-	font-weight: 600;
+.wrapper header p {
+    color: #000000;
+    font-weight: 600;
 }
 
 /********************* message  *********************/
@@ -257,7 +269,8 @@ export default {
     border-radius: 50%;
     /* overflow: hidden; */
     border: 2px solid #ccc;
-    margin-right: 0vw; /*调整右对齐 */
+    margin-right: 0vw;
+    /*调整右对齐 */
     /* margin-left: 2vw; */
     /* overflow: hidden; */
 }

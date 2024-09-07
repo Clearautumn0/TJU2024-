@@ -55,69 +55,80 @@
 </template>
 
 <script>
-import Backer from '../components/backer.vue';
+import { ref, reactive, onMounted } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import axios from 'axios';
 import Footer from '../components/Footer.vue';
+import Backer from '../components/backer.vue';
 import Address_manage_backer from '../components/address_manage_backer.vue';
-
+import { getSessionStorage } from '../common.js'; // Adjust if necessary
 
 export default {
 	name: 'AddUserAddress',
-	data() {
-		return {
-			businessId: this.$route.query.businessId,
-			user: {},
-			deliveryAddress: {
-				contactName: '',
-				contactSex: 1,
-				contactTel: '',
-				address: ''
-			}
-		}
-	},
-	created() {
-		this.user = this.$getSessionStorage('user');
-	},
 	components: {
 		Footer,
 		Backer,
 		Address_manage_backer
 	},
-	methods: {
-		addUserAddress() {
-			const phoneRegex = /^1[3-9]\d{9}$/;//验证手机号规范
-			if (this.deliveryAddress.contactName == '') {
+	setup() {
+		const router = useRouter();
+		const route = useRoute();
+
+		const businessId = ref(route.query.businessId);
+		const user = ref({});
+		const deliveryAddress = reactive({
+			contactName: '',
+			contactSex: 1,
+			contactTel: '',
+			address: ''
+		});
+
+		onMounted(() => {
+			user.value = getSessionStorage('user');
+		});
+
+		const addUserAddress = async () => {
+			const phoneRegex = /^1[3-9]\d{9}$/; // Validate phone number format
+
+			if (deliveryAddress.contactName === '') {
 				alert('联系人姓名不能为空！');
 				return;
 			}
-			if (this.deliveryAddress.contactTel == '') {
+			if (deliveryAddress.contactTel === '') {
 				alert('联系人电话不能为空！');
 				return;
 			}
-			if (!phoneRegex.test(this.deliveryAddress.contactTel)) {
+			if (!phoneRegex.test(deliveryAddress.contactTel)) {
 				alert('联系人电话格式不正确');
 				return;
-
 			}
-			if (this.deliveryAddress.address == '') {
+			if (deliveryAddress.address === '') {
 				alert('联系人地址不能为空！');
 				return;
 			}
-			this.deliveryAddress.userId = this.user.userId;
-			this.$axios.post('delivery-addresses',
-				this.deliveryAddress
-			).then(response => {
+
+			deliveryAddress.userId = user.value.userId;
+
+			try {
+				const response = await axios.post('delivery-addresses', deliveryAddress);
 				if (response.data > 0) {
-					alert('新增地址成功！');//更改跳转问题
-					// this.$router.push({ path: '/userAddress', query: { businessId: this.businessId } });
+					alert('新增地址成功！');
+					// Navigate to another page or handle success
+					router.push({ path: '/userAddress', query: { businessId: businessId.value } });
 				} else {
 					alert('新增地址失败！');
 				}
-			}).catch(error => {
-				console.error(error);
-			});
-		}
+			} catch (error) {
+				console.error('Error adding address:', error);
+			}
+		};
+
+		return {
+			deliveryAddress,
+			addUserAddress
+		};
 	}
-}
+};
 </script>
 
 <style scoped>
