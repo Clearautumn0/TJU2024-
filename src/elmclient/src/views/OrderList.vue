@@ -75,6 +75,7 @@
 import { ref, reactive, onMounted } from 'vue';
 import Footer from '../components/Footer.vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 // import Backer from '../components/backer.vue';
 
 export default {
@@ -85,6 +86,7 @@ export default {
 	setup() {
 		const orderArr = ref([]);
 		const user = reactive({});
+		const router = useRouter();
 
 		// 获取用户信息和订单数据
 		const getUserOrders = () => {
