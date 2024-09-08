@@ -9,7 +9,7 @@
 		<!-- 订单列表部分 -->
 		<h3>未支付订单信息：</h3>
 		<ul class="order">
-			<li v-for="item in orderArr" v-if="item.orderState == 0">
+			<li v-for="item in orderArr">
 				<div class="order-info">
 					<p>
 						{{ item.business.businessName }}
@@ -17,7 +17,7 @@
 					</p>
 					<div class="order-info-right">
 						<p>&#165;{{ item.orderTotal }}</p>
-						  <div class="order-info-right-icon" @click="goToPayment(item.orderId)">去支付</div>
+						<div class="order-info-right-icon" @click="goToPayment(item.orderId)">去支付</div>
 					</div>
 				</div>
 				<ul class="order-detailet" v-show="item.isShowDetailet">
@@ -38,7 +38,7 @@
 
 		<h3>已支付订单信息：</h3>
 		<ul class="order">
-			<li v-for="item in orderArr" v-if="item.orderState == 1">
+			<li v-for="item in orderArr">
 				<div class="order-info">
 					<p>
 						{{ item.business.businessName }}
@@ -70,47 +70,54 @@
 
 	</div>
 </template>
-
-<script>
+<script setup>
+import { ref, reactive, onMounted, getCurrentInstance } from 'vue';
+import { useRouter } from 'vue-router';  // 导入 useRouter
 import Footer from '../components/Footer.vue';
-// import Backer from '../components/backer.vue';
 
-export default {
-	name: 'OrderList',
-	data() {
-		return {
-			orderArr: [],
-			user: {}
-		}
-	},
-	created() {
-		this.user = this.$getSessionStorage('user');
+// 获取全局 axios 实例
+const instance = getCurrentInstance();
+const axios = instance?.appContext.config.globalProperties.$axios;
 
-		this.$axios.get(`orders/user/${this.user.userId}`
-		).then(response => {
+const orderArr = ref([]);
+const user = reactive({});
+const router = useRouter();  // 使用 useRouter 获取路由实例
+
+// 获取用户信息和订单数据
+const getUserOrders = () => {
+	const storedUser = JSON.parse(sessionStorage.getItem('user')); // Vue 3 中 sessionStorage 的直接访问方式
+	Object.assign(user, storedUser);
+
+	axios.get(`orders/user/${user.userId}`)
+		.then(response => {
 			let result = response;
-			for (let orders of result) {
+			result.forEach(orders => {
 				orders.isShowDetailet = false;
-			}
-			this.orderArr = result;
-		}).catch(error => {
+			});
+			orderArr.value = result;
+		})
+		.catch(error => {
 			console.error(error);
 		});
-	},
-	methods: {
-		goToPayment(orderId) {
-		    this.$router.push({
-		      path: '/payment',
-		      query: { orderId: orderId }
-		    });},
-		detailetShow(orders) {
-			orders.isShowDetailet = !orders.isShowDetailet;
-		}
-	},
-	components: {
-		Footer
-	}
-}
+};
+
+// 跳转到支付页面
+const goToPayment = (orderId) => {
+	router.push({
+		path: '/payment',
+		query: { orderId: orderId }
+	});
+};
+
+// 切换订单详情的显示状态
+const detailetShow = (orders) => {
+	orders.isShowDetailet = !orders.isShowDetailet;
+};
+
+onMounted(() => {
+	getUserOrders();
+});
+
 </script>
 
 <style scoped>

@@ -21,7 +21,10 @@
                     <p>头像</p>
                 </div>
                 <div class="right">
-                    &gt;
+                    <div class="avatar-frame">
+                        <img src="../assets/默认头像.png" alt="无法加载图片" class="avatar-img">
+                    </div>
+                    <!-- &gt; -->
                 </div>
                 <hr>
             </li>
@@ -45,7 +48,7 @@
                 </div>
                 <hr>
             </li>
-            <li>
+            <!-- <li>
                 <div class="left">
                     <p>个人简介</p>
                 </div>
@@ -53,13 +56,13 @@
                     &gt;
                 </div>
                 <hr>
-            </li>
+            </li> -->
             <li @click="toUserAddress">
                 <div class="left">
                     <p>收货地址编辑</p>
                 </div>
                 <div class="right">
-                    {{ deliveryaddersss.address }}
+                    <!-- {{ deliveryaddersss.address }} -->
                     &gt;
                 </div>
                 <hr>
@@ -129,28 +132,40 @@
     </div>
 </template>
 
-<script>
+<script setup>
+import { useRouter } from 'vue-router';
+import { ref, onMounted, getCurrentInstance } from 'vue';
 import Backer from '../components/backer.vue';
-export default {
-    data() {
-        return {
-            user: {},
-            deliveryaddersss: {}
-        }
-    },
-    created() {
-        this.user = this.$getSessionStorage('user');
-        this.deliveryaddress = this.$getLocalStorage(this.user.userId);
-    },
-    methods: {
-        toUserAddress() {
-            this.$router.push({ path: '/userAddress' });
-        }
-    },
-    components: {
-        Backer
-    }
-}
+import { getSessionStorage, getLocalStorage } from '../common.js';
+
+// 获取全局 axios 实例
+const instance = getCurrentInstance();
+const axios = instance?.appContext.config.globalProperties.$axios;
+
+
+
+const user = ref({});
+const deliveryaddress = ref({});
+
+const router = useRouter();
+
+// 使用 onMounted 生命周期钩子来代替 created
+onMounted(() => {
+    user.value = getSessionStorage('user');
+    deliveryaddress.value = getLocalStorage(user.value.userId);
+});
+
+const toUserAddress = () => {
+    router.push({ path: '/userAddress' });
+};
+
+// 返回响应式数据和方法，使其在模板中可用
+// return {
+//     user,
+//     deliveryaddress,
+//     toUserAddress
+// };
+
 </script>
 
 <style scoped>
@@ -164,7 +179,7 @@ export default {
 .wrapper header {
     width: 100%;
     height: 12vw;
-    background-color: #0097FF;
+    background-color: #ffffff;
     font-weight: 800;
     color: #e2e2e2;
     font-size: 4.5vw;
@@ -174,9 +189,10 @@ export default {
     justify-content: center;
 }
 
-/* .wrapper header .message{
-
-} */
+.wrapper header p {
+    color: #000000;
+    font-weight: 600;
+}
 
 /********************* message  *********************/
 .wrapper .message-box {
@@ -243,6 +259,31 @@ export default {
 
     cursor: pointer;
 }
+
+/*头像显示*/
+.avatar-frame {
+    width: 10vw;
+    /* 使用视口宽度的10%作为宽度 */
+    height: 10vw;
+    /* 使用视口宽度的10%作为高度 */
+    border-radius: 50%;
+    /* overflow: hidden; */
+    border: 2px solid #ccc;
+    margin-right: 0vw;
+    /*调整右对齐 */
+    /* margin-left: 2vw; */
+    /* overflow: hidden; */
+}
+
+.avatar-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* ************ */
+
 
 .wrapper .message-list li hr {
     width: 98vw;
@@ -342,7 +383,7 @@ export default {
 
 .wrapper .bottom {
     width: 100%;
-    height: 40vw;
+    height: 100vw;
     background-color: #ebebeb;
 }
 </style>
