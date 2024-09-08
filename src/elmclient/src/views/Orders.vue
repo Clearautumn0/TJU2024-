@@ -67,7 +67,7 @@ export default {
 		//查询当前商家
 		this.$axios.get(`businesses/${this.businessId}`)
 			.then(response => {
-				this.business = response.data;
+				this.business = response;
 			}).catch(error => {
 				console.error(error);
 			});
@@ -79,7 +79,7 @@ export default {
 					userId: this.user.userId
 				}
 			}).then(response => {
-			this.cartArr = response.data;
+			this.cartArr = response;
 		}).catch(error => {
 			console.error(error);
 		});

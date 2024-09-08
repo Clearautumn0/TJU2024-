@@ -8,6 +8,7 @@ public class User {
 	private Integer userSex;
 	private String userImg;
 	private Integer delTag;
+	private String token;
 	
 	public String getUserId() {
 		return userId;
@@ -44,5 +45,11 @@ public class User {
 	}
 	public void setDelTag(Integer delTag) {
 		this.delTag = delTag;
+	}
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
 	}
 }

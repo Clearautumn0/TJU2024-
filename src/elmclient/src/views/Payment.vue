@@ -50,41 +50,42 @@
 
 <script>
 	import Backer from '../components/backer.vue';
-import Footer from '../components/Footer.vue';
+	import Footer from '../components/Footer.vue';
 
 	export default {
 		name: 'Payment',
-		data(){
+		data() {
 			return {
-				orderId:this.$route.query.orderId,
-				orders:{
-					business:{}
+				orderId: this.$route.query.orderId,
+				orders: {
+					business: {}
 				},
-				isShowDetailet:false
+				isShowDetailet: false
 			}
 		},
 		created() {
-			this.$axios.get(`orders/${this.orderId}`
-			).then(response=>{
-				this.orders = response.data;
-			}).catch(error=>{
+			this.$axios.get(`orders/${this.orderId}`).then(response => {
+				this.orders = response;
+			}).catch(error => {
 				console.error(error);
 			});
 		},
 		mounted() {
 			//这里的代码是实现：一旦路由到在线支付组件，就不能回到订单确认组件。
 			//先将当前url添加到history对象中
-			history.pushState(null,null,document.URL);
+			history.pushState(null, null, document.URL);
 			//popstate事件能够监听history对象的变化
 			window.onpopstate = () => {
-				this.$router.push({path:'/index'});
+				this.$router.push({
+					path: '/index'
+				});
 			}
 		},
 		destroyed() {
 			window.onpopstate = null;
 		},
-		methods:{
-			detailetShow(){
+		methods: {
+			detailetShow() {
 				this.isShowDetailet = !this.isShowDetailet;
 			}
 		},

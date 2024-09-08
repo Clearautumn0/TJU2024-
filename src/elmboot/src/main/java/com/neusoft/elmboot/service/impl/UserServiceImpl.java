@@ -19,6 +19,7 @@ import com.neusoft.elmboot.util.RsaUtil;
 
 
 
+import com.neusoft.elmboot.util.TokenUtil;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -39,6 +40,7 @@ public class UserServiceImpl implements UserService {
 //	}
 
 
+
 //	@Override
 //	public User getUserByIdByPass(User user) {
 //	    User reuser = userMapper.getUserByIdByPass(user);
@@ -47,6 +49,7 @@ public class UserServiceImpl implements UserService {
 //	    }
 //	    return reuser; // 这里返回null也是安全的，因为已经做了非空检查
 //	}
+
 
 //	@Override
 //	public User getUserByIdByPass(User user) {
@@ -67,26 +70,24 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public User getUserByIdByPass(User user) throws Exception {
+		User storedUser = userMapper.getUserById(user.getUserId());
+		//无对应用户
+		if(storedUser == null) {
+			return null;
+		}
 
-	    // 从数据库中获取用户信息
-	    User storedUser = userMapper.getUserById(user.getUserId());
-
-	    // 无对应用户
-	    if (storedUser == null) {
-	        return null;
-	    }
-
-	    
-	    PrivateKey privateKey = RsaUtil.getPrivateKey(privateKeyStr);
+		PrivateKey privateKey = RsaUtil.getPrivateKey(privateKeyStr);
 	    String decryptedPassword = RsaUtil.decryptRSA(user.getPassword(), privateKey);
 
-	    // 验证解密后的密码和数据库中存储的密码是否匹配
-	    if (!passwordEncoder.matches(decryptedPassword, storedUser.getPassword())) {
+		// 验证解密后的密码和数据库中存储的密码是否匹配
+		if (!passwordEncoder.matches(decryptedPassword, storedUser.getPassword())) {
 	        return null;
 	    }
 
-	    storedUser.setPassword("");  // 不返回密码
-	    return storedUser;
+		String token = TokenUtil.sign(storedUser);
+		storedUser.setToken(token);
+		storedUser.setPassword("");
+		return storedUser;
 
 	}
 	
@@ -103,7 +104,6 @@ public class UserServiceImpl implements UserService {
 			return 1;
 		}
 		return 0;
-
 	}
 
 	@Override

@@ -1,5 +1,8 @@
 package com.neusoft.elmboot.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,23 +31,33 @@ public class UserController {
 	
 	//@RequestMapping("/getUserById")
 	@GetMapping("/{userId}")
-	public int getUserById(@PathVariable String userId) throws Exception{
-		return userService.getUserById(userId);
+
+	public Map<String, Integer> getUserById(@PathVariable String userId) throws Exception{
+		Map<String, Integer> response = new HashMap<>();
+		response.put("data", userService.getUserById(userId));
+		return response;
+
 	}
 	
 	//@RequestMapping("/saveUser")
 	@PostMapping
-	public int saveUser(@RequestBody User user) throws Exception{
-		return userService.saveUser(user);
+	public Map<String, Integer> saveUser(@RequestBody User user) throws Exception{
+		Map<String, Integer> response = new HashMap<>();
+		response.put("data", userService.saveUser(user));
+		return response;
 	}
 	
 	@PutMapping
-	public int updateUser(@RequestBody User user) throws Exception{
-		return userService.updateUser(user);
+	public Map<String, Integer> updateUser(@RequestBody User user) throws Exception{
+		Map<String, Integer> response = new HashMap<>();
+		response.put("data", userService.updateUser(user));
+		return response;
 	}
 	
 	@DeleteMapping
-	public int daleteUser(@RequestBody User user) throws Exception{
-		return userService.deleteUser(user);
+	public Map<String, Integer> deleteUser(@RequestBody User user) throws Exception{
+		Map<String, Integer> response = new HashMap<>();
+		response.put("data", userService.deleteUser(user));
+		return response;
 	}
 }

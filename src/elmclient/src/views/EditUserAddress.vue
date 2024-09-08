@@ -72,7 +72,7 @@ import Footer from '../components/Footer.vue';
 			
 			this.$axios.get(`delivery-addresses/${this.daId}`
 			).then(response => {
-				this.deliveryAddress = response.data;
+				this.deliveryAddress = response;
 			}).catch(error => {
 				console.error(error);
 			});

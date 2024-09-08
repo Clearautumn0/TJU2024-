@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+import axiosInstance from './utils/interceptor.js'
 
 import 'font-awesome/css/font-awesome.min.css'
-import axios from 'axios'
+// import axios from 'axios'	//已在utils/interceptor.js导入
 import qs from 'qs'
 import {
 	getCurDate,
@@ -17,10 +18,13 @@ import {
 
 Vue.config.productionTip = false
 
-//设置axios的基础url部分
-axios.defaults.baseURL = 'http://localhost:8080/elm/';
-//将axios挂载到vue实例上，使用时就可以 this.$axios 这样使用了
-Vue.prototype.$axios = axios;
+// //设置axios的基础url部分
+// axios.defaults.baseURL = 'http://localhost:8080/elm/';
+// //将axios挂载到vue实例上，使用时就可以 this.$axios 这样使用了
+// Vue.prototype.$axios = axios;
+
+// 从utils/interceptor.js导入axios实例
+Vue.prototype.$axios = axiosInstance;
 
 Vue.prototype.$qs = qs;
 

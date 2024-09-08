@@ -64,7 +64,7 @@ export default {
 			//查询送货地址
 			this.$axios.get(`delivery-addresses/user/${this.user.userId}`
 			).then(response => {
-				this.deliveryAddressArr = response.data;
+				this.deliveryAddressArr = response;
 			}).catch(error => {
 				console.error(error);
 			});

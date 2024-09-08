@@ -54,7 +54,7 @@ export default {
 		//根据orderTypeId查询商家信息
 		this.$axios.get(`businesses/orderType/${this.orderTypeId}`)
 			.then(response => {
-				this.businessArr = response.data;
+				this.businessArr = response;
 				//判断是否登录
 				if (this.user != null) {
 					this.listCart();
@@ -75,7 +75,7 @@ export default {
 					userId: this.user.userId
 				}
 			}).then(response => {
-				let cartArr = response.data;
+				let cartArr = response;
 				//遍历所有食品列表
 				for (let businessItem of this.businessArr) {
 					businessItem.quantity = 0;

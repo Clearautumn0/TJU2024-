@@ -1,6 +1,8 @@
 package com.neusoft.elmboot.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,8 +36,10 @@ public class OrdersController {
 	
 	//@RequestMapping("/createOrders")
 	@PostMapping
-	public int createOrders(@RequestBody Orders orders) throws Exception{
-		return ordersService.createOrders(orders);
+	public Map<String, Integer> createOrders(@RequestBody Orders orders) throws Exception{
+		Map<String, Integer> response = new HashMap<>();
+		response.put("data", ordersService.createOrders(orders));
+		return response;
 	}
 
 }

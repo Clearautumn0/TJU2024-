@@ -128,14 +128,14 @@ export default {
 		//根据businessId查询商家信息
 		this.$axios.get(`businesses/${this.businessId}`)
 			.then(response => {
-				this.business = response.data;
+				this.business = response;
 			}).catch(error => {
 				console.error(error);
 			});
 
 		//根据businessId查询所属食品信息
 		this.$axios.get(`foods/business/${this.businessId}`).then(response => {
-			this.foodArr = response.data;
+			this.foodArr = response;
 			for (let i = 0; i < this.foodArr.length; i++) {
 				this.foodArr[i].quantity = 0;
 			}
@@ -156,7 +156,7 @@ export default {
 					userId: this.user.userId
 				}
 			}).then(response => {
-				let cartArr = response.data;
+				let cartArr = response;
 				//遍历所有食品列表
 				for (let foodItem of this.foodArr) {
 					foodItem.quantity = 0;
