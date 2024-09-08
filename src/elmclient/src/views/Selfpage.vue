@@ -36,7 +36,7 @@
 			</li>
 			<li>
 				<img src="../assets/guanyu.png">
-				<p>关于饿了么</p>
+				<p>关于饿了吧</p>
 			</li>
 			<li>
 				<img src="../assets/protect.png">
