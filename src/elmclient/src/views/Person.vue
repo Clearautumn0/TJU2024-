@@ -24,7 +24,7 @@
 					<div class="avatar-frame">
 						<img src="../assets/默认头像.png" alt="无法加载图片" class="avatar-img">
 					</div>
-					<!-- &gt; -->
+					<svg t="1725796901210" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4134" width="200" height="200"><path d="M353.865143 225.865143a42.642286 42.642286 0 0 1 60.342857 0l256 256a42.642286 42.642286 0 0 1 0 60.269714l-256 256a42.642286 42.642286 0 1 1-60.342857-60.342857L579.657143 512 353.865143 286.134857a42.642286 42.642286 0 0 1 0-60.269714z" fill="#8D8B8B" p-id="4135"></path></svg>
 				</div>
 				<hr>
 			</li>
@@ -33,8 +33,8 @@
 					<p>账号</p>
 				</div>
 				<div class="right">
-					{{ user.userId }} <!--新增-->
-					<!--&gt;-->
+					<p>{{ user.userId }}</p><!--新增-->
+					<svg t="1725796901210" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4134" width="200" height="200"><path d="M353.865143 225.865143a42.642286 42.642286 0 0 1 60.342857 0l256 256a42.642286 42.642286 0 0 1 0 60.269714l-256 256a42.642286 42.642286 0 1 1-60.342857-60.342857L579.657143 512 353.865143 286.134857a42.642286 42.642286 0 0 1 0-60.269714z" fill="#8D8B8B" p-id="4135"></path></svg>
 				</div>
 				<hr>
 			</li>
@@ -43,27 +43,26 @@
 					<p>昵称</p>
 				</div>
 				<div class="right">
-					{{ user.userName }} <!--新增-->
-					<!--&gt;-->
+					<p>{{ user.userName }}</p> <!--新增-->
+					<svg t="1725796901210" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4134" width="200" height="200"><path d="M353.865143 225.865143a42.642286 42.642286 0 0 1 60.342857 0l256 256a42.642286 42.642286 0 0 1 0 60.269714l-256 256a42.642286 42.642286 0 1 1-60.342857-60.342857L579.657143 512 353.865143 286.134857a42.642286 42.642286 0 0 1 0-60.269714z" fill="#8D8B8B" p-id="4135"></path></svg>
 				</div>
 				<hr>
 			</li>
-			<!-- <li>
+			<li>
                 <div class="left">
                     <p>个人简介</p>
                 </div>
                 <div class="right">
-                    &gt;
+                    <svg t="1725796901210" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4134" width="200" height="200"><path d="M353.865143 225.865143a42.642286 42.642286 0 0 1 60.342857 0l256 256a42.642286 42.642286 0 0 1 0 60.269714l-256 256a42.642286 42.642286 0 1 1-60.342857-60.342857L579.657143 512 353.865143 286.134857a42.642286 42.642286 0 0 1 0-60.269714z" fill="#8D8B8B" p-id="4135"></path></svg>
                 </div>
                 <hr>
-            </li> -->
+            </li> 
 			<li @click="toUserAddress">
 				<div class="left">
 					<p>收货地址</p>
 				</div>
 				<div class="right">
-					<!-- {{ deliveryaddersss.address }} -->
-					&gt;
+					<svg t="1725796901210" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4134" width="200" height="200"><path d="M353.865143 225.865143a42.642286 42.642286 0 0 1 60.342857 0l256 256a42.642286 42.642286 0 0 1 0 60.269714l-256 256a42.642286 42.642286 0 1 1-60.342857-60.342857L579.657143 512 353.865143 286.134857a42.642286 42.642286 0 0 1 0-60.269714z" fill="#8D8B8B" p-id="4135"></path></svg>
 				</div>
 				<hr>
 			</li>
@@ -83,7 +82,7 @@
 					<img src="../assets/phone.png">手机
 				</div>
 				<div class="right">
-					&gt;
+					<svg t="1725796901210" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4134" width="200" height="200"><path d="M353.865143 225.865143a42.642286 42.642286 0 0 1 60.342857 0l256 256a42.642286 42.642286 0 0 1 0 60.269714l-256 256a42.642286 42.642286 0 1 1-60.342857-60.342857L579.657143 512 353.865143 286.134857a42.642286 42.642286 0 0 1 0-60.269714z" fill="#8D8B8B" p-id="4135"></path></svg>
 				</div>
 				<hr>
 			</li>
@@ -92,7 +91,7 @@
 					<img src="../assets/taobao.png">淘宝
 				</div>
 				<div class="right">
-					&gt;
+					<svg t="1725796901210" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4134" width="200" height="200"><path d="M353.865143 225.865143a42.642286 42.642286 0 0 1 60.342857 0l256 256a42.642286 42.642286 0 0 1 0 60.269714l-256 256a42.642286 42.642286 0 1 1-60.342857-60.342857L579.657143 512 353.865143 286.134857a42.642286 42.642286 0 0 1 0-60.269714z" fill="#8D8B8B" p-id="4135"></path></svg>
 				</div>
 				<hr>
 			</li>
@@ -101,7 +100,7 @@
 					<img src="../assets/zhifubao.png">支付宝
 				</div>
 				<div class="right">
-					&gt;
+					<svg t="1725796901210" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4134" width="200" height="200"><path d="M353.865143 225.865143a42.642286 42.642286 0 0 1 60.342857 0l256 256a42.642286 42.642286 0 0 1 0 60.269714l-256 256a42.642286 42.642286 0 1 1-60.342857-60.342857L579.657143 512 353.865143 286.134857a42.642286 42.642286 0 0 1 0-60.269714z" fill="#8D8B8B" p-id="4135"></path></svg>
 				</div>
 				<hr>
 			</li>
@@ -110,7 +109,7 @@
 					<img src="../assets/weixin.png">微信
 				</div>
 				<div class="right">
-					&gt;
+					<svg t="1725796901210" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4134" width="200" height="200"><path d="M353.865143 225.865143a42.642286 42.642286 0 0 1 60.342857 0l256 256a42.642286 42.642286 0 0 1 0 60.269714l-256 256a42.642286 42.642286 0 1 1-60.342857-60.342857L579.657143 512 353.865143 286.134857a42.642286 42.642286 0 0 1 0-60.269714z" fill="#8D8B8B" p-id="4135"></path></svg>
 				</div>
 				<hr>
 			</li>
@@ -119,7 +118,7 @@
 					<img src="../assets/QQ.png">QQ
 				</div>
 				<div class="right">
-					&gt;
+					<svg t="1725796901210" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4134" width="200" height="200"><path d="M353.865143 225.865143a42.642286 42.642286 0 0 1 60.342857 0l256 256a42.642286 42.642286 0 0 1 0 60.269714l-256 256a42.642286 42.642286 0 1 1-60.342857-60.342857L579.657143 512 353.865143 286.134857a42.642286 42.642286 0 0 1 0-60.269714z" fill="#8D8B8B" p-id="4135"></path></svg>
 				</div>
 				<hr>
 			</li>
@@ -224,7 +223,7 @@
 	/********************* message列表 *********************/
 	.wrapper .message-list {
 		width: 100%;
-		height: 48vw;
+		height: 60vw;
 
 		display: flex;
 		flex-wrap: wrap;
@@ -258,15 +257,26 @@
 		margin-left: 2vw;
 		/* 	margin-top: 3.8vw; */
 	}
-
-	.wrapper .message-list li .right {
-		font-size: 4vw;
+	
+	.wrapper .message-list li .right{
 		display: flex;
 		align-items: center;
 		margin-right: 4vw;
+	}
+
+	.wrapper .message-list li .right svg {
+		width: 5vw;
+		height: 5vw;
+		display: flex;
+		align-items: center;
 		color: #888;
 
 		cursor: pointer;
+	}
+	
+	.wrapper .message-list li .right p{
+		font-size: 4vw;
+		color: #888;
 	}
 
 	/*头像显示*/
@@ -363,8 +373,9 @@
 		margin-right: 3vw;
 	}
 
-	.wrapper .bind-list li .right {
-		font-size: 6vw;
+	.wrapper .bind-list li .right svg {
+		width: 5vw;
+		height: 5vw;
 		display: flex;
 		align-items: center;
 		margin-right: 4vw;
