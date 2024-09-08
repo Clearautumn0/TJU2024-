@@ -38,6 +38,7 @@ public class UserServiceImpl implements UserService {
 //		return userMapper.getUserByIdByPass(user);
 //	}
 
+
 //	@Override
 //	public User getUserByIdByPass(User user) {
 //	    User reuser = userMapper.getUserByIdByPass(user);
@@ -86,6 +87,7 @@ public class UserServiceImpl implements UserService {
 
 	    storedUser.setPassword("");  // 不返回密码
 	    return storedUser;
+
 	}
 	
 	
@@ -112,20 +114,18 @@ public class UserServiceImpl implements UserService {
 		return userMapper.saveUser(user);
 	}
 
-//	@Override
-//	public int saveUser(User user) {
-//		return userMapper.saveUser(user);
-//	}
 
 	@Override
 	public int updateUser(User user) {
 		User storedUser = userMapper.getUserById(user.getUserId());
 		// 无对应用户
+
 		if (storedUser == null) {
 			return 0;
 		}
 		// 密码不符
 		if (!passwordEncoder.matches(user.getPassword(), storedUser.getPassword())) {
+
 			return 0;
 		}
 		return userMapper.updateUser(user);
@@ -135,11 +135,13 @@ public class UserServiceImpl implements UserService {
 	public int deleteUser(User user) {
 		User storedUser = userMapper.getUserById(user.getUserId());
 		// 无对应用户
+
 		if (storedUser == null) {
 			return 0;
 		}
 		// 密码不符
 		if (!passwordEncoder.matches(user.getPassword(), storedUser.getPassword())) {
+
 			return 0;
 		}
 		return userMapper.deleteUser(user);

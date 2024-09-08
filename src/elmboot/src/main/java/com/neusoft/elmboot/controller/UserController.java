@@ -29,7 +29,6 @@ public class UserController {
 	//@RequestMapping("/getUserById")
 	@GetMapping("/{userId}")
 	public int getUserById(@PathVariable String userId) throws Exception{
-	
 		return userService.getUserById(userId);
 	}
 	
