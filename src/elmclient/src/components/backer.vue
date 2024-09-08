@@ -8,12 +8,20 @@
 </template>
 
 <script>
+import { useRouter } from 'vue-router';
+
 export default {
   name: 'Backer',
-  methods: {
-    goBack() {
-      this.$router.go(-1);  // 返回上一页
+  setup() {
+    const router = useRouter();
+
+    function goBack() {
+      router.go(-1);  // 返回上一页
     }
+
+    return {
+      goBack
+    };
   }
 }
 </script>

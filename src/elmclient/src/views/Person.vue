@@ -38,7 +38,7 @@
 				</div>
 				<hr>
 			</li>
-			<li>
+			<li @click="toEditUserName">
 				<div class="left">
 					<p>昵称</p>
 				</div>
@@ -168,7 +168,13 @@
 			path: '/userAddress'
 		});
 	};
-
+	
+	const toEditUserName = () =>{
+		router.push({
+			path: '/editUserName'
+		})
+	}
+ 
 	// 返回响应式数据和方法，使其在模板中可用
 	// return {
 	//     user,
@@ -401,7 +407,7 @@
 
 	.wrapper .bottom {
 		width: 100%;
-		height: 100vw;
+		height: 100%;
 		background-color: #ebebeb;
 	}
 </style>
