@@ -48,7 +48,7 @@
 	</div>
 </template>
 
-<script>
+<!-- <script>
 import Backer from '../components/backer.vue';
 import Footer from '../components/Footer.vue';
 
@@ -93,7 +93,69 @@ export default {
 		Backer
 	}
 }
+</script> -->
+
+<script>
+import { ref, reactive, onMounted, onUnmounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import axios from 'axios';
+import Backer from '../components/backer.vue';
+import Footer from '../components/Footer.vue';
+
+export default {
+	name: 'Payment',
+	components: {
+		Footer,
+		Backer
+	},
+	setup() {
+		const route = useRoute();
+		const router = useRouter();
+		const orderId = route.query.orderId;
+		const orders = reactive({
+			business: {},
+			list: [],
+			orderTotal: 0
+		});
+		const isShowDetailet = ref(false);
+
+		// 获取订单数据
+		axios.get(`orders/${orderId}`)
+			.then(response => {
+				Object.assign(orders, response.data);
+			})
+			.catch(error => {
+				console.error(error);
+			});
+
+		// 阻止用户返回到订单确认页面
+		onMounted(() => {
+			history.pushState(null, null, document.URL);
+			window.onpopstate = () => {
+				router.push({ path: '/index' });
+			};
+		});
+
+		// 清理 popstate 事件监听器
+		onUnmounted(() => {
+			window.onpopstate = null;
+		});
+
+		// 显示/隐藏订单详情
+		const detailetShow = () => {
+			isShowDetailet.value = !isShowDetailet.value;
+		};
+
+		return {
+			orderId,
+			orders,
+			isShowDetailet,
+			detailetShow
+		};
+	}
+};
 </script>
+
 
 <style scoped>
 /****************** 总容器 ******************/

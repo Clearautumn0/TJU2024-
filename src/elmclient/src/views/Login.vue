@@ -153,7 +153,93 @@ export default {
 	}
 }
 </script>
+<!-- ------------------------加入公钥---------------------------- -->
+<!-- <script>
+import { ref } from 'vue';
+import Footer from '../components/Footer.vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
+import { setSessionStorage } from '../common.js'; // 确保你有一个setSessionStorage方法
+import JSEncrypt from 'jsencrypt'; // 引入jsencrypt库
 
+export default {
+	name: 'Login',
+	components: {
+		Footer
+	},
+	setup() {
+		const router = useRouter();
+		const userId = ref('');
+		const password = ref('');
+
+		// 登录函数
+		const login = () => {
+			if (userId.value === '') {
+				alert('手机号码不能为空！');
+				return;
+			}
+			if (password.value === '') {
+				alert('密码不能为空！');
+				return;
+			}
+
+			// 获取公钥并加密密码
+			axios.get('/public-key')
+				.then(response => {
+					const publicKey = response.data;
+
+					// 使用公钥加密密码
+					const encryptor = new JSEncrypt();
+					encryptor.setPublicKey(publicKey);
+					const encryptedPassword = encryptor.encrypt(password.value);
+
+					if (!encryptedPassword) {
+						alert('密码加密失败，请稍后再试！');
+						return;
+					}
+
+					// 发送加密后的密码进行登录
+					axios.post('users/login', {
+						userId: userId.value,
+						password: encryptedPassword
+					})
+						.then(response => {
+							const user = response.data;
+							if (user == null || user === '') {
+								alert('用户名或密码不正确！');
+							} else {
+								// sessionStorage有容量限制，不将userImg数据放入session中
+								user.userImg = '';
+								setSessionStorage('user', user);
+								setSessionStorage('token', user.token); // 你还可以存储token
+								router.go(-1);
+							}
+						})
+						.catch(error => {
+							console.error('登录失败：', error);
+						});
+				})
+				.catch(error => {
+					console.error('获取公钥失败：', error);
+				});
+		};
+
+		const register = () => {
+			router.push({
+				path: 'register'
+			});
+		};
+
+		return {
+			userId,
+			password,
+			login,
+			register
+		};
+	}
+}
+</script> -->
+ <!--------------------------------------加入公钥------------------------------->
 <style scoped>
 /****************** 总容器 ******************/
 .wrapper {
