@@ -9,7 +9,7 @@
 		<!-- 订单列表部分 -->
 		<h3>未支付订单信息：</h3>
 		<ul class="order">
-			<li v-for="item in orderArr">
+			<li v-for="item in unpaidOrders">
 				<div class="order-info">
 					<p>
 						{{ item.business.businessName }}
@@ -38,7 +38,7 @@
 
 		<h3>已支付订单信息：</h3>
 		<ul class="order">
-			<li v-for="item in orderArr">
+			<li v-for="item in paidOrders">
 				<div class="order-info">
 					<p>
 						{{ item.business.businessName }}
@@ -72,10 +72,18 @@
 </template>
 
 <script>
-import { ref, reactive, onMounted } from 'vue';
+import {
+	ref,
+	reactive,
+	onMounted,
+	computed
+} from 'vue';
+import {
+	useRoute,
+	useRouter
+} from 'vue-router'
 import Footer from '../components/Footer.vue';
 import axios from 'axios';
-import { useRouter } from 'vue-router';
 // import Backer from '../components/backer.vue';
 
 export default {
@@ -84,9 +92,12 @@ export default {
 		Footer
 	},
 	setup() {
+		// 获取路由实例和路由参数
+		const route = useRoute();
+		const router = useRouter();
+
 		const orderArr = ref([]);
 		const user = reactive({});
-		const router = useRouter();
 
 		// 获取用户信息和订单数据
 		const getUserOrders = () => {
@@ -110,7 +121,9 @@ export default {
 		const goToPayment = (orderId) => {
 			router.push({
 				path: '/payment',
-				query: { orderId: orderId }
+				query: {
+					orderId: orderId
+				}
 			});
 		};
 
@@ -118,6 +131,16 @@ export default {
 		const detailetShow = (orders) => {
 			orders.isShowDetailet = !orders.isShowDetailet;
 		};
+
+		// 过滤已支付订单
+		const paidOrders = computed(() => {
+			return orderArr.value.filter(order => order.orderState === 1);
+		});
+
+		// 过滤未支付订单
+		const unpaidOrders = computed(() => {
+			return orderArr.value.filter(order => order.orderState === 0);
+		});
 
 		onMounted(() => {
 			getUserOrders();
@@ -127,7 +150,9 @@ export default {
 			orderArr,
 			user,
 			goToPayment,
-			detailetShow
+			detailetShow,
+			paidOrders,
+			unpaidOrders
 		};
 	}
 }
