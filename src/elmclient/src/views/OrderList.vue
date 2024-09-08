@@ -37,7 +37,7 @@
 		</ul>
 
 		<h3>已支付订单信息：</h3>
-		<ul class="order">
+		<!-- <ul class="order">
 			<li v-for="item in orderArr">
 				<div class="order-info">
 					<p>
@@ -63,7 +63,7 @@
 			<li class="empty-li">
 				<div class="empty-message">已经到底了...</div>
 			</li>
-		</ul>
+		</ul> -->
 
 		<!-- 底部菜单部分 -->
 		<Footer></Footer>

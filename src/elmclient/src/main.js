@@ -48,7 +48,8 @@ router.beforeEach((to, from, next) => {
 			to.path === '/login' ||
 			to.path === '/register' ||
 			to.path === '/selfpage' ||
-			to.path === '/person'
+			to.path === '/person' ||
+			to.path === '/orderList'
 		)
 	) {
 		if (user === null) {
