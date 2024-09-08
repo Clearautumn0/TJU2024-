@@ -78,6 +78,10 @@
 		onMounted,
 		computed
 	} from 'vue';
+	import {
+		useRoute,
+		useRouter
+	} from 'vue-router'
 	import Footer from '../components/Footer.vue';
 	import axios from 'axios';
 	// import Backer from '../components/backer.vue';
@@ -88,6 +92,10 @@
 			Footer
 		},
 		setup() {
+			// 获取路由实例和路由参数
+			const route = useRoute();
+			const router = useRouter();
+			
 			const orderArr = ref([]);
 			const user = reactive({});
 
