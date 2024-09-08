@@ -18,7 +18,6 @@ axiosInstance.interceptors.request.use(
             config.headers['token'] = token.replace(/"/g, '');
         }
         // 可以添加其他需要的请求头或数据处理
-        console.log(config.headers);
         return config;
     },
     error => {
