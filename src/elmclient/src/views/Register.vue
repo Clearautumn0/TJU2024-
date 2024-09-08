@@ -62,9 +62,9 @@
 	</div>
 </template>
 
-<script>
-import Footer from '../components/Footer.vue';
-import Backer from '../components/backer.vue';
+<!-- <script>
+	import Footer from '../components/Footer.vue';
+	import Backer from '../components/backer.vue';
 
 
 	export default {
@@ -129,22 +129,116 @@ import Backer from '../components/backer.vue';
 					return;
 				}
 
-			//注册请求
-			this.$axios.post('users', this.user).then(response => {
-				if (response.data > 0) {
-					alert('注册成功！');
-					this.$router.go(-1);
-				} else {
-					alert('注册失败！');
-				}
-			}).catch(error => {
-				console.error(error);
-			});
+				//注册请求
+				this.$axios.post('users', this.user).then(response => {
+					if (response.data > 0) {
+						alert('注册成功！');
+						this.$router.go(-1);
+					} else {
+						alert('注册失败！');
+					}
+				}).catch(error => {
+					console.error(error);
+				});
+			}
+		},
+		components: {
+			Footer,
+			Backer
 		}
-	},
+	}
+</script> -->
+
+<script>
+import { ref } from 'vue';
+import Footer from '../components/Footer.vue';
+import Backer from '../components/backer.vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios'; // 确保已经安装并导入axios
+
+export default {
+	name: 'Register',
 	components: {
 		Footer,
 		Backer
+	},
+	setup() {
+		const router = useRouter();
+		const user = ref({
+			userId: '',
+			password: '',
+			userName: '',
+			userSex: 1
+		});
+		const confirmPassword = ref('');
+
+		const checkUserId = () => {
+			const phoneRegex = /^1[3-9]\d{9}$/;
+			if (user.value.userId === '') {
+				alert('手机号码不能为空！');
+				return;
+			}
+			// 验证手机号码是否符合规范
+			if (!phoneRegex.test(user.value.userId)) {
+				alert('请输入正确的手机号码！');
+				return;
+			}
+			axios.get(`users/${user.value.userId}`)
+				.then(response => {
+					if (response.data === 1) {
+						user.value.userId = '';
+						alert('此手机号码已存在！');
+					}
+				})
+				.catch(error => {
+					console.error(error);
+				});
+		};
+
+		const register = () => {
+			const phoneRegex = /^1[3-9]\d{9}$/;
+			if (user.value.userId === '') {
+				alert('手机号码不能为空！');
+				return;
+			}
+			if (!phoneRegex.test(user.value.userId)) {
+				alert('请输入正确的手机号码！');
+				return;
+			}
+			if (user.value.password === '') {
+				alert('密码不能为空！');
+				return;
+			}
+			if (user.value.password !== confirmPassword.value) {
+				alert('两次输入的密码不一致！');
+				return;
+			}
+			if (user.value.userName === '') {
+				alert('用户名不能为空！');
+				return;
+			}
+
+			// 注册请求
+			axios.post('users', user.value)
+				.then(response => {
+					if (response.data > 0) {
+						alert('注册成功！');
+						router.go(-1);
+					} else {
+						alert('注册失败！');
+					}
+				})
+				.catch(error => {
+					console.error(error);
+				});
+		};
+
+		return {
+			user,
+			confirmPassword,
+			checkUserId,
+			register
+		};
 	}
 }
 </script>

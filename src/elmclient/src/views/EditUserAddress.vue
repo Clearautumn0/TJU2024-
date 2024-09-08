@@ -22,7 +22,8 @@
 					性别：
 				</div>
 				<div class="content" style="font-size: 3vw;">
-					<input type="radio" v-model="deliveryAddress.contactSex" value="1" style="width:6vw;height:3.2vw;" checked>男
+					<input type="radio" v-model="deliveryAddress.contactSex" value="1" style="width:6vw;height:3.2vw;"
+						checked>男
 					<input type="radio" v-model="deliveryAddress.contactSex" value="0" style="width:6vw;height:3.2vw;">女
 				</div>
 			</li>
@@ -53,7 +54,7 @@
 	</div>
 </template>
 
-<script>
+<!-- <script>
 	import Backer from '../components/backer.vue';
 import Footer from '../components/Footer.vue';
 
@@ -114,81 +115,175 @@ import Footer from '../components/Footer.vue';
 			}
 		}
 	}
+</script> -->
+
+<script>
+import { ref, onMounted } from 'vue';
+import Backer from '../components/backer.vue';
+import Footer from '../components/Footer.vue';
+import axios from 'axios';
+import { useRouter, useRoute } from 'vue-router';
+
+export default {
+	name: 'EditUserAddress',
+	components: {
+		Footer,
+		Backer,
+	},
+	setup() {
+		const router = useRouter();
+
+		const businessId = ref(null);
+		const daId = ref(null);
+		const user = ref({});
+		const deliveryAddress = ref({
+			contactName: '',
+			contactTel: '',
+			address: '',
+		});
+
+		const fetchAddress = async () => {
+			try {
+				const response = await axios.get(`delivery-addresses/${daId.value}`);
+				deliveryAddress.value = response.data;
+			} catch (error) {
+				console.error(error);
+			}
+		};
+
+		const editUserAddress = async () => {
+			if (!deliveryAddress.value.contactName) {
+				alert('联系人姓名不能为空！');
+				return;
+			}
+			if (!deliveryAddress.value.contactTel) {
+				alert('联系人电话不能为空！');
+				return;
+			}
+			if (!deliveryAddress.value.address) {
+				alert('联系人地址不能为空！');
+				return;
+			}
+
+			try {
+				const response = await axios.put('delivery-addresses', deliveryAddress.value);
+				if (response.data > 0) {
+					alert('更新地址成功！');//不跳转
+					// const userConfirmed = confirm('更新地址成功\n点击确定跳转至地址列表页面');
+					// if (userConfirmed) {
+					// 	router.push({
+					// 		path: '/userAddress',
+					// 		query: {
+					// 			businessId: businessId.value,
+					// 		},
+					// 	});
+					// }
+					// else{
+
+					// }
+
+
+				} else {
+					alert('更新地址失败！');
+				}
+			} catch (error) {
+				console.error(error);
+			}
+		};
+
+		onMounted(() => {
+			const route = useRoute();
+			const router = useRouter();
+			businessId.value = route.query.businessId;
+			daId.value = route.query.daId;
+			user.value = JSON.parse(sessionStorage.getItem('user'));
+			fetchAddress();
+		});
+
+		return {
+			businessId,
+			daId,
+			user,
+			deliveryAddress,
+			editUserAddress,
+		};
+	},
+};
 </script>
 
 <style scoped>
-	/*************** 总容器 ***************/
-	.wrapper {
-		width: 100%;
-		height: 100%;
-	}
+/*************** 总容器 ***************/
+.wrapper {
+	width: 100%;
+	height: 100%;
+}
 
-	/*************** header ***************/
-	.wrapper header {
-		width: 100%;
-		height: 12vw;
-		background-color: #0097FF;
-		display: flex;
-		justify-content: space-around;
-		align-items: center;
-		color: #fff;
-		font-size: 4.8vw;
-		position: fixed;
-		left: 0;
-		top: 0;
-		/*保证在最上层*/
-		z-index: 1000;
-	}
+/*************** header ***************/
+.wrapper header {
+	width: 100%;
+	height: 12vw;
+	background-color: #0097FF;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	color: #fff;
+	font-size: 4.8vw;
+	position: fixed;
+	left: 0;
+	top: 0;
+	/*保证在最上层*/
+	z-index: 1000;
+}
 
-	/*************** （表单信息） ***************/
-	.wrapper .form-box {
-		width: 100%;
-		margin-top: 12vw;
-	}
+/*************** （表单信息） ***************/
+.wrapper .form-box {
+	width: 100%;
+	margin-top: 12vw;
+}
 
-	.wrapper .form-box li {
-		box-sizing: border-box;
-		padding: 4vw 3vw 0vw 3vw;
-		display: flex;
-	}
+.wrapper .form-box li {
+	box-sizing: border-box;
+	padding: 4vw 3vw 0vw 3vw;
+	display: flex;
+}
 
-	.wrapper .form-box li .title {
-		flex: 0 0 18vw;
-		font-size: 3vw;
-		font-weight: 700;
-		color: #666;
-	}
+.wrapper .form-box li .title {
+	flex: 0 0 18vw;
+	font-size: 3vw;
+	font-weight: 700;
+	color: #666;
+}
 
-	.wrapper .form-box li .content {
-		flex: 1;
+.wrapper .form-box li .content {
+	flex: 1;
 
-		display: flex;
-		align-items: center;
-	}
+	display: flex;
+	align-items: center;
+}
 
-	.wrapper .form-box li .content input {
-		border: none;
-		outline: none;
-		width: 100%;
-		height: 4vw;
-		font-size: 3vw;
-	}
+.wrapper .form-box li .content input {
+	border: none;
+	outline: none;
+	width: 100%;
+	height: 4vw;
+	font-size: 3vw;
+}
 
-	.wrapper .button-add {
-		box-sizing: border-box;
-		padding: 4vw 3vw 0vw 3vw;
-	}
+.wrapper .button-add {
+	box-sizing: border-box;
+	padding: 4vw 3vw 0vw 3vw;
+}
 
-	.wrapper .button-add button {
-		width: 100%;
-		height: 10vw;
-		font-size: 3.8vw;
-		font-weight: 700;
+.wrapper .button-add button {
+	width: 100%;
+	height: 10vw;
+	font-size: 3.8vw;
+	font-weight: 700;
 
-		border: none;
-		outline: none;
-		border-radius: 4px;
-		color: #fff;
-		background-color: #38CA73;
-	}
+	border: none;
+	outline: none;
+	border-radius: 4px;
+	color: #fff;
+	background-color: #38CA73;
+}
 </style>

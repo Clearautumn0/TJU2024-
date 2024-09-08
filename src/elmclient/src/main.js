@@ -1,11 +1,12 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
+import { createApp } from 'vue';
+import { configureCompat } from '@vue/compat';
+import App from './App.vue';
+import router from './router';
 import axiosInstance from './utils/interceptor.js'
 
-import 'font-awesome/css/font-awesome.min.css'
-// import axios from 'axios'	//已在utils/interceptor.js导入
-import qs from 'qs'
+import 'font-awesome/css/font-awesome.min.css';
+// import axios from 'axios'	//已在utils/interceptor.js导入;
+import qs from 'qs';
 import {
 	getCurDate,
 	setSessionStorage,
@@ -14,33 +15,43 @@ import {
 	setLocalStorage,
 	getLocalStorage,
 	removeLocalStorage
-} from './common.js'
+} from './common.js';
 
-Vue.config.productionTip = false
+// 启用兼容模式
+configureCompat({
+	MODE: 2, // 兼容模式：2 代表全面兼容 Vue 2 语法
+});
 
-// //设置axios的基础url部分
-// axios.defaults.baseURL = 'http://localhost:8080/elm/';
-// //将axios挂载到vue实例上，使用时就可以 this.$axios 这样使用了
-// Vue.prototype.$axios = axios;
+const app = createApp(App);
 
-// 从utils/interceptor.js导入axios实例
-Vue.prototype.$axios = axiosInstance;
+// 设置 axios 的基础 URL
+axios.defaults.baseURL = 'http://localhost:8080/elm/';
+app.config.globalProperties.$axios = axiosInstance;
+app.config.globalProperties.$qs = qs;
+app.config.globalProperties.$getCurDate = getCurDate;
+app.config.globalProperties.$setSessionStorage = setSessionStorage;
+app.config.globalProperties.$getSessionStorage = getSessionStorage;
+app.config.globalProperties.$removeSessionStorage = removeSessionStorage;
+app.config.globalProperties.$setLocalStorage = setLocalStorage;
+app.config.globalProperties.$getLocalStorage = getLocalStorage;
+app.config.globalProperties.$removeLocalStorage = removeLocalStorage;
 
-Vue.prototype.$qs = qs;
-
-Vue.prototype.$getCurDate = getCurDate;
-Vue.prototype.$setSessionStorage = setSessionStorage;
-Vue.prototype.$getSessionStorage = getSessionStorage;
-Vue.prototype.$removeSessionStorage = removeSessionStorage;
-Vue.prototype.$setLocalStorage = setLocalStorage;
-Vue.prototype.$getLocalStorage = getLocalStorage;
-Vue.prototype.$removeLocalStorage = removeLocalStorage;
-
-router.beforeEach(function(to,from,next){
-	let user = sessionStorage.getItem('user');
-	//除了登录、注册、首页、商家列表、商家信息之外，都需要判断是否登录//加一个我的界面，显示未登录状态
-	if(!(to.path=='/'||to.path=='/index'||to.path=='/businessList'||to.path=='/businessInfo'||to.path=='/login'||to.path=='/register'||to.path=='/selfpage'||to.path=='/person')){
-		if(user==null){
+// 路由导航守卫
+router.beforeEach((to, from, next) => {
+	const user = sessionStorage.getItem('user');
+	if (
+		!(
+			to.path === '/' ||
+			to.path === '/index' ||
+			to.path === '/businessList' ||
+			to.path === '/businessInfo' ||
+			to.path === '/login' ||
+			to.path === '/register' ||
+			to.path === '/selfpage' ||
+			to.path === '/person'
+		)
+	) {
+		if (user === null) {
 			router.push('/login');
 			location.reload();
 		}
@@ -48,7 +59,6 @@ router.beforeEach(function(to,from,next){
 	next();
 });
 
-new Vue({
-  router,
-  render: h => h(App)
-}).$mount('#app')
+// 创建 Vue 实例并挂载
+app.use(router);
+app.mount('#app');
