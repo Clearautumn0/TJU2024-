@@ -1,0 +1,160 @@
+\chapter{项目设计方案}
+
+\section{数据库设计}
+在原有的饿了吧V1.0的数据库结构基础上,饿了吧V2.0对数据库进行了如下修改:
+  \begin{enumerate}
+      \item business表添加delTag字段
+      \item food表添加delTag字段
+      \item deliveryaddress表添加delTag字段
+      \item delTag表示删除标记,其中0:正常，1:删除
+      \item food表添加soudOut字段
+      \item user .password成员的长度修改为70
+  \end{enumerate}
+\subsection{DB一览表}
+\begin{table}[h]
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{|l|l|l|l|}
+\hline
+\rowcolor[HTML]{FAFAFA} 
+{\color[HTML]{262626} NO} & {\color[HTML]{262626} 表名称} & {\color[HTML]{262626} 中文名} & {\color[HTML]{262626} 说明} \\ \hline
+1 & business        & 商家表    & 存储所有商家信息          \\ \hline
+2 & food            & 食品表    & 存储每个商家拥有得食品得的所有信息 \\ \hline
+3 & cart            & 购物车表   & 存储每个用户的购物车中的食品信息  \\ \hline
+4 & deliveryaddress & 送货地址表  & 存储每个用户的所有送货地址信息   \\ \hline
+5 & orders          & 订单表    & 存储每个用户的所有订单信息     \\ \hline
+6 & orderdetailet   & 订单明细吧表 & 存储每个订单中的所有食品信息    \\ \hline
+7 & user            & 用户表    & 存储所有用户的信息         \\ \hline
+\end{tabular}%
+}
+\caption{数据库一览表}
+\label{tab:dbyl}
+\end{table}
+
+\subsection{表结构}
+约束类型标识： PK：primary key 主键 FK：foreign key 外键 NN：not null 非空 UQ：unique 唯一索引 AI：auto increment 自增长列  \par
+删除标记:数据类型int,正常:0    删除:1\par
+点餐分类： 1：美食、2： 早餐、3：跑腿代购、4：汉堡 披萨、5：甜品饮品、6：速食 简餐、7：地方小吃、8：米粉 面馆、9：包子粥铺、10：炸 鸡炸串
+\subsubsection{business(商家表)}
+\begin{table}[H]
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{|l|l|l|l|l|l|l|}
+\hline
+NO & 字段名             & 数据类型       & size  & 默认值  & 约束       & 说明   \\ \hline
+1  & businessId      & int        &       &      & PK AI NN & 商家编号 \\ \hline
+2  & businessName    & varchar    & 40    &      & NN       & 商家名称 \\ \hline
+3  & businessAddress & varchar    & 50    &      &          & 商家地址 \\ \hline
+4  & businessExplain & varchar    & 40    &      &          & 商家介绍 \\ \hline
+5  & businessImg     & mediumtext &       &      & NN       & 商家图片 \\ \hline
+6 & orderTypeId & int &  &  & NN & 点餐分类 \\ \hline
+7  & starPrice       & decimal    & (5,2) & 0.00 &          & 起送费  \\ \hline
+8  & deliveryPrice   & decimal    & (5,2) & 0.00 &          & 配送费  \\ \hline
+9  & remarks         & varchar    & 40    &      &          & 备注   \\ \hline
+10 & delTag          & int        &       & 0    & NN       & 删除标记 \\ \hline
+\end{tabular}%
+}
+\caption{商家表}
+\label{tab:sjb}
+\end{table}
+
+\subsubsection{food(食品表)}
+\begin{table}[H]
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{|l|l|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{FAFAFA} 
+{\color[HTML]{262626} NO} &
+  {\color[HTML]{262626} 字段名} &
+  {\color[HTML]{262626} 数据类型} &
+  {\color[HTML]{262626} size} &
+  {\color[HTML]{262626} 默认值} &
+  {\color[HTML]{262626} 约束} &
+  {\color[HTML]{262626} 说明} \\ \hline
+1 & food        & int        &       &   & PK AI NN & 食品编号   \\ \hline
+2 & foodName    & varchar    & 30    &   & NN       & 食品名称   \\ \hline
+3 & foodExplain & varchar    & 30    &   & NN       & 食品介绍   \\ \hline
+4 & foodImg     & mediumtext &       &   & NN       & 食品图片   \\ \hline
+5 & foodPrice   & decimal    & (5,2) &   & NN       & 食品价格   \\ \hline
+6 & businessId  & int        &       &   & FK NN    & 所属商家编号 \\ \hline
+7 & remarks     & varchar    & 40    &   &          & 备注     \\ \hline
+8 & soldOut     & int        &       &   & NN       & 是否售罄   \\ \hline
+9 & delTag      & int        &       & 0 & NN       & 删除标记   \\ \hline
+\end{tabular}%
+}
+\caption{食品表}
+\label{tab:food}
+\end{table}
+
+\subsubsection{orders（订单表） }
+
+\begin{table}[H]
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{|l|l|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{FAFAFA} 
+{\color[HTML]{262626} NO} &
+  {\color[HTML]{262626} 字段名} &
+  {\color[HTML]{262626} 数据类型} &
+  {\color[HTML]{262626} size} &
+  {\color[HTML]{262626} 默认值} &
+  {\color[HTML]{262626} 约束} &
+  {\color[HTML]{262626} 说明} \\ \hline
+1 & orderId    & int     &       &      & PK AI NN & 订单编号               \\ \hline
+2 & userId     & varchar & 20    &      & FK NN    & 所属用户编号             \\ \hline
+3 & businessId & int     &       &      & FK NN    & 所属商家编号             \\ \hline
+4 & orderDate  & varchar & 20    &      & NN       & 订购日期               \\ \hline
+5 & orderTotal & decimal & (7,2) & 0.00 & NN       & 订单总价               \\ \hline
+6 & daId       & int     &       &      & FK NN    & 所属送货地址编号           \\ \hline
+7 & orderState & int     &       & 0    & NN       & 订单状态（0：未支付； 1：已支付） \\ \hline
+\end{tabular}%
+}
+\caption{订单表}
+\label{tab:orders}
+\end{table}
+
+\subsubsection{orderdetailet（订单明细表）}
+\begin{table}[H]
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{|l|l|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{FAFAFA} 
+{\color[HTML]{262626} NO} &
+  {\color[HTML]{262626} 字段名} &
+  {\color[HTML]{262626} 数据类型} &
+  {\color[HTML]{262626} size} &
+  {\color[HTML]{262626} 默认值} &
+  {\color[HTML]{262626} 约束} &
+  {\color[HTML]{262626} 说明} \\ \hline
+1 & odId     & int &  &  & PK AI NN & 订单明细编号 \\ \hline
+2 & orderId  & int &  &  & FK NN    & 所属订单编号 \\ \hline
+3 & foodId   & int &  &  & FK NN    & 所属食品编号 \\ \hline
+4 & quantity & int &  &  & NN       & 数量     \\ \hline
+\end{tabular}%
+}
+\caption{订单明细表}
+\label{tab: orderdetailet}
+\end{table}
+
+\subsubsection{ user（用户表） }
+\begin{table}[H]
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{|l|l|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{FAFAFA} 
+{\color[HTML]{262626} NO} &
+  {\color[HTML]{262626} 字段名} &
+  {\color[HTML]{262626} 数据类型} &
+  {\color[HTML]{262626} size} &
+  {\color[HTML]{262626} 默认值} &
+  {\color[HTML]{262626} 约束} &
+  {\color[HTML]{262626} 说明} \\ \hline
+1 & userId   & varchar    & 20 &  & PK NN & 用户编号           \\ \hline
+2 & password & varchar    & 70 &  & NN    & 密码             \\ \hline
+3 & userName & varchar    & 20 &  & NN    & 用户名称           \\ \hline
+4 & userSex  & int        &    &  & NN    & 用户性别（1：男； 0：女） \\ \hline
+5 & userImg  & mediumtext &    &  &       & 用户头像           \\ \hline
+6 & delTag   & int        &    &  & NN    & 删除标记           \\ \hline
+\end{tabular}%
+}
+\caption{用户表}
+\label{tab: user}
+\end{table}

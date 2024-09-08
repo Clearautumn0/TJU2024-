@@ -1,0 +1,740 @@
+\chapter{软件需求规格说明书}
+
+\section{引言}
+
+\subsection{简介}
+
+本文档的目的是详细地介绍 饿了吧 APP所包含的需求，以便客户能够确认产品的确切需求以及开发人员能够根据需求设计编码，以下叙述将结合文字描述、UML图、ER图等来描述 饿了吧 APP的功能、性能、用户界面、运行环境、外部接口以及针对用户操作给出的各种响应。本文档的预期读者有用户及客户、项目经理、开发人员以及跟该项目相关的其他竞争人员。
+
+\subsection{背景}
+
+\subsubsection{市场需求的转型}
+
+ \begin{itemize}
+     \item \textbf{外卖需求增长：}随着城市化进程的加快和生活节奏的加速，越来越多的人选择外卖服务，尤其是在大城市，外卖已经成为人们日常生活中不可或缺的一部分。
+     \item \textbf{餐饮行业的数字化转型：}传统餐饮行业面临转型升级的压力，许多餐厅需要通过线上渠道来扩大顾客群并提升销售额。
+     \item \textbf{ 消费者行为的改变：}年轻一代更倾向于通过移动互联网进行餐饮消费，他们希望在方便快捷的同时拥有更多的选择。
+ \end{itemize}
+
+\subsubsection{ 技术进步}
+
+ \begin{itemize}
+     \item \textbf{移动互联网的发展：}智能手机的普及和移动互联网技术的发展为在线外卖平台的出现提供了技术基础。用户可以随时随地通过手机下单。
+     \item \textbf{定位与导航技术：}GPS和北斗等地图导航技术的成熟，使得在线外卖平台能够准确定位用户位置，提供快速的配送服务。
+     \item \textbf{支付系统的完善：}电子支付的普及为在线支付和快速交易提供了便捷的途径，这进一步促进了在线外卖业务的发展。
+ \end{itemize}
+
+\subsection{ 定义、缩略语}
+
+
+\begin{table}[h]
+    \centering
+    \begin{tabularx}{0.8\linewidth}{|l|X|}
+    \hline
+        \textbf{术语} & \textbf{解释}\\ \hline
+        购物车 &用户在浏览商家菜单时选择的多个菜品和商品的临时集合，用户可以在下单之前将这些选定的商品放入购物车中。  \\
+    \hline
+    \end{tabularx}
+    \caption{术语解释}
+    \label{tab:sy}
+\end{table}
+
+\subsection{约束}
+
+\section{需要分析}
+
+\subsection{目标}
+饿了吧旨在为用户以及商家提供一款便捷,高效的在线外卖平台,支持用户在线快速浏览附近餐厅,下单并获得及时送餐服务,最终做到让用户享受简单且快速的订餐体验,同时提升餐厅的订单量和运营效率.具体而言,饿了吧最终会实现以下内容:
+  \begin{enumerate}
+      \item  实现用户与商家的注册行为.
+      \item  用户和商家能够修改自身账号信息.
+      \item  用户能够完成从点餐、查看购物车、修改订单地址到付款的点餐流程.
+      \item  商家能够完成对自身商品的上架、下架、修改操作.
+      \item  设置管理员登录，管理商家信息.
+  \end{enumerate}
+
+\subsection{涉众分析}
+本系统只涉及第1.2.3,4类涉众,没有第5类涉众
+
+\begin{table}[h]
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{|c|c|c|l|}
+\hline
+\textbf{序号} & \textbf{涉众} & \textbf{代表人物} & \multicolumn{1}{c|}{\textbf{待解决的问题/对系统的期望}}                                   \\ \hline
+1 & 顾客 & 张三 & \begin{tabular}[c]{@{}l@{}}1.能注册账号\\ 2.能管理账号和个人信息\\ 3.能点餐，管理购物车、送货地址，下单支付\end{tabular} \\ \hline
+2           & 商家          & 李四            & \begin{tabular}[c]{@{}l@{}}1.能注册账号\\ 2.能管理商家信息\\ 3.能上架、下架、管理待售商品\end{tabular} \\ \hline
+3           & 管理员         & 王五            & 1.能管理用户数据                                                                     \\ \hline
+4           & 审核员         & 赵六            & 1.审核商家上架商品                                                                    \\ \hline
+5           & 配送员(骑手)     & 李七            & \begin{tabular}[c]{@{}l@{}}1.能获取订单信息\\ 2.获取商家以及用户地点进行取餐,送餐\end{tabular}       \\ \hline
+\end{tabular}%
+}
+\caption{涉众分析表}
+\label{tab:szfx}
+\end{table}
+
+\subsection{范围}
+本系统不与实际支付接口对接，不提供针对配送员的业务流程
+
+\section{业务分析}
+\subsection{业务概念分析}
+\subsubsection{概述}
+饿了吧要管理的事情主要分为三个部分:用户下订单,商家上架与下架商品以及用户注册
+\subsubsection{业务概念一览}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.90\linewidth]{pics/1.png}
+    \caption{业务概念一览}
+    \label{fig:ywgn}
+\end{figure}
+
+\subsubsection{登录用户}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{pics/2.png}
+    \caption{登录用户}
+    \label{fig:dlyh}
+\end{figure}
+
+\subsubsection{顾客下单}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\linewidth]{pics/3.png}
+    \caption{顾客下单}
+    \label{fig:gkxd}
+\end{figure}
+
+\subsection{商家管理商品}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\linewidth]{pics/4.png}
+    \caption{商家管理商品}
+    \label{fig:sjglsp}
+\end{figure}
+
+\subsection{业务流程分析（UML活动图）}
+
+\subsubsection{用户登录流程}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{pics/5.png}
+    \caption{用户登录流程}
+    \label{fig:yhddlc}
+\end{figure}
+
+\subsubsection{顾客下单流程}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{pics/6.png}
+    \caption{顾客下单流程}
+    \label{fig:gkxdlc}
+\end{figure}
+
+\subsubsection{商家管理商品流程}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{pics/7.png}
+    \caption{商家管理商品流程}
+    \label{fig:sjglsplc}
+\end{figure}
+
+\section{功能性需求}
+\subsection{执行者分析}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\linewidth]{pics/8.png}
+    \caption{执行者分析}
+    \label{fig:zxzfx}
+\end{figure}
+
+\subsection{总用例图}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{pics/9.png}
+    \caption{总用例图}
+    \label{fig:zylt}
+\end{figure}
+
+\subsection{用户的用例}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{pics/10.png}
+    \caption{用户的用例}
+    \label{fig:yhdyl}
+\end{figure}
+
+
+\begin{table}[h]
+\resizebox{0.85\columnwidth}{!}{%
+\begin{tabular}{|l|lll|}
+\hline
+编号   & \multicolumn{1}{l|}{1}    & \multicolumn{1}{l|}{名称}  & 注册账户 \\ \hline
+执行者  & \multicolumn{1}{l|}{普通用户} & \multicolumn{1}{l|}{优先级} & 高    \\ \hline
+描述   & \multicolumn{3}{l|}{用户使用手机号进行账户注册,设置账户密码}                   \\ \hline
+前置条件 & \multicolumn{3}{l|}{输入正确的手机号码}                              \\ \hline
+基本流程 & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}}1.输入手机号码\\ 2.输入密码\\ 3.显示注册成功信息\end{tabular}}           \\ \hline
+结束状况 & \multicolumn{3}{l|}{注册成功进入登录界面}                             \\ \hline
+可选流程 & \multicolumn{3}{l|}{}                                       \\ \hline
+异常流程 & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}}1.手机号验证不通过,要求重新填写手机号\\ 2.用户已经注册显示用户已存在信息\end{tabular}} \\ \hline
+描述   & \multicolumn{3}{l|}{}                                       \\ \hline
+\end{tabular}%
+}
+\caption{}
+\label{tab:1}
+\end{table}
+
+
+\begin{table}[H]
+\resizebox{0.85\columnwidth}{!}{%
+\begin{tabular}{|l|lll|}
+\hline
+编号   & \multicolumn{1}{l|}{2}                 & \multicolumn{1}{l|}{名称}             & 登录账户           \\ \hline
+执行者  & \multicolumn{1}{l|}{普通用户}              & \multicolumn{1}{l|}{优先级}            & 高              \\ \hline
+描述   & \multicolumn{3}{l|}{用户使用手机号进行账户登录}                                                            \\ \hline
+前置条件 & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}}1.提交正确的手机号码\\ 2.提交正确的密码\end{tabular}}          \\ \hline
+基本流程 & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}}1.输入手机号码\\ 2.输入密码\\ 3.显示登录成功信息\end{tabular}}   \\ \hline
+结束状况 & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}}1.登录成功进入主界面(注册时)\\ 2.登陆成功返回上一个页面\end{tabular}} \\ \hline
+可选流程 & \multicolumn{3}{l|}{注册账号}                                                                     \\ \hline
+异常流程 & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}}1.手机号验证不通过,要求重新填写手机号\\ 2.用户未注册进入用户注册流程\\ 3.密码验证不通过\end{tabular}} \\ \hline
+描述   & \multicolumn{3}{l|}{}                                                                         \\ \hline
+\end{tabular}%
+}
+\caption{}
+\label{tab:2}
+\end{table}
+
+
+\begin{table}[H]
+\resizebox{0.85\columnwidth}{!}{%
+\begin{tabular}{|l|lll|}
+\hline
+编号   & \multicolumn{1}{l|}{3.1}  & \multicolumn{1}{l|}{名称}  & 修改用户名称 \\ \hline
+执行者  & \multicolumn{1}{l|}{普通用户} & \multicolumn{1}{l|}{优先级} & 低      \\ \hline
+描述   & \multicolumn{3}{l|}{用户修改个人信息中的名称}                             \\ \hline
+前置条件 & \multicolumn{3}{l|}{无}                                        \\ \hline
+基本流程 & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}}1.输入新用户名\\ 2.判断是否满足要求\\ 3.显示修改成功界面\end{tabular}}        \\ \hline
+结束状况 & \multicolumn{3}{l|}{用户界面显示修改后的用户名}                            \\ \hline
+可选流程 & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}}1.用户名称不符合要求，重新输入\\ 2.用户名称已经存在，显示用户名称已经被使用\end{tabular}} \\ \hline
+异常流程 & \multicolumn{3}{l|}{}                                         \\ \hline
+描述   & \multicolumn{3}{l|}{}                                         \\ \hline
+\end{tabular}%
+}
+\caption{}
+\label{tab:3.1}
+\end{table}
+
+\begin{table}[H]
+\resizebox{0.85\columnwidth}{!}{%
+\begin{tabular}{|l|lll|}
+\hline
+编号   & \multicolumn{1}{l|}{3.2}  & \multicolumn{1}{l|}{名称}  & 修改用户密码 \\ \hline
+执行者  & \multicolumn{1}{l|}{普通用户} & \multicolumn{1}{l|}{优先级} & 低      \\ \hline
+描述   & \multicolumn{3}{l|}{用户修改个人信息中的密码}                             \\ \hline
+前置条件 & \multicolumn{3}{l|}{1.旧密码输入正确}                                \\ \hline
+基本流程 & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}}1.输入新密码并再次输入确保无误\\ 2.判断是否满足密码要求\\ 3.显示密码修改成功界面\end{tabular}} \\ \hline
+结束状况 & \multicolumn{3}{l|}{用户退出登录，需要重新输入新密码}                         \\ \hline
+可选流程 & \multicolumn{3}{l|}{1.用户密码不符合要求，要求重新输入}                       \\ \hline
+异常流程 & \multicolumn{3}{l|}{}                                         \\ \hline
+描述   & \multicolumn{3}{l|}{}                                         \\ \hline
+\end{tabular}%
+}
+\caption{}
+\label{tab:3.2}
+\end{table}
+
+\begin{table}[H]
+\resizebox{0.85\columnwidth}{!}{%
+\begin{tabular}{|l|lll|}
+\hline
+编号   & \multicolumn{1}{l|}{3.3}  & \multicolumn{1}{l|}{名称}  & 修改用户头像 \\ \hline
+执行者  & \multicolumn{1}{l|}{普通用户} & \multicolumn{1}{l|}{优先级} & 低      \\ \hline
+描述   & \multicolumn{3}{l|}{用户修改个人信息中的头像}                             \\ \hline
+前置条件 & \multicolumn{3}{l|}{}                                         \\ \hline
+基本流程 & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}}1.导入新头像\\ 2.判断是否满足大小要求\\ 3.显示头像修改成功界面\end{tabular}} \\ \hline
+结束状况 & \multicolumn{3}{l|}{用户界面显示新头像}                                \\ \hline
+可选流程 & \multicolumn{3}{l|}{1.图片大小不符合要求，要求重新导入}                       \\ \hline
+异常流程 & \multicolumn{3}{l|}{}                                         \\ \hline
+描述   & \multicolumn{3}{l|}{}                                         \\ \hline
+\end{tabular}%
+}
+\caption{}
+\label{tab:3.3}
+\end{table}
+
+\subsection{顾客的用例}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{pics/11.png}
+    \caption{顾客的用例}
+    \label{fig:gkdyl}
+\end{figure}
+
+\begin{table}[h]
+\resizebox{0.85\columnwidth}{!}{%
+\begin{tabular}{|l|lll|}
+\hline
+编号   & \multicolumn{1}{l|}{4}  & \multicolumn{1}{l|}{名称}  & 管理购物车信息 \\ \hline
+执行者  & \multicolumn{1}{l|}{顾客} & \multicolumn{1}{l|}{优先级} & 低       \\ \hline
+描述   & \multicolumn{3}{l|}{用户对购物车中商品进行新增,修改,删除操作}                   \\ \hline
+前置条件 & \multicolumn{3}{l|}{登录用户}                                    \\ \hline
+基本流程 & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}}1.向购物车中添加商品\\ 2.修改商品的数量\\ 3.统计购物车内商品的总价格\end{tabular}} \\ \hline
+结束状况 & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}}得到一个完整的购物车内容\\ 超过起送费即可生成订单\end{tabular}}               \\ \hline
+可选流程 & \multicolumn{3}{l|}{1.删除购物车中的商品.}                            \\ \hline
+异常流程 & \multicolumn{3}{l|}{}                                        \\ \hline
+描述   & \multicolumn{3}{l|}{}                                        \\ \hline
+\end{tabular}%
+}
+\caption{}
+\label{tab:4}
+\end{table}
+
+\begin{table}[H]
+\resizebox{0.85\columnwidth}{!}{%
+\begin{tabular}{|l|lll|}
+\hline
+编号   & \multicolumn{1}{l|}{5.1} & \multicolumn{1}{l|}{名称}  & 新增送货地址 \\ \hline
+执行者  & \multicolumn{1}{l|}{顾客}  & \multicolumn{1}{l|}{优先级} & 低      \\ \hline
+描述   & \multicolumn{3}{l|}{顾客新增地址列表中的送货地址}                          \\ \hline
+前置条件 & \multicolumn{3}{l|}{}                                        \\ \hline
+基本流程 & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}}1.点击地址界面的新建用户地址\\ 2.依次填入地址信息满足正常地址规范\\ 3.显示新建地址成功界面\end{tabular}} \\ \hline
+结束状况 & \multicolumn{3}{l|}{用户界面出现新地址的简略版本}                          \\ \hline
+可选流程 & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}}1.用户输入的地址不符合正常的地址规范，需要重新输入\\ 2.地址中的必填信息未填写，需要写入\end{tabular}}     \\ \hline
+异常流程 & \multicolumn{3}{l|}{}                                        \\ \hline
+描述   & \multicolumn{3}{l|}{}                                        \\ \hline
+\end{tabular}%
+}
+\caption{}
+\label{tab:5.1}
+\end{table}
+
+\begin{table}[H]
+\resizebox{0.85\columnwidth}{!}{%
+\begin{tabular}{|l|lll|}
+\hline
+编号   & \multicolumn{1}{l|}{5.2}                 & \multicolumn{1}{l|}{名称}                  & 修改送货地址                 \\ \hline
+执行者  & \multicolumn{1}{l|}{顾客}                  & \multicolumn{1}{l|}{优先级}                 & 低                      \\ \hline
+描述   & \multicolumn{3}{l|}{顾客修改地址列表中的送货地址}                                                                          \\ \hline
+前置条件 & \multicolumn{3}{l|}{}                                                                                        \\ \hline
+基本流程 & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}}1.点击地址界面的用户地址\\ 2.修改地址信息满足正常地址规范\\ 3.显示修改地址成功界面\end{tabular}} \\ \hline
+结束状况 & \multicolumn{3}{l|}{用户界面出现修改后的新地址的简略版本}                                                                      \\ \hline
+可选流程 & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}}1.用户输入的地址不符合正常的地址规范，需要重新输入\\ 2.地址中的必填信息未填写，需要写入\end{tabular}} \\ \hline
+异常流程 & \multicolumn{3}{l|}{}                                                                                        \\ \hline
+描述   & \multicolumn{3}{l|}{}                                                                                        \\ \hline
+\end{tabular}%
+}
+\caption{}
+\label{tab:5.2}
+\end{table}
+
+\begin{table}[H]
+\resizebox{0.85\columnwidth}{!}{%
+\begin{tabular}{|l|lll|}
+\hline
+编号   & \multicolumn{1}{l|}{5.3} & \multicolumn{1}{l|}{名称}  & 删除送货地址 \\ \hline
+执行者  & \multicolumn{1}{l|}{顾客}  & \multicolumn{1}{l|}{优先级} & 低      \\ \hline
+描述   & \multicolumn{3}{l|}{顾客删除地址列表中的送货地址}                          \\ \hline
+前置条件 & \multicolumn{3}{l|}{1.地址列表中有已经存在的地址}                         \\ \hline
+基本流程 & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}}1.点击地址界面的用户地址，进入用户的地址列表界面\\ 2.选中需要删除的地址，点击删除，询问是否删除\\ 3.显示删除地址成功界面\end{tabular}} \\ \hline
+结束状况 & \multicolumn{3}{l|}{用户的地址列表界面原地址消失}                          \\ \hline
+可选流程 & \multicolumn{3}{l|}{1.误触点到删除，询问是否删除时点击否，返回用户地址列表界面}          \\ \hline
+异常流程 & \multicolumn{3}{l|}{}                                        \\ \hline
+描述   & \multicolumn{3}{l|}{}                                        \\ \hline
+\end{tabular}%
+}
+\caption{}
+\label{tab:5.3}
+\end{table}
+
+\subsection{商家的用例}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{pics/12.png}
+    \caption{商家的用例}
+    \label{fig:sjdyl}
+\end{figure}
+
+\begin{table}[H]
+\resizebox{0.85\columnwidth}{!}{%
+\begin{tabular}{|l|lll|}
+\hline
+编号   & \multicolumn{1}{l|}{6.1} & \multicolumn{1}{l|}{名称}  & 修改商家名称 \\ \hline
+执行者  & \multicolumn{1}{l|}{商家}  & \multicolumn{1}{l|}{优先级} & 低      \\ \hline
+描述   & \multicolumn{3}{l|}{商家修改商家信息中的名称}                            \\ \hline
+前置条件 & \multicolumn{3}{l|}{无}                                       \\ \hline
+基本流程 & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}}1.输入新商家名\\ 2.判断是否满足要求\\ 3.显示修改成功界面\end{tabular}}        \\ \hline
+结束状况 & \multicolumn{3}{l|}{商家界面显示修改后的商家名}                           \\ \hline
+可选流程 & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}}1.用户名称不符合要求，重新输入\\ 2.用户名称已经存在，显示用户名称已经被使用\end{tabular}} \\ \hline
+异常流程 & \multicolumn{3}{l|}{}                                        \\ \hline
+描述   & \multicolumn{3}{l|}{}                                        \\ \hline
+\end{tabular}%
+}
+\caption{}
+\label{tab:6.1}
+\end{table}
+
+\begin{table}[H]
+\resizebox{0.85\columnwidth}{!}{%
+\begin{tabular}{|l|lll|}
+\hline
+编号   & \multicolumn{1}{l|}{6.2} & \multicolumn{1}{l|}{名称}  & 修改商家地址 \\ \hline
+执行者  & \multicolumn{1}{l|}{商家}  & \multicolumn{1}{l|}{优先级} & 低      \\ \hline
+描述   & \multicolumn{3}{l|}{商家修改商家信息中的地址}                            \\ \hline
+前置条件 & \multicolumn{3}{l|}{无}                                       \\ \hline
+基本流程 & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}}1.输入商家的新地址\\ 2.判断是否满足正常的地址规范\\ 3.显示地址修改成功界面\end{tabular}} \\ \hline
+结束状况 & \multicolumn{3}{l|}{商家界面显示修改后的商家地址}                          \\ \hline
+可选流程 & \multicolumn{3}{l|}{1.商家地址不符合要求，重新输入}                        \\ \hline
+异常流程 & \multicolumn{3}{l|}{}                                        \\ \hline
+描述   & \multicolumn{3}{l|}{}                                        \\ \hline
+\end{tabular}%
+}
+\caption{}
+\label{tab:6.2}
+\end{table}
+
+\begin{table}[H]
+\resizebox{0.85\columnwidth}{!}{%
+\begin{tabular}{|l|lll|}
+\hline
+编号   & \multicolumn{1}{l|}{6.3} & \multicolumn{1}{l|}{名称}  & 修改商家介绍 \\ \hline
+执行者  & \multicolumn{1}{l|}{商家}  & \multicolumn{1}{l|}{优先级} & 低      \\ \hline
+描述   & \multicolumn{3}{l|}{商家修改商家信息中的介绍}                            \\ \hline
+前置条件 & \multicolumn{3}{l|}{无}                                       \\ \hline
+基本流程 & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}}1.输入商家的新介绍\\ 2.判断是否满足要求（字数要求，敏感词）\\ 3.显示修改成功界面\end{tabular}} \\ \hline
+结束状况 & \multicolumn{3}{l|}{商家界面显示修改后的商家介绍}                          \\ \hline
+可选流程 & \multicolumn{3}{l|}{1.商家介绍不符合要求，重新输入}                        \\ \hline
+异常流程 & \multicolumn{3}{l|}{}                                        \\ \hline
+描述   & \multicolumn{3}{l|}{}                                        \\ \hline
+\end{tabular}%
+}
+\caption{}
+\label{tab:6.3}
+\end{table}
+
+\begin{table}[H]
+\resizebox{0.85\columnwidth}{!}{%
+\begin{tabular}{|l|lll|}
+\hline
+编号   & \multicolumn{1}{l|}{6.4} & \multicolumn{1}{l|}{名称}  & 修改商家起送费 \\ \hline
+执行者  & \multicolumn{1}{l|}{商家}  & \multicolumn{1}{l|}{优先级} & 低       \\ \hline
+描述   & \multicolumn{3}{l|}{商家修改商家信息中的起送费}                            \\ \hline
+前置条件 & \multicolumn{3}{l|}{无}                                        \\ \hline
+基本流程 & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}}1.输入商家的新起送费\\ 2.判断是否满足要求（选择：免起送费，固定金额）\\ 3.显示修改成功界面\end{tabular}} \\ \hline
+结束状况 & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}}商家下单界面显示修改后的新起送费\\ 只要满足订单金额大于起送费时，订单才允许跳转到支付界面\end{tabular}}      \\ \hline
+可选流程 & \multicolumn{3}{l|}{1.商家起送费不符合要求，重新输入}                        \\ \hline
+异常流程 & \multicolumn{3}{l|}{}                                         \\ \hline
+描述   & \multicolumn{3}{l|}{}                                         \\ \hline
+\end{tabular}%
+}
+\caption{}
+\label{tab:6.4}
+\end{table}
+
+\begin{table}[H]
+\resizebox{0.85\columnwidth}{!}{%
+\begin{tabular}{|l|lll|}
+\hline
+编号   & \multicolumn{1}{l|}{6.5} & \multicolumn{1}{l|}{名称}  & 修改商家配送费 \\ \hline
+执行者  & \multicolumn{1}{l|}{商家}  & \multicolumn{1}{l|}{优先级} & 低       \\ \hline
+描述   & \multicolumn{3}{l|}{商家修改商家信息中的配送费}                            \\ \hline
+前置条件 & \multicolumn{3}{l|}{无}                                        \\ \hline
+基本流程 & \multicolumn{3}{l|}{\begin{tabular}[c]{@{}l@{}}1.输入商家新的配送费\\ 2.判断是否满足要求（金额要求）\\ 3.显示修改成功界面\end{tabular}} \\ \hline
+结束状况 & \multicolumn{3}{l|}{商家下单界面显示修改后的配送费}                          \\ \hline
+可选流程 & \multicolumn{3}{l|}{1.商家配送费不符合要求，重新输入}                        \\ \hline
+异常流程 & \multicolumn{3}{l|}{}                                         \\ \hline
+描述   & \multicolumn{3}{l|}{}                                         \\ \hline
+\end{tabular}%
+}
+\caption{}
+\label{tab:6.5}
+\end{table}
+
+\section{非功能性需求}
+\subsection{系统架构要求}
+\subsection{接口API}
+\subsubsection*{business}
+\begin{itemize}
+    \item \textbf{ businesses/orderType/{orderTypeId}}
+    \begin{itemize}
+    \item 请求方法:GET
+    \item 参数：orderTypeId
+    \item 返回值：business 数组
+    \item 功能：根据点餐分类编号查询分类商家信息
+    \item 后端函数名:listBusinessByOrderTypeId
+    \end{itemize}
+    \item businesses/{businessId}
+    \begin{itemize}
+    \item 请求方法:GET
+    \item 参数:businessId
+    \item 返回值:businessId对象
+    \item 功能:根据商家编号查询商家信息
+    \item 后端函数名:getBusinessById
+    \end{itemize}
+    \item businesses
+    \begin{itemize}
+    \item 请求方法:POST
+    \item 参数:businessName、businessImg、orderTypeId
+    \item 返回值:int(返回行数)
+    \item 功能:向商家表中添加一条字段
+    \item 后端函数名:r egisterBusiness
+    \end{itemize}
+    \item businesses
+    \begin{itemize}
+    \item 请求方法:PUT
+    \item 参数:businessId、businessName、businessAddress、businessExplain、businessImg、orderTypeId、starPrice、deliveryPrice
+    \item 返回值:int(返回影响的行数)
+    \item 功能:向商家表中更新一条记录
+    \item 后端函数名:updateBusiness
+    \end{itemize}
+    \item 5. businesses
+    \begin{itemize}
+    \item 请求方法:DELETE
+    \item 参数:businessId
+    \item 返回值:int(删除成功)
+    \item 功能:根据商家编号删除一条商家记录（将delTag设为0）
+    \item 后端函数名:deleteBusiness
+    \end{itemize}
+\end{itemize}
+
+\subsubsection*{food}
+\begin{itemize}
+   
+    \item foods/business/{businessId}
+     \begin{itemize}
+    \item 请求方法:GET
+    \item 参数:businessId
+    \item 返回值:food 数组
+    \item 功能:根据商家编号查询所属食品信息
+    \item 后端函数名:listFoodByBusinessId
+    \end{itemize}
+    \item foods/{foodId}
+    \begin{itemize} 
+    \item 请求方法:GET
+    \item 参数:foodId
+    \item 返回值:food对象
+    \item 功能:根据食品编号查询食品信息
+    \item 后端函数名:getFoodById
+    \end{itemize}
+    \item foods
+    \begin{itemize}
+    \item 请求方法:POST
+    \item 参数:foodName、foodExplain、foodImg、foodPrice、businessId、quantity
+    \item 返回值:int
+    \item 功能:向食品表中添加一条记录
+    \item 后端函数名:addfood
+    \end{itemize}
+    \item foods/{foodId}
+    \begin{itemize}
+    \item 请求方法:PUT
+    \item 参数:businessId、foodId、foodName、foodExplain、foodImg、foodPrice、quantity
+    \item 返回值:int
+    \item 功能:根据商家编号、食品编号更新一条食品记录（检测商家是否匹配，更新前拷贝）
+    \item 后端函数名:updateFood
+    \end{itemize}
+    \item foods
+    \begin{itemize}
+    \item 请求方法:PATCH
+    \item 参数:businessId、foodId、soldOut
+    \item 返回值:int
+    \item 功能:根据商家编号、食品编号更新食品是否售罄
+    \item 后端函数名:setFood
+   \end{itemize}
+    \item foods/{foodId}
+    \begin{itemize}
+    \item 请求方法:DELETE
+    \item 参数:businessId、foodId
+    \item 返回值:int
+    \item 功能:根据商家编号、食品编号删除一条食品记录（将delTag设为0，检测商家是否匹配，删除前拷贝）
+    \item 后端函数名:removeFood
+    \end{itemize}
+\end{itemize}
+
+
+\subsubsection*{cart}
+\begin{itemize}
+    \item  carts/user/{userId}/{businessId}
+    \begin{itemize}
+    \item 请求方法:GET
+    \item 参数:userId、businessId（可选）
+    \item 返回值:cart数组（多对一：所属商家信息、所属食品信息）
+    \item 功能:据用户编号和商家编号，查询此用户购物车中某个商家的所有购物车信息
+    \item 后端函数名:listCart
+    \end{itemize}
+    \item carts
+    \begin{itemize}
+    \item 请求方法:POST
+    \item 参数:userId、businessId、foodId
+    \item 返回值:int
+    \item 功能:向购物车表中添加一条记录
+    \item 后端函数名:saveCart
+    \end{itemize}
+    \item  carts
+    \begin{itemize}
+    \item 请求方法:PUT
+    \item 参数:userId、businessId、foodId、quantity
+    \item 返回值:int
+    \item 功能:根据用户编号、商家编号、食品编号更新数量
+    \item 后端函数名:updateCart
+    \end{itemize}
+    \item carts
+    \begin{itemize}
+    \item 请求方法:DELETE
+    \item 参数:userId、businessId、foodId（可选）
+    \item 返回值:int
+    \item 功能:根据用户编号、商家编号、食品编号删除购物车表中的一条食品记录
+    \item 根据用户编号、商家编号删除购物车表中的多条记录
+    \item 后端函数名:removeCart
+    \end{itemize}
+\end{itemize}
+
+\subsubsection*{deliveryAddress}
+\begin{itemize}
+\item delivery-addresses/user/{userId}
+\begin{itemize}
+    \item 请求方法:GET
+    \item 参数:userId
+    \item 返回值:deliveryAddress数组
+    \item 功能:根据用户编号查询所属送货地址
+    \item 后端函数名:listDeliveryAddressByUserId
+\end{itemize}
+
+\item delivery-addresses/{daId}
+\begin{itemize}
+    \item 请求方法:GET
+    \item 参数:daId
+    \item 返回值:deliveryAddress对象
+    \item 功能:根据送货地址编号查询送货地址
+    \item 后端函数名:getDeliveryAddressById
+\end{itemize}
+
+\item delivery-addresses
+\begin{itemize}
+    \item 请求方法:POST
+    \item 参数:contactName、contactSex、contactTel、address、userId
+    \item 返回值:int
+    \item 功能:向送货地址表中添加一条记录
+    \item 后端函数名:saveDeliveryAddress
+\end{itemize}
+
+\item delivery-addresses
+\begin{itemize}
+    \item 请求方法:PUT
+    \item 参数:daId、contactName、contactSex、contactTel、address、userId
+    \item 返回值:int
+    \item 功能:根据送货地址编号更新送货地址信息（更新前拷贝）
+    \item 后端函数名:updateDeliveryAddress
+\end{itemize}
+
+\item delivery-addresses/{daId}
+\begin{itemize}
+    \item 请求方法:DELETE
+    \item 参数:daId
+    \item 返回值:int
+    \item 功能:根据送货地址编号删除一条记录（删除前拷贝）
+    \item 后端函数名:removeDeliveryAddress
+\end{itemize}
+\end{itemize}
+
+\subsubsection*{order}
+\begin{itemize}
+\item orders/user/{userId}
+\begin{itemize}
+    \item 请求方法:GET
+    \item 参数:userId
+    \item 返回值:orders数组（包括多对一：business； 一对多：订单明细信息）
+    \item 功能:根据用户编号查询此用户的所有订单信息
+    \item 后端函数名:listOrdersByUserId
+\end{itemize}
+
+\item orders/{orderId}
+\begin{itemize}
+    \item 请求方法:GET
+    \item 参数:userId
+    \item 返回值:orders数组（包括多对一：business； 一对多：订单明细信息）
+    \item 功能:根据订单编号查询订单信息，包括所属商家信息，和此订单的所有订单明细信息
+    \item 后端函数名:getOrdersById
+\end{itemize}
+
+\item orders
+\begin{itemize}
+    \item 请求方法:POST
+    \item 参数:userId、businessId、daId、orderTotal
+    \item 返回值:int
+    \item 功能:\par
+        1. 用户编号、商家编号、订单总金额、送货地址编号向订单表中添加一条记录,并获取自动生成的订单编号\par
+         2. 根据用户编号、商家编号从购物车表中查询所有数据，批量添加到订单明细表中\par
+        3. 根据用户编号、商家编号删除购物车表中的数据。
+    \item 后端函数名:createOrders
+\end{itemize}
+\end{itemize}
+
+\subsubsection*{user}
+\begin{itemize}
+\item users/login
+\begin{itemize}
+    \item 请求方法:POST
+    \item 参数:userId、password
+    \item 返回值:user对象
+    \item 功能:根据用户编号与密码查询用户信息
+    \item 后端函数名:getUserByIdByPass
+\end{itemize}
+
+\item users/{userId}
+\begin{itemize}
+    \item 请求方法:GET
+    \item 参数:userId
+    \item 返回值:int
+    \item 功能:根据用户编号查询用户表返回的行数
+    \item 后端函数名:getUserById
+\end{itemize}
+
+\item users/register
+\begin{itemize}
+    \item 请求方法:POST
+    \item 参数:userId、password、userName、userSex
+    \item 返回值:int
+    \item 功能:向用户表中添加一条记录
+    \item 后端函数名:saveUser
+\end{itemize}
+
+\item users
+\begin{itemize}
+    \item 请求方法:PUT
+    \item 参数:userId、password、userName、userSex、userImg（可选）
+    \item 返回值:int
+    \item 功能:根据用户编号与密码更改用户信息
+    \item 后端函数名:updateUser
+\end{itemize}
+
+\item users
+\begin{itemize}
+    \item 请求方法:DELETE
+    \item 参数:userId、password
+    \item 返回值:int
+    \item 功能:根据用户编号与密码删除用户（将delTag设为0）
+    \item 后端函数名:deleteUser
+\end{itemize}
+\end{itemize}
+\subsubsection*{key}
+\begin{itemize}
+  \item public-key
+\begin{itemize}
+    \item 请求方法:GET
+    \item 参数:
+    \item 返回值:string
+    \item 功能:根据后端的私钥生成公钥返回到前端
+    \item 后端函数名:getPublicKey
+\end{itemize}
+\end{itemize}
+
+
+\subsection{安全性}
+
+
+
+
+
+
+\subsection{性能}
+\subsection{界面}

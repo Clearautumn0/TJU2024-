@@ -234,6 +234,7 @@ export default {
 					this.foodArr[index].quantity += num;
 					this.foodArr.sort();
 				} else {
+					
 					alert('向购物车中更新食品失败！');
 				}
 			}).catch(error => {

@@ -40,6 +40,7 @@
 
 <script>
 	import Footer from '../components/Footer.vue';
+	import JSEncrypt from 'jsencrypt';
 
 	export default {
 		name: 'Login',
@@ -51,36 +52,54 @@
 		},
 		methods: {
 			login() {
-				if (this.userId == '') {
+				if (this.userId === '') {
 					alert('手机号码不能为空！');
 					return;
 				}
-				if (this.password == '') {
+				if (this.password === '') {
 					alert('密码不能为空！');
 					return;
 				}
 
+				// 获取公钥并加密密码
+				this.$axios.get('/public-key').then(response => {
+					const publicKey = response.data; 
+
+					// 使用公钥加密密码
+					const encryptor = new JSEncrypt();
+					encryptor.setPublicKey(publicKey);
+					const encryptedPassword = encryptor.encrypt(this.password);
+
+					if (!encryptedPassword) {
+						alert('密码加密失败，请稍后再试！');
+						return;
+					}
+					// alert(encryptedPassword);
+					// 发送加密后的密码进行登录
 				//登录请求
 				this.$axios.post('users/login', {
 					userId: this.userId,
-					password: this.password
+					password: encryptedPassword
 				}).then(response => {
 					let user = response;
-					if (user == null || user == '') {
+
+					if (user == null || user === '') {
 						alert('用户名或密码不正确！');
 					} else {
-						//sessionstorage有容量限制，为了防止数据溢出，所以不将userImg数据放入session中
+						// sessionstorage有容量限制，为了防止数据溢出，所以不将userImg数据放入session中
 						user.userImg = '';
-
 						this.$setSessionStorage('user', user);
 						this.$setSessionStorage('token', user.token);
 						this.$router.go(-1);
 					}
 				}).catch(error => {
-					console.error(error);
+					console.error('获取公钥失败：', error);
+				});
+			}).catch(error => {
+					console.error('获取公钥失败：', error);
 				});
 			},
-			register() {
+			register() { // 修正了register函数位置，它应该在methods对象内
 				this.$router.push({
 					path: 'register'
 				});

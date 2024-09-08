@@ -1,63 +1,97 @@
 package com.neusoft.elmboot.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.neusoft.elmboot.mapper.UserMapper;
 import com.neusoft.elmboot.po.User;
 import com.neusoft.elmboot.service.UserService;
+
+import javax.crypto.Cipher;
+import java.security.KeyFactory;
+import java.security.PrivateKey;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.util.Base64;
+
+import com.neusoft.elmboot.util.RsaUtil;
+
+
+
 import com.neusoft.elmboot.util.TokenUtil;
 
 @Service
-public class UserServiceImpl implements UserService{
-	
+public class UserServiceImpl implements UserService {
+
 	@Autowired
 	private UserMapper userMapper;
-	
+
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
+	
+    @Value("${security.rsa.private-key}")
+    private String privateKeyStr;  // 从配置文件或安全存储中获取私钥
 
 //	@Override
 //	public User getUserByIdByPass(String userId, String password) {
 //		User user = userMapper.getUserById(userId);
 //		return userMapper.getUserByIdByPass(user);
 //	}
+
+//	@Override
+//	public User getUserByIdByPass(User user) {
+//		User storedUser = userMapper.getUserById(user.getUserId());
+//		// 无对应用户
+//		if (storedUser == null) {
+//			return null;
+//		}
+//		// 密码不符
+//		if (!passwordEncoder.matches(user.getPassword(), storedUser.getPassword())) {
+//			return null;
+//		}
+//		storedUser.setPassword("");
+//		return storedUser;
+//	}
+
+	
 	
 	@Override
-	public User getUserByIdByPass(User user) {
+	public User getUserByIdByPass(User user) throws Exception {
 		User storedUser = userMapper.getUserById(user.getUserId());
-		// 无对应用户
+		//无对应用户
 		if(storedUser == null) {
 			return null;
 		}
-		// 密码不符
-		if(!passwordEncoder.matches(user.getPassword(), storedUser.getPassword())) {
-			return null;
-		}
+
+		PrivateKey privateKey = RsaUtil.getPrivateKey(privateKeyStr);
+	    String decryptedPassword = RsaUtil.decryptRSA(user.getPassword(), privateKey);
+
+		// 验证解密后的密码和数据库中存储的密码是否匹配
+		if (!passwordEncoder.matches(decryptedPassword, storedUser.getPassword())) {
+	        return null;
+	    }
 		String token = TokenUtil.sign(storedUser);
 		storedUser.setToken(token);
 		storedUser.setPassword("");
 		return storedUser;
 	}
 	
+	
+	
+	
+	
+	
 	@Override
 	public int getUserById(String userId) {
-		// 正则表达式验证手机号格式
-	    String regex = "^1[3-9]\\d{9}$";
-	    if (!userId.matches(regex)) {
-	        // 如果手机号格式不正确，抛出异常或返回错误信息
-	        //throw new IllegalArgumentException("Invalid phone number format for userId: " + userId);
-	    	return 0;
-	    }
-	    // 无对应用户
+		String regex = "^1[3-9]\\d{9}$";//中国大陆手机号规范
 		User user = userMapper.getUserById(userId);
-		if(user!=null) {
+		if (user != null && userId.matches(regex)) {
 			return 1;
 		}
 		return 0;
 	}
-	
+
 	@Override
 	public int saveUser(User user) {
 		// 对前端传入的明文密码进行加密
@@ -70,11 +104,11 @@ public class UserServiceImpl implements UserService{
 	public int updateUser(User user) {
 		User storedUser = userMapper.getUserById(user.getUserId());
 		// 无对应用户
-		if(storedUser == null) {
+		if (storedUser == null) {
 			return 0;
 		}
 		// 密码不符
-		if(!passwordEncoder.matches(user.getPassword(), storedUser.getPassword())) {
+		if (!passwordEncoder.matches(user.getPassword(), storedUser.getPassword())) {
 			return 0;
 		}
 		return userMapper.updateUser(user);
@@ -84,15 +118,14 @@ public class UserServiceImpl implements UserService{
 	public int deleteUser(User user) {
 		User storedUser = userMapper.getUserById(user.getUserId());
 		// 无对应用户
-		if(storedUser == null) {
+		if (storedUser == null) {
 			return 0;
 		}
 		// 密码不符
-		if(!passwordEncoder.matches(user.getPassword(), storedUser.getPassword())) {
+		if (!passwordEncoder.matches(user.getPassword(), storedUser.getPassword())) {
 			return 0;
 		}
 		return userMapper.deleteUser(user);
 	}
-
 
 }

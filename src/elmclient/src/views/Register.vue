@@ -67,69 +67,67 @@ import Footer from '../components/Footer.vue';
 import Backer from '../components/backer.vue';
 
 
-export default {
-	name: 'Register',
-	data() {
-		return {
-			user: {
-				userId: '',
-				password: '',
-				userName: '',
-				userSex: 1
-			},
-			confirmPassword: '',
-
-		}
-	},
-	methods: {
-		// 中国大陆手机号验证正则表达式
-
-		checkUserId() {
-			// const phoneRegex = /^1[3-9]\d{9}$/;
-			if (this.user.userId == '') {
-				alert('手机号码不能为空！');
-				return;
+	export default {
+		name: 'Register',
+		data() {
+			return {
+				user: {
+					userId: '',
+					password: '',
+					userName: '',
+					userSex: 1
+				},
+				confirmPassword: '',
+				
 			}
-
-
-			// 验证手机号码是否符合规范
-			// if (!phoneRegex.test(this.user.userId)) {
-			// 	alert('请输入正确的手机号码！');
-			// 	return;
-			// }
-			this.$axios.get(`users/${this.user.userId}`)
-				.then(response => {
-					if (response.data == 1) {
-						this.user.userId = '';
-						alert('此手机号码已存在！');
-					}
-				}).catch(error => {
-					console.error(error);
-				});
-
 		},
-		register() {
-			const phoneRegex = /^1[3-9]\d{9}$/;
-			if (this.user.userId == '') {
-				alert('手机号码不能为空！');
-				return;
-			}
-			if (!phoneRegex.test(this.user.userId)) {
-				alert('请输入正确的手机号码！');
-				return;
-			}
-			if (this.user.password == '') {
-				alert('密码不能为空！');
-				return;
-			}
-			if (this.user.password != this.confirmPassword) {
-				alert('两次输入的密码不一致！');
-				return;
-			}
-			if (this.user.userName == '') {
-				alert('用户名不能为空！');
-				return;
-			}
+		methods: {
+			
+			
+			checkUserId() {
+				const phoneRegex = /^1[3-9]\d{9}$/;
+				if (this.user.userId == '') {
+					alert('手机号码不能为空！');
+					return;
+				} 
+				// 验证手机号码是否符合规范
+				if (!phoneRegex.test(this.user.userId)) {
+					alert('请输入正确的手机号码！');
+					return;
+				}
+					this.$axios.get(`users/${this.user.userId}`)
+						.then(response => {
+							if (response.data == 1) {
+								this.user.userId = '';
+								alert('此手机号码已存在！');
+							}
+						}).catch(error => {
+							console.error(error);
+						});
+				
+			},
+			register() {
+				const phoneRegex = /^1[3-9]\d{9}$/;
+				if (this.user.userId == '') {
+					alert('手机号码不能为空！');
+					return;
+				}
+				if (!phoneRegex.test(this.user.userId)) {
+					alert('请输入正确的手机号码！');
+					return;
+				}
+				if (this.user.password == '') {
+					alert('密码不能为空！');
+					return;
+				}
+				if (this.user.password != this.confirmPassword) {
+					alert('两次输入的密码不一致！');
+					return;
+				}
+				if (this.user.userName == '') {
+					alert('用户名不能为空！');
+					return;
+				}
 
 			//注册请求
 			this.$axios.post('users', this.user).then(response => {
