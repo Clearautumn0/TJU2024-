@@ -1,10 +1,8 @@
 <template>
 
   <!-- 返回按钮 -->
-  <!-- <img @click="goBack" src="../assets/backer.png" alt="返回" class="back-button"> -->
-  <div @click="goBack" class="back-button">
-	  &lt;
-  </div>
+  <img @click="goBack" src="../assets/backer.png" alt="返回" class="back-button">
+  
 </template>
 
 <script>
@@ -23,8 +21,9 @@ export default {
 .wrapper .back-button {
 	position: absolute;
 	left: 2vw;
+	top: 2vw;
+	width: 8vw;
+	height: 8vw;
 	cursor: pointer;
-	color: black;
-	font-size: 6vw;
 }
 </style>
