@@ -70,9 +70,9 @@
 
 	</div>
 </template>
-
 <script setup>
 import { ref, reactive, onMounted, getCurrentInstance } from 'vue';
+import { useRouter } from 'vue-router';  // 导入 useRouter
 import Footer from '../components/Footer.vue';
 
 // 获取全局 axios 实例
@@ -81,6 +81,7 @@ const axios = instance?.appContext.config.globalProperties.$axios;
 
 const orderArr = ref([]);
 const user = reactive({});
+const router = useRouter();  // 使用 useRouter 获取路由实例
 
 // 获取用户信息和订单数据
 const getUserOrders = () => {
@@ -116,13 +117,6 @@ const detailetShow = (orders) => {
 onMounted(() => {
 	getUserOrders();
 });
-
-// return {
-// 	orderArr,
-// 	user,
-// 	goToPayment,
-// 	detailetShow
-// };
 
 </script>
 
