@@ -11,6 +11,7 @@
     "@vue/compiler-sfc": "^3.5.3",
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
+    "elmclient": "file:",
     "font-awesome": "^4.7.0",
     "qs": "^6.9.4",
     "vue": "^3.5.3",
