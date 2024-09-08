@@ -17,7 +17,6 @@ public class KeyController {
 	
 	@GetMapping("/public-key")
 	  public Map<String, String> getPublicKey() throws Exception {
-		
 		Map<String, String> response = new HashMap<>();
 		response.put("data", keyService.getPublicKey());
 		return response;

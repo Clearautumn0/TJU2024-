@@ -54,161 +54,95 @@
 	</div>
 </template>
 
-<!-- <script>
-	import Backer from '../components/backer.vue';
-import Footer from '../components/Footer.vue';
-
-	export default {
-		name: 'EditUserAddress',
-		data() {
-			return {
-				businessId: this.$route.query.businessId,
-				daId: this.$route.query.daId,
-				user: {},
-				deliveryAddress: {}
-			}
-		},
-		created() {
-			this.user = this.$getSessionStorage('user');
-			
-			this.$axios.get(`delivery-addresses/${this.daId}`
-			).then(response => {
-				this.deliveryAddress = response;
-			}).catch(error => {
-				console.error(error);
-			});
-		},
-		components: {
-			Footer,
-			Backer
-		},
-		methods: {
-			editUserAddress() {
-				if (this.deliveryAddress.contactName == '') {
-					alert('联系人姓名不能为空！');
-					return;
-				}
-				if (this.deliveryAddress.contactTel == '') {
-					alert('联系人电话不能为空！');
-					return;
-				}
-				if (this.deliveryAddress.address == '') {
-					alert('联系人地址不能为空！');
-					return;
-				}
-
-				this.$axios.put('delivery-addresses', this.deliveryAddress
-				).then(response => {
-					if (response.data > 0) {
-						this.$router.push({
-							path: '/userAddress',
-							query: {
-								businessId: this.businessId
-							}
-						});
-					} else {
-						alert('更新地址失败！');
-					}
-				}).catch(error => {
-					console.error(error);
-				});
-			}
-		}
-	}
-</script> -->
-
-<script>
-import { ref, onMounted } from 'vue';
+<script setup>
+import { ref, onMounted, getCurrentInstance } from 'vue';
 import Backer from '../components/backer.vue';
 import Footer from '../components/Footer.vue';
-import axios from 'axios';
+// import axios from 'axios';
 import { useRouter, useRoute } from 'vue-router';
 
-export default {
-	name: 'EditUserAddress',
-	components: {
-		Footer,
-		Backer,
-	},
-	setup() {
-		const router = useRouter();
-
-		const businessId = ref(null);
-		const daId = ref(null);
-		const user = ref({});
-		const deliveryAddress = ref({
-			contactName: '',
-			contactTel: '',
-			address: '',
-		});
-
-		const fetchAddress = async () => {
-			try {
-				const response = await axios.get(`delivery-addresses/${daId.value}`);
-				deliveryAddress.value = response.data;
-			} catch (error) {
-				console.error(error);
-			}
-		};
-
-		const editUserAddress = async () => {
-			if (!deliveryAddress.value.contactName) {
-				alert('联系人姓名不能为空！');
-				return;
-			}
-			if (!deliveryAddress.value.contactTel) {
-				alert('联系人电话不能为空！');
-				return;
-			}
-			if (!deliveryAddress.value.address) {
-				alert('联系人地址不能为空！');
-				return;
-			}
-
-			try {
-				const response = await axios.put('delivery-addresses', deliveryAddress.value);
-				if (response.data > 0) {
-					alert('更新地址成功！');//不跳转
-					// const userConfirmed = confirm('更新地址成功\n点击确定跳转至地址列表页面');
-					// if (userConfirmed) {
-					// 	router.push({
-					// 		path: '/userAddress',
-					// 		query: {
-					// 			businessId: businessId.value,
-					// 		},
-					// 	});
-					// }
-					// else{
-
-					// }
+// 获取全局 axios 实例
+const instance = getCurrentInstance();
+const axios = instance?.appContext.config.globalProperties.$axios;
 
 
-				} else {
-					alert('更新地址失败！');
-				}
-			} catch (error) {
-				console.error(error);
-			}
-		};
+const router = useRouter();
 
-		onMounted(() => {
-			const route = useRoute();
-			const router = useRouter();
-			businessId.value = route.query.businessId;
-			daId.value = route.query.daId;
-			user.value = JSON.parse(sessionStorage.getItem('user'));
-			fetchAddress();
-		});
+const businessId = ref(null);
+const daId = ref(null);
+const user = ref({});
+const deliveryAddress = ref({
+	contactName: '',
+	contactTel: '',
+	address: '',
+});
 
-		return {
-			businessId,
-			daId,
-			user,
-			deliveryAddress,
-			editUserAddress,
-		};
-	},
+const fetchAddress = async () => {
+	try {
+		const response = await axios.get(`delivery-addresses/${daId.value}`);
+		deliveryAddress.value = response;
+	} catch (error) {
+		console.error(error);
+	}
 };
+
+const editUserAddress = async () => {
+	if (!deliveryAddress.value.contactName) {
+		alert('联系人姓名不能为空！');
+		return;
+	}
+	if (!deliveryAddress.value.contactTel) {
+		alert('联系人电话不能为空！');
+		return;
+	}
+	if (!deliveryAddress.value.address) {
+		alert('联系人地址不能为空！');
+		return;
+	}
+
+	try {
+		const response = await axios.put('delivery-addresses', deliveryAddress.value);
+		if (response.data > 0) {
+			alert('更新地址成功！');//不跳转
+			// const userConfirmed = confirm('更新地址成功\n点击确定跳转至地址列表页面');
+			// if (userConfirmed) {
+			// 	router.push({
+			// 		path: '/userAddress',
+			// 		query: {
+			// 			businessId: businessId.value,
+			// 		},
+			// 	});
+			// }
+			// else{
+
+			// }
+
+
+		} else {
+			alert('更新地址失败！');
+		}
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+onMounted(() => {
+	const route = useRoute();
+	const router = useRouter();
+	businessId.value = route.query.businessId;
+	daId.value = route.query.daId;
+	user.value = JSON.parse(sessionStorage.getItem('user'));
+	fetchAddress();
+});
+
+// return {
+// 	businessId,
+// 	daId,
+// 	user,
+// 	deliveryAddress,
+// 	editUserAddress,
+// };
+
 </script>
 
 <style scoped>

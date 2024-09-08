@@ -71,64 +71,59 @@
 	</div>
 </template>
 
-<script>
-import { ref, reactive, onMounted } from 'vue';
+<script setup>
+import { ref, reactive, onMounted, getCurrentInstance } from 'vue';
 import Footer from '../components/Footer.vue';
-import axios from 'axios';
-// import Backer from '../components/backer.vue';
 
-export default {
-	name: 'OrderList',
-	components: {
-		Footer
-	},
-	setup() {
-		const orderArr = ref([]);
-		const user = reactive({});
+// 获取全局 axios 实例
+const instance = getCurrentInstance();
+const axios = instance?.appContext.config.globalProperties.$axios;
 
-		// 获取用户信息和订单数据
-		const getUserOrders = () => {
-			const storedUser = JSON.parse(sessionStorage.getItem('user')); // Vue 3 中 sessionStorage 的直接访问方式
-			Object.assign(user, storedUser);
+const orderArr = ref([]);
+const user = reactive({});
 
-			axios.get(`orders/user/${user.userId}`)
-				.then(response => {
-					let result = response.data;
-					result.forEach(orders => {
-						orders.isShowDetailet = false;
-					});
-					orderArr.value = result;
-				})
-				.catch(error => {
-					console.error(error);
-				});
-		};
+// 获取用户信息和订单数据
+const getUserOrders = () => {
+	const storedUser = JSON.parse(sessionStorage.getItem('user')); // Vue 3 中 sessionStorage 的直接访问方式
+	Object.assign(user, storedUser);
 
-		// 跳转到支付页面
-		const goToPayment = (orderId) => {
-			router.push({
-				path: '/payment',
-				query: { orderId: orderId }
+	axios.get(`orders/user/${user.userId}`)
+		.then(response => {
+			let result = response;
+			result.forEach(orders => {
+				orders.isShowDetailet = false;
 			});
-		};
-
-		// 切换订单详情的显示状态
-		const detailetShow = (orders) => {
-			orders.isShowDetailet = !orders.isShowDetailet;
-		};
-
-		onMounted(() => {
-			getUserOrders();
+			orderArr.value = result;
+		})
+		.catch(error => {
+			console.error(error);
 		});
+};
 
-		return {
-			orderArr,
-			user,
-			goToPayment,
-			detailetShow
-		};
-	}
-}
+// 跳转到支付页面
+const goToPayment = (orderId) => {
+	router.push({
+		path: '/payment',
+		query: { orderId: orderId }
+	});
+};
+
+// 切换订单详情的显示状态
+const detailetShow = (orders) => {
+	orders.isShowDetailet = !orders.isShowDetailet;
+};
+
+onMounted(() => {
+	getUserOrders();
+});
+
+// return {
+// 	orderArr,
+// 	user,
+// 	goToPayment,
+// 	detailetShow
+// };
+
 </script>
 
 <style scoped>

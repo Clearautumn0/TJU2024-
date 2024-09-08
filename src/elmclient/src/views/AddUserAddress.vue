@@ -54,81 +54,79 @@
 	</div>
 </template>
 
-<script>
-import { ref, reactive, onMounted } from 'vue';
+<script setup>
+import { ref, reactive, onMounted, getCurrentInstance } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import axios from 'axios';
+// import axios from 'axios';
 import Footer from '../components/Footer.vue';
 import Backer from '../components/backer.vue';
 import Address_manage_backer from '../components/address_manage_backer.vue';
 import { getSessionStorage } from '../common.js'; // Adjust if necessary
 
-export default {
-	name: 'AddUserAddress',
-	components: {
-		Footer,
-		Backer,
-		Address_manage_backer
-	},
-	setup() {
-		const router = useRouter();
-		const route = useRoute();
+// 获取全局 axios 实例
+const instance = getCurrentInstance();
+const axios = instance?.appContext.config.globalProperties.$axios;
 
-		const businessId = ref(route.query.businessId);
-		const user = ref({});
-		const deliveryAddress = reactive({
-			contactName: '',
-			contactSex: 1,
-			contactTel: '',
-			address: ''
-		});
 
-		onMounted(() => {
-			user.value = getSessionStorage('user');
-		});
 
-		const addUserAddress = async () => {
-			const phoneRegex = /^1[3-9]\d{9}$/; // Validate phone number format
+const router = useRouter();
+const route = useRoute();
 
-			if (deliveryAddress.contactName === '') {
-				alert('联系人姓名不能为空！');
-				return;
-			}
-			if (deliveryAddress.contactTel === '') {
-				alert('联系人电话不能为空！');
-				return;
-			}
-			if (!phoneRegex.test(deliveryAddress.contactTel)) {
-				alert('联系人电话格式不正确');
-				return;
-			}
-			if (deliveryAddress.address === '') {
-				alert('联系人地址不能为空！');
-				return;
-			}
+const businessId = ref(route.query.businessId);
+const user = ref({});
+const deliveryAddress = reactive({
+	contactName: '',
+	contactSex: 1,
+	contactTel: '',
+	address: ''
+});
 
-			deliveryAddress.userId = user.value.userId;
+onMounted(() => {
+	user.value = getSessionStorage('user');
+});
 
-			try {
-				const response = await axios.post('delivery-addresses', deliveryAddress);
-				if (response.data > 0) {
-					alert('新增地址成功！');
-					// Navigate to another page or handle success
-					router.push({ path: '/userAddress', query: { businessId: businessId.value } });
-				} else {
-					alert('新增地址失败！');
-				}
-			} catch (error) {
-				console.error('Error adding address:', error);
-			}
-		};
+const addUserAddress = async () => {
 
-		return {
-			deliveryAddress,
-			addUserAddress
-		};
+	const phoneRegex = /^1[3-9]\d{9}$/; // Validate phone number format
+	
+	if (deliveryAddress.contactName === '') {
+		alert('联系人姓名不能为空！');
+		return;
+	}
+	if (deliveryAddress.contactTel === '') {
+		alert('联系人电话不能为空！');
+		return;
+	}
+	if (!phoneRegex.test(deliveryAddress.contactTel)) {
+		alert('联系人电话格式不正确');
+		return;
+	}
+	if (deliveryAddress.address === '') {
+		alert('联系人地址不能为空！');
+		return;
+	}
+
+	deliveryAddress.userId = user.value.userId;
+
+	try {
+		const response = await axios.post('delivery-addresses', deliveryAddress);
+		if (response.data > 0) {
+			alert('新增地址成功！');
+			// Navigate to another page or handle success
+			router.push({ path: '/userAddress', query: { businessId: businessId.value } });
+		} else {
+			alert('新增地址失败！');
+		}
+	} catch (error) {
+		console.error('Error adding address:', error);
 	}
 };
+
+// return {
+// 	deliveryAddress,
+// 	addUserAddress
+// };
+
 </script>
 
 <style scoped>

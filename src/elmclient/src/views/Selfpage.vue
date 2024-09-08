@@ -52,29 +52,29 @@
 	</div>
 </template>
 
-<script>
+<script setup>
 import { useRouter } from 'vue-router';
+import { ref, onMounted, getCurrentInstance } from 'vue';
 import Footer from '../components/Footer.vue';
 import { getSessionStorage } from '../common.js';
 
-export default {
-	components: {
-		Footer
-	},
-	setup() {
-		const router = useRouter(); // 使用 useRouter 获取路由实例
-		const user = getSessionStorage('user') || { userName: '未登录' }; // 获取用户数据
+// 获取全局 axios 实例
+const instance = getCurrentInstance();
+const axios = instance?.appContext.config.globalProperties.$axios;
 
-		const toindividual_inf = () => {
-			router.push({ path: '/person' });
-		};
 
-		return {
-			user,
-			toindividual_inf
-		};
-	}
+const router = useRouter(); // 使用 useRouter 获取路由实例
+const user = getSessionStorage('user') || { userName: '未登录' }; // 获取用户数据
+
+const toindividual_inf = () => {
+	router.push({ path: '/person' });
 };
+
+// return {
+// 	user,
+// 	toindividual_inf
+// };
+
 </script>
 
 <style scoped>

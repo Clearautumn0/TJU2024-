@@ -35,7 +35,6 @@
 						<i class="fa fa-minus-circle" @click="minus(index)" v-show="item.quantity != 0"></i>
 					</div>
 					<p><span v-show="item.quantity != 0">{{ item.quantity }}</span></p>
-					<p><span v-show="item.quantity != 0">{{ item.quantity }}</span></p>
 					<div>
 						<i class="fa fa-plus-circle" @click="add(index)"></i>
 					</div>
@@ -111,20 +110,15 @@
 </template>
 
 <script setup>
-import {
-	ref,
-	onMounted,
-	computed
-} from 'vue'
-import {
-	useRoute,
-	useRouter
-} from 'vue-router'
-import axios from 'axios'
+import { ref, onMounted, computed, getCurrentInstance } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+// import axios from 'axios'
 import Backer from '../components/backer.vue'
-import {
-	getSessionStorage
-} from '../common';
+import { getSessionStorage } from '../common';
+
+// 获取全局 axios 实例
+const instance = getCurrentInstance();
+const axios = instance?.appContext.config.globalProperties.$axios;
 
 // 获取路由实例和路由参数
 const route = useRoute();
@@ -137,35 +131,29 @@ const foodArr = ref([]);
 const user = ref({});
 const isCartOpen = ref(false);
 
-const initialize = () => {
-	user.value = getSessionStorage('user');
+const initialize = async () => {
+	try {
+		user.value = getSessionStorage('user');
 
-	// 根据 businessId 查询商家信息
-	axios.get(`businesses/${businessId.value}`)
-		.then(response => {
-			business.value = response.data;
-		})
-		.catch(error => {
-			console.error(error);
-		})
+		// 根据 businessId 查询商家信息
+		const businessResponse = await axios.get(`businesses/${businessId.value}`);
+		business.value = businessResponse;
 
-	// 根据 businessId 查询食品信息
-	axios.get(`foods/business/${businessId.value}`).then(response => {
-		foodArr.value = response.data;
+		// 根据 businessId 查询食品信息
+		const foodResponse = await axios.get(`foods/business/${businessId.value}`);
+		foodArr.value = foodResponse;
 		foodArr.value.forEach(food => {
 			food.quantity = 0;
-		})
-		// console.log(foodArr.value);
+		});
 
 		// 如果已登录，那么需要去查询购物车中是否已经选购了某个食品
 		if (user.value) {
-			listCart();
+			await listCart();
 		}
-	}).catch(error => {
-		console.error(error);
-	})
-}
-
+	} catch (error) {
+		console.error('Error initializing:', error);
+	}
+};
 // 在组件创建时调用
 onMounted(() => {
 	initialize();
@@ -175,27 +163,27 @@ onMounted(() => {
 })
 
 // 定义方法
-const listCart = () => {
-	axios.get('carts/user', {
-		params: {
-			businessId: businessId.value,
-			userId: user.value.userId
-		}
-	}).then(response => {
-		const cartArr = response.data;
+async function listCart() {
+	try {
+		const response = await axios.get('carts/user', {
+			params: {
+				businessId: businessId.value,
+				userId: user.value.userId
+			}
+		});
+		const cartArr = response;
 		foodArr.value.forEach(foodItem => {
 			foodItem.quantity = 0;
 			cartArr.forEach(cartItem => {
 				if (cartItem.foodId === foodItem.foodId) {
 					foodItem.quantity = cartItem.quantity;
-				};
-				console.log(cartArr.value);
-			})
-		})
+				}
+			});
+		});
 		foodArr.value.sort();
-	}).catch(error => {
-		console.error(error);
-	})
+	} catch (error) {
+		console.error('Error fetching cart:', error);
+	}
 }
 
 const add = (index) => {
@@ -230,7 +218,7 @@ const saveCart = (index) => {
 		userId: user.value.userId,
 		foodId: foodArr.value[index].foodId
 	}).then(response => {
-		if (response.data == 1) {
+		if (response.data === 1) {
 			foodArr.value[index].quantity = 1;
 			foodArr.value.sort();
 		} else {
@@ -248,7 +236,7 @@ const updateCart = (index, num) => {
 		foodId: foodArr.value[index].foodId,
 		quantity: foodArr.value[index].quantity + num
 	}).then(response => {
-		if (response.data == 1) {
+		if (response.data === 1) {
 			foodArr.value[index].quantity += num;
 			foodArr.value.sort();
 		} else {
@@ -267,7 +255,7 @@ const removeCart = (index) => {
 			foodId: foodArr.value[index].foodId
 		}
 	}).then(response => {
-		if (response.data == 1) {
+		if (response.data === 1) {
 			foodArr.value[index].quantity = 0;
 			foodArr.value.sort();
 		} else {
