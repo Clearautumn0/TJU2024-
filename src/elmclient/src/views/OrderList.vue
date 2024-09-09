@@ -87,7 +87,6 @@ const router = useRouter();  // 使用 useRouter 获取路由实例
 const getUserOrders = () => {
 	const storedUser = JSON.parse(sessionStorage.getItem('user')); // Vue 3 中 sessionStorage 的直接访问方式
 	Object.assign(user, storedUser);
-
 	axios.get(`orders/user/${user.userId}`)
 		.then(response => {
 			let result = response;

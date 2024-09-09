@@ -1,6 +1,8 @@
 package com.neusoft.elmboot.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,19 +38,25 @@ public class DeliveryAddressController {
 	
 	//@RequestMapping("/saveDeliveryAddress")
 	@PostMapping
-	public int saveDeliveryAddress(@RequestBody DeliveryAddress deliveryAddress) throws Exception{
-		return deliveryAddressService.saveDeliveryAddress(deliveryAddress);
+	public Map<String, Integer> saveDeliveryAddress(@RequestBody DeliveryAddress deliveryAddress) throws Exception{
+		Map<String, Integer> response = new HashMap<>();
+		response.put("data", deliveryAddressService.saveDeliveryAddress(deliveryAddress));
+		return response;
 	} 
 	
 	//@RequestMapping("/updateDeliveryAddress")
 	@PutMapping
-	public int updateDeliveryAddress(@RequestBody DeliveryAddress deliveryAddress) throws Exception{
-		return deliveryAddressService.updateDeliveryAddress(deliveryAddress);
+	public Map<String, Integer> updateDeliveryAddress(@RequestBody DeliveryAddress deliveryAddress) throws Exception{
+		Map<String, Integer> response = new HashMap<>();
+		response.put("data", deliveryAddressService.updateDeliveryAddress(deliveryAddress));
+		return response;
 	} 
 	
 	//@RequestMapping("/removeDeliveryAddress")
 	@DeleteMapping("/{daId}")
-	public int removeDeliveryAddress(@PathVariable Integer daId) throws Exception{
-		return deliveryAddressService.removeDeliveryAddress(daId);
+	public Map<String, Integer> removeDeliveryAddress(@PathVariable Integer daId) throws Exception{
+		Map<String, Integer> response = new HashMap<>();
+		response.put("data", deliveryAddressService.removeDeliveryAddress(daId));
+		return response;
 	} 
 }
