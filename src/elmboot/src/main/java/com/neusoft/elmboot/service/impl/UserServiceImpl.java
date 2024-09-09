@@ -141,9 +141,4 @@ public class UserServiceImpl implements UserService {
 		return userMapper.deleteUser(user);
 	}
 
-	@Override
-	public int updateAuthorization(User user) {
-		return userMapper.updateAuthorization(user);
-	}
-
 }
