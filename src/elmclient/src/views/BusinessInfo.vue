@@ -138,7 +138,7 @@ const initialize = async () => {
 		// 根据 businessId 查询商家信息
 		const businessResponse = await axios.get(`businesses/${businessId.value}`);
 		business.value = businessResponse;
-
+		
 		// 根据 businessId 查询食品信息
 		const foodResponse = await axios.get(`foods/business/${businessId.value}`);
 		foodArr.value = foodResponse;

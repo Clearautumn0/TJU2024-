@@ -13,6 +13,7 @@ import Register from '../views/Register.vue';
 import Selfpage from '../views/Selfpage.vue';
 import Person from '../views/Person.vue';
 import EditUserName from '../views/EditUserName.vue';
+import Search from '../views/Search.vue';
 
 const routes = [{
 	path: '/',
@@ -74,6 +75,10 @@ const routes = [{
 	path: '/editUserName',
 	name: 'EditUserName',
 	component: EditUserName
+}, {
+	path: '/search',
+	name: 'Search',
+	component: Search
 }
 ];
 

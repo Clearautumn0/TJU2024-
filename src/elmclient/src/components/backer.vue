@@ -28,6 +28,15 @@ export default {
 
 <style scoped>
 /* 返回按钮样式 */
+/* .wrapper .back-button{
+	position: absolute;
+	margin-left: 2vw;
+	width: 10vw;
+	height: 10vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+} */
 .wrapper .back-button svg{
 	position: absolute;
 	left: 2vw;
