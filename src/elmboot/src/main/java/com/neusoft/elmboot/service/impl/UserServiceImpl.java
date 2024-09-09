@@ -33,8 +33,6 @@ public class UserServiceImpl implements UserService {
     @Value("${security.rsa.private-key}")
     private String privateKeyStr;  // 从配置文件或安全存储中获取私钥
 
-
-	
 	
 	@Override
 	public User getUserByIdByPass(User user) throws Exception {
@@ -141,4 +139,8 @@ public class UserServiceImpl implements UserService {
 		return userMapper.deleteUser(user);
 	}
 
+	@Override
+	public int updateAuthorization(User user) {
+		return userMapper.updateAuthorization(user);
+	}
 }
