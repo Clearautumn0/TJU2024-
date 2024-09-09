@@ -11,4 +11,5 @@ public interface OrdersService {
 	public List<Orders> listOrdersByUserId(String userId);
 	public List<Orders> findUnpaidOrders();
 	public int cancelOrder(Integer orderId);
+	public int setOrders(Integer orders);
 }
