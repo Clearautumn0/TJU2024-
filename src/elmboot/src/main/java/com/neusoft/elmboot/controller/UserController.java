@@ -31,10 +31,12 @@ public class UserController {
 	
 	//@RequestMapping("/getUserById")
 	@GetMapping("/{userId}")
+
 	public Map<String, Integer> getUserById(@PathVariable String userId) throws Exception{
 		Map<String, Integer> response = new HashMap<>();
 		response.put("data", userService.getUserById(userId));
 		return response;
+
 	}
 	
 	//@RequestMapping("/saveUser")

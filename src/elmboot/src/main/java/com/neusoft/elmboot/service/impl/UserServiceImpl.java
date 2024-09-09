@@ -39,6 +39,18 @@ public class UserServiceImpl implements UserService {
 //		return userMapper.getUserByIdByPass(user);
 //	}
 
+
+
+//	@Override
+//	public User getUserByIdByPass(User user) {
+//	    User reuser = userMapper.getUserByIdByPass(user);
+//	    if (reuser != null) {
+//	        reuser.setPassword("");//返回时不返回用户的密码
+//	    }
+//	    return reuser; // 这里返回null也是安全的，因为已经做了非空检查
+//	}
+
+
 //	@Override
 //	public User getUserByIdByPass(User user) {
 //		User storedUser = userMapper.getUserById(user.getUserId());
@@ -71,10 +83,12 @@ public class UserServiceImpl implements UserService {
 		if (!passwordEncoder.matches(decryptedPassword, storedUser.getPassword())) {
 	        return null;
 	    }
+
 		String token = TokenUtil.sign(storedUser);
 		storedUser.setToken(token);
 		storedUser.setPassword("");
 		return storedUser;
+
 	}
 	
 	
@@ -100,15 +114,18 @@ public class UserServiceImpl implements UserService {
 		return userMapper.saveUser(user);
 	}
 
+
 	@Override
 	public int updateUser(User user) {
 		User storedUser = userMapper.getUserById(user.getUserId());
 		// 无对应用户
+
 		if (storedUser == null) {
 			return 0;
 		}
 		// 密码不符
 		if (!passwordEncoder.matches(user.getPassword(), storedUser.getPassword())) {
+
 			return 0;
 		}
 		return userMapper.updateUser(user);
@@ -118,11 +135,13 @@ public class UserServiceImpl implements UserService {
 	public int deleteUser(User user) {
 		User storedUser = userMapper.getUserById(user.getUserId());
 		// 无对应用户
+
 		if (storedUser == null) {
 			return 0;
 		}
 		// 密码不符
 		if (!passwordEncoder.matches(user.getPassword(), storedUser.getPassword())) {
+
 			return 0;
 		}
 		return userMapper.deleteUser(user);

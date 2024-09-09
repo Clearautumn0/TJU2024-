@@ -13,7 +13,6 @@
     "core-js": "^3.6.5",
     "elmclient": "file:",
     "font-awesome": "^4.7.0",
-    "jsencrypt": "^3.3.2",
     "qs": "^6.9.4",
     "vue": "^3.5.3",
     "vue-router": "^4.4.3"
