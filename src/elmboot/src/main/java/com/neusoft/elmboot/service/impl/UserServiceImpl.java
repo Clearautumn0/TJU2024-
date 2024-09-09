@@ -33,9 +33,6 @@ public class UserServiceImpl implements UserService {
     @Value("${security.rsa.private-key}")
     private String privateKeyStr;  // 从配置文件或安全存储中获取私钥
 
-<<<<<<< HEAD
-
-=======
 //	@Override
 //	public User getUserByIdByPass(String userId, String password) {
 //		User user = userMapper.getUserById(userId);
@@ -69,7 +66,6 @@ public class UserServiceImpl implements UserService {
 //		return storedUser;
 //	}
 
->>>>>>> 2549889cb02c25235f44d1b25da33c77f6d3366e
 	
 	
 	@Override
