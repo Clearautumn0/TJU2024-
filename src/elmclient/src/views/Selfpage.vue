@@ -35,6 +35,10 @@
 				<p>我的客服</p>
 			</li>
 			<li>
+				<img src="../assets/businessmanage.png">
+				<p>店铺管理</p>
+			</li>
+			<li>
 				<img src="../assets/guanyu.png">
 				<p>关于饿了吧</p>
 			</li>
@@ -211,7 +215,7 @@ const toindividual_inf = () => {
 
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: space-between;
+	justify-content: flex-start;
 	align-items: center;
 	background-color: #fff;
 	border-radius: 5vw;
@@ -220,7 +224,7 @@ const toindividual_inf = () => {
 }
 
 .wrapper .system-setting li {
-	width: 22vw;
+	width: 23.75vw;
 	height: 15vw;
 	display: flex;
 	flex-direction: column;

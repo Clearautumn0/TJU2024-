@@ -17,7 +17,7 @@
 			<!-- 当滚动条超过上面的定位块时，search-fixed-top块变成固定在顶部。 -->
 			<div class="search-fixed-top" ref="fixedBox">
 				<!-- 搜索框部分中间的白框 -->
-				<div class="search-box">
+				<div @click="toSearch" class="search-box">
 					<i class="fa fa-search"></i>搜索饿了么商家、商品名称
 				</div>
 			</div>
@@ -376,6 +376,12 @@ onMounted(() => {
 });
 
 onBeforeUnmount(removeScrollListener);
+
+const toSearch = () =>{
+	router.push({
+		path: 'search'
+	});
+}
 
 const toBusinessList = (orderTypeId) => {
   router.push({ path: '/businessList', query: { orderTypeId } });
