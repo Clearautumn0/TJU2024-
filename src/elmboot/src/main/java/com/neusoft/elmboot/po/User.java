@@ -9,6 +9,7 @@ public class User {
 	private String userImg;
 	private Integer delTag;
 	private String token;
+	private Integer authorization;
 	
 	public String getUserId() {
 		return userId;
@@ -51,5 +52,11 @@ public class User {
 	}
 	public void setToken(String token) {
 		this.token = token;
+	}
+	public Integer getAuthorization() {
+		return authorization;
+	}
+	public void setAuthorization(Integer authorization) {
+		this.authorization = authorization;
 	}
 }

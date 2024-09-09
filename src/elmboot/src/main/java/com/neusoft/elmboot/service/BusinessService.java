@@ -9,7 +9,7 @@ public interface BusinessService {
 
 	public List<Business> listBusinessByOrderTypeId(Integer orderTypeId);
 	public Business getBusinessById(Integer businessId);
-	public Integer registerBusiness(Business business);
+	public Integer registerBusiness(Business business, String userId);
 	public Integer updateBusiness(Business business);
-	public Integer removeBusiness(Integer businessId);
+	public Integer removeBusiness(Integer businessId, String userId);
 }

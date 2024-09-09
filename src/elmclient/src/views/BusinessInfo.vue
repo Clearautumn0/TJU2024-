@@ -119,6 +119,8 @@
 		</div>
 
 	</div>
+	<!-- 弹窗 -->
+	<AlertPopup ref="alertPopup" :message="alertMessage" />
 </template>
 
 <script setup>
@@ -134,6 +136,7 @@
 	} from 'vue-router'
 	// import axios from 'axios'
 	import Backer from '../components/backer.vue'
+	import AlertPopup from '../components/AlertPopup.vue';
 	import {
 		getSessionStorage
 	} from '../common';
@@ -141,6 +144,7 @@
 	// 获取全局 axios 实例
 	const instance = getCurrentInstance();
 	const axios = instance?.appContext.config.globalProperties.$axios;
+
 
 
 	const showCaptchaModal = ref(false);
@@ -168,7 +172,7 @@
 			// 根据 businessId 查询商家信息
 			const businessResponse = await axios.get(`businesses/${businessId.value}`);
 			business.value = businessResponse;
-
+		
 			// 根据 businessId 查询食品信息
 			const foodResponse = await axios.get(`foods/business/${businessId.value}`);
 			foodArr.value = foodResponse;
@@ -190,7 +194,7 @@
 		if (user.value !== null) {
 			listCart(0);
 		}
-	})
+	});
 
 	// 定义方法
 	async function listCart() {
@@ -215,6 +219,17 @@
 			console.error('Error fetching cart:', error);
 		}
 	}
+	const alertMessage = ref('');
+
+	// 显示弹窗的方法
+	const showAlert = (message) => {
+		alertMessage.value = message;
+		const popup = instance?.refs.alertPopup;
+		popup?.openPopup();
+	};
+
+
+
 
 	const add = async (index) => {
 		if (foodArr.value[index].quantity == 0) {
@@ -229,12 +244,13 @@
 			captchaUrl.value = 'http://localhost:8080/elm/captcha';
 		} else {
 			updateCart(index, 1);
+
 		}
 	};
 	// 验证验证码
 	const verifyCaptcha = async () => {
 		if (!captchaInput.value) {
-			alert('请输入验证码');
+			showAlert('请输入验证码');
 			return;
 		}
 		// alert(captchaInput.value);
@@ -252,11 +268,11 @@
 				updateCart(pendingIndex.value, 1);
 				closeCaptcha();
 			} else {
-				alert('验证码错误，请重试！');
+				showAlert('验证码错误，请重试！');
 			}
 		} catch (error) {
 			console.error('Error verifying captcha:', error);
-			alert('验证码验证失败，请稍后再试。');
+			showAlert('验证码验证失败，请稍后再试。');
 
 
 		}
@@ -264,8 +280,8 @@
 	// 关闭验证码模态框
 	const closeCaptcha = () => {
 		showCaptchaModal.value = false;
-		showCaptchaModal.value = false;
-		captchaInput.value = '';
+		captchaInput.value = ''; // 清空验证码输入框
+		pendingIndex.value = null;
 	};
 	const minus = (index) => {
 		if (!user.value) {
@@ -282,21 +298,33 @@
 
 	const saveCart = (index) => {
 		axios.post('carts', {
-			businessId: businessId.value,
-			userId: user.value.userId,
-			foodId: foodArr.value[index].foodId
-		}).then(response => {
-			if (response.data === 1) {
-				foodArr.value[index].quantity = 1;
-				foodArr.value.sort();
-			} else {
-				alert('向购物车中添加食品失败！');
+				businessId: businessId.value,
+				userId: user.value.userId,
+				foodId: foodArr.value[index].foodId
 			}
-		}).catch(error => {
-			console.error(error);
-		})
+		).then(response => {
+		if (response.data === 1) {
+			foodArr.value[index].quantity = 0;
+			foodArr.value.sort();
+		} else {
+			showAlert('从购物车中删除食品失败！');
+		}
+	}).catch(error => {
+		console.error(error);
+	})
 	}
 
+
+
+
+	const toggleCart = () => {
+		if (totalQuantity.value !== 0) {
+			isCartOpen.value = !isCartOpen.value;
+		} else {
+			showAlert('当前购物车为空');
+
+		}
+	}
 	const updateCart = (index, num) => {
 		axios.put('carts', {
 			businessId: businessId.value,
@@ -309,7 +337,7 @@
 				foodArr.value[index].quantity += num;
 				foodArr.value.sort();
 			} else {
-				alert('updateCart: 向购物车中更新食品失败！');
+				showAlert('updateCart: 向购物车中更新食品失败！');
 			}
 		}).catch(error => {
 			console.error(error);
@@ -324,11 +352,11 @@
 				foodId: foodArr.value[index].foodId
 			}
 		}).then(response => {
-			if (response.data === 1) {
+			if (response.data == 1) {
 				foodArr.value[index].quantity = 0;
 				foodArr.value.sort();
 			} else {
-				alert('从购物车中删除食品失败！');
+				showAlert('从购物车中删除食品失败！');
 			}
 		}).catch(error => {
 			console.error(error);
@@ -344,18 +372,13 @@
 		})
 	}
 
-	const toggleCart = () => {
-		if (totalQuantity.value !== 0) {
-			isCartOpen.value = !isCartOpen.value;
-		} else {
-			alert('当前购物车为空');
-		}
-	}
+
 
 	// 计算属性
 	const totalPrice = computed(() => {
-		return parseFloat(foodArr.value.reduce((total, item) => total + item.foodPrice * item.quantity, 0).toFixed(
-			2))
+		return parseFloat(foodArr.value.reduce((total, item) => total + item.foodPrice * item.quantity, 0)
+			.toFixed(
+				2))
 	})
 
 	const totalQuantity = computed(() => {

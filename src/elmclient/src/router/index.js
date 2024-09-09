@@ -12,6 +12,9 @@ import EditUserAddress from '../views/EditUserAddress.vue';
 import Register from '../views/Register.vue';
 import Selfpage from '../views/Selfpage.vue';
 import Person from '../views/Person.vue';
+import EditUserName from '../views/EditUserName.vue';
+import Search from '../views/Search.vue';
+import Payok from '../views/Payok.vue';
 
 const routes = [{
 	path: '/',
@@ -69,6 +72,18 @@ const routes = [{
 	path: '/person',
 	name: 'Person',
 	component: Person
+}, {
+	path: '/editUserName',
+	name: 'EditUserName',
+	component: EditUserName
+}, {
+	path: '/search',
+	name: 'Search',
+	component: Search
+}, {
+	path: '/payok',
+	name: 'Payok',
+	component: Payok
 }
 ];
 
