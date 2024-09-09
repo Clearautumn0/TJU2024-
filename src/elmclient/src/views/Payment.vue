@@ -41,7 +41,7 @@
 		</ul>
 		<div class="payment-button">
 			<button @click="toPayok">确认支付</button>
-			<u class="quxiaodingdan">取消订单</u>
+			<u class="quxiaodingdan" @click="deleteOrder">取消订单</u>
 		</div>
 
 		<!-- 底部菜单部分 -->
@@ -96,6 +96,18 @@ const fetchOrders = async () => {
 const toPayok = () => {
 	router.push({ path: '/payok' });
 }
+
+const deleteOrder = async () => {
+	try {
+		const response = await axios.delete(`orders/${route.query.orderId}`);
+		if(response.data > 0){
+			alert('ok');
+			router.push({path: '/orderList'});
+		}
+	} catch (error) {
+		console.error(error);
+	}
+};
 
 onBeforeMount(() => {
 	fetchOrders();
@@ -244,6 +256,6 @@ onBeforeUnmount(() => {
 	color: #0097FF;
 	/* 根据需要调整颜色 */
 	cursor: pointer;
-	
+
 }
 </style>

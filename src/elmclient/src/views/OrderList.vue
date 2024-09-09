@@ -86,18 +86,23 @@ const router = useRouter();  // 使用 useRouter 获取路由实例
 // 获取用户信息和订单数据
 const getUserOrders = () => {
 	const storedUser = JSON.parse(sessionStorage.getItem('user')); // Vue 3 中 sessionStorage 的直接访问方式
-	Object.assign(user, storedUser);
-	axios.get(`orders/user/${user.userId}`)
-		.then(response => {
-			let result = response;
-			result.forEach(orders => {
-				orders.isShowDetailet = false;
+	if (storedUser) {  // 检查 storedUser 是否为 null 或 undefined
+		Object.assign(user, storedUser);  // 合并 storedUser 到 user 对象
+		axios.get(`orders/user/${user.userId}`)
+			.then(response => {
+				let result = response;
+				result.forEach(orders => {
+					orders.isShowDetailet = false;
+				});
+				orderArr.value = result;  // 将订单数据存储到 orderArr
+			})
+			.catch(error => {
+				console.error(error);  // 错误处理
 			});
-			orderArr.value = result;
-		})
-		.catch(error => {
-			console.error(error);
-		});
+	} else {
+		console.warn("用户信息为空，无法获取订单数据");  // 如果用户信息为空，打印警告日志
+		router.push({path: '/login'})
+	}
 };
 
 // 跳转到支付页面
