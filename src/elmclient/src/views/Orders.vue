@@ -133,12 +133,9 @@ const toUserAddress = () => {
 
 const toPayment = async () => {
 	if (!deliveryaddress.value) {
-
 		showAlert('请选择送货地址！');
-
 		return;
 	}
-
 	try {
 		const response = await axios.post('orders', {
 			userId: user.value.userId,
@@ -150,9 +147,7 @@ const toPayment = async () => {
 		if (orderId > 0) {
 			router.push({ path: '/payment', query: { orderId } });
 		} else {
-
 			showAlert('创建订单失败！');
-
 		}
 	} catch (error) {
 		console.error('Failed to create order:', error);
@@ -169,11 +164,7 @@ const toPayment = async () => {
 // 	toPayment,
 // 	sexFilter
 // };
-
-
 </script>
-
-
 
 <style scoped>
 /****************** 总容器 ******************/
