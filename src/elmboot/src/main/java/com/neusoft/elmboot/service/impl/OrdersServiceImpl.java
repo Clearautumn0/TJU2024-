@@ -78,4 +78,14 @@ public class OrdersServiceImpl implements OrdersService{
 	public List<Orders> listOrdersByUserId(String userId){
 		return ordersMapper.listOrdersByUserId(userId);
 	}
+
+	@Override
+	public List<Orders> findUnpaidOrders() {
+		return ordersMapper.findUnpaidOrders();
+	}
+
+	@Override
+	public int cancelOrder(Integer orderId) {
+		return ordersMapper.cancelOrder(orderId);
+	}
 }
