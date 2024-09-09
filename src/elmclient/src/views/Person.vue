@@ -151,7 +151,9 @@ const router = useRouter();
 
 // 使用 onMounted 生命周期钩子来代替 created
 onMounted(() => {
-    user.value = getSessionStorage('user');
+
+    user.value = getSessionStorage('user') || {userName: '未登录', userId: ''};
+
     deliveryaddress.value = getLocalStorage(user.value.userId);
 });
 

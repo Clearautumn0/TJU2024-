@@ -44,12 +44,18 @@
 			</div>
 		</div>
 	</div>
+	<!-- 弹窗 -->
+	<AlertPopup ref="alertPopup" :message="alertMessage" />
+
 </template>
 
 <script setup>
 import { ref, reactive, computed, onMounted, getCurrentInstance } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import Backer from '../components/backer.vue';
+
+import AlertPopup from '../components/AlertPopup.vue';
+
 import { getSessionStorage, getLocalStorage } from '../common.js';
 
 // 获取全局 axios 实例
@@ -74,6 +80,17 @@ const totalPrice = computed(() => {
 	total += business.deliveryPrice || 0; // 防止 deliveryPrice 未定义时报错
 	return parseFloat(total.toFixed(2));
 });
+
+
+const alertMessage = ref('');
+
+// 显示弹窗的方法
+const showAlert = (message) => {
+	alertMessage.value = message;
+	const popup = instance?.refs.alertPopup;
+	popup?.openPopup();
+};
+
 
 const fetchBusinessData = async () => {
 	try {
@@ -116,7 +133,9 @@ const toUserAddress = () => {
 
 const toPayment = async () => {
 	if (!deliveryaddress.value) {
-		alert('请选择送货地址！');
+
+		showAlert('请选择送货地址！');
+
 		return;
 	}
 
@@ -131,7 +150,9 @@ const toPayment = async () => {
 		if (orderId > 0) {
 			router.push({ path: '/payment', query: { orderId } });
 		} else {
-			alert('创建订单失败！');
+
+			showAlert('创建订单失败！');
+
 		}
 	} catch (error) {
 		console.error('Failed to create order:', error);

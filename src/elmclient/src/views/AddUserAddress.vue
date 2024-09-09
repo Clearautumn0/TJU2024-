@@ -14,7 +14,8 @@
 					联系人：
 				</div>
 				<div class="content">
-					<input type="text" v-model="deliveryAddress.contactName" placeholder="联系人姓名">
+					<input type="text" v-model="deliveryAddress.contactName" placeholder="联系人姓名"
+						@blur="validateContactName">
 				</div>
 			</li>
 			<li>
@@ -31,7 +32,7 @@
 					电话：
 				</div>
 				<div class="content">
-					<input type="tel" v-model="deliveryAddress.contactTel" placeholder="电话">
+					<input type="tel" v-model="deliveryAddress.contactTel" placeholder="电话" @blur="validateContactTel">
 				</div>
 			</li>
 			<li>
@@ -39,7 +40,7 @@
 					收货地址：
 				</div>
 				<div class="content">
-					<input type="text" v-model="deliveryAddress.address" placeholder="收货地址">
+					<input type="text" v-model="deliveryAddress.address" placeholder="收货地址" @blur="validateAddress">
 				</div>
 			</li>
 		</ul>
@@ -47,6 +48,9 @@
 		<div class="button-add">
 			<button @click="addUserAddress">保存</button>
 		</div>
+
+		<!-- 弹窗提示 -->
+		<AlertPopup ref="alertPopup" :message="alertMessage" />
 
 		<!-- 底部菜单部分 -->
 		<Footer></Footer>
@@ -57,13 +61,13 @@
 <script setup>
 import { ref, reactive, onMounted, getCurrentInstance } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-// import axios from 'axios';
+
 import Footer from '../components/Footer.vue';
 import Backer from '../components/backer.vue';
-import Address_manage_backer from '../components/address_manage_backer.vue';
-import { getSessionStorage } from '../common.js'; // Adjust if necessary
+import AlertPopup from '../components/AlertPopup.vue';
+import { getSessionStorage } from '../common.js';
 
-// 获取全局 axios 实例
+
 const instance = getCurrentInstance();
 const axios = instance?.appContext.config.globalProperties.$axios;
 
@@ -79,53 +83,87 @@ const deliveryAddress = reactive({
 	address: ''
 });
 
+
+const alertMessage = ref('');
+
+// 显示弹窗的方法
+const showAlert = (message) => {
+	alertMessage.value = message;
+	const popup = instance?.refs.alertPopup;
+	popup?.openPopup();
+};
+
+// 验证联系人姓名
+const validateContactName = () => {
+	if (deliveryAddress.contactName === '') {
+		showAlert('联系人姓名不能为空！');
+		return false;
+	}
+	return true;
+};
+
+// 验证电话
+const validateContactTel = () => {
+	const phoneRegex = /^1[3-9]\d{9}$/;
+	if (deliveryAddress.contactTel === '') {
+		showAlert('联系人电话不能为空！');
+		return false;
+	} else if (!phoneRegex.test(deliveryAddress.contactTel)) {
+		showAlert('联系人电话格式不正确');
+		return false;
+	}
+	return true;
+};
+
+// 验证收货地址
+const validateAddress = () => {
+	if (deliveryAddress.address === '') {
+		showAlert('联系人地址不能为空！');
+		return false;
+	}
+	return true;
+};
+
+// 保存地址时的验证和提交
+const addUserAddress = async () => {
+	// 最后进行所有验证
+	// console.log('hello');
+	if (!validateContactName()) { return; }
+	if (!validateContactTel()) { return; }
+	if (!validateAddress()) { return; }
+	// console.log('hello');
+
+	if (
+		deliveryAddress.contactName !== '' &&
+		deliveryAddress.contactTel !== '' &&
+		/^1[3-9]\d{9}$/.test(deliveryAddress.contactTel) &&
+		deliveryAddress.address !== ''
+	) {
+		deliveryAddress.userId = user.value.userId;
+
+		try {
+			const response = await axios.post('delivery-addresses', deliveryAddress);
+			if (response.data > 0) {
+				showAlert('新增地址成功！');
+				// alert('ok');
+				// router.push({ path: '/userAddress', query: { businessId: businessId.value } });
+			} else {
+				showAlert('新增地址失败！');
+			}
+		} catch (error) {
+			console.error('Error adding address:', error);
+		}
+	}
+};
+
+// 初始化用户数据
 onMounted(() => {
 	user.value = getSessionStorage('user');
 });
 
-const addUserAddress = async () => {
-
-	const phoneRegex = /^1[3-9]\d{9}$/; // Validate phone number format
-	
-	if (deliveryAddress.contactName === '') {
-		alert('联系人姓名不能为空！');
-		return;
-	}
-	if (deliveryAddress.contactTel === '') {
-		alert('联系人电话不能为空！');
-		return;
-	}
-	if (!phoneRegex.test(deliveryAddress.contactTel)) {
-		alert('联系人电话格式不正确');
-		return;
-	}
-	if (deliveryAddress.address === '') {
-		alert('联系人地址不能为空！');
-		return;
-	}
-
-	deliveryAddress.userId = user.value.userId;
-
-	try {
-		const response = await axios.post('delivery-addresses', deliveryAddress);
-		if (response.data > 0) {
-			alert('新增地址成功！');
-			// Navigate to another page or handle success
-			router.push({ path: '/userAddress', query: { businessId: businessId.value } });
-		} else {
-			alert('新增地址失败！');
-		}
-	} catch (error) {
-		console.error('Error adding address:', error);
-	}
-};
-
-// return {
-// 	deliveryAddress,
-// 	addUserAddress
-// };
-
 </script>
+
+
 
 <style scoped>
 /*************** 总容器 ***************/

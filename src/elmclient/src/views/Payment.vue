@@ -40,7 +40,8 @@
 			</li>
 		</ul>
 		<div class="payment-button">
-			<button>确认支付</button>
+			<button @click="toPayok">确认支付</button>
+			<u class="quxiaodingdan">取消订单</u>
 		</div>
 
 		<!-- 底部菜单部分 -->
@@ -87,10 +88,16 @@
 			const response = await axios.get(`orders/${route.query.orderId}`);
 			Object.assign(orders, response);
 		} catch (error) {
-			console.error(error); 
+			console.error(error);
 
 		}
 	};
+
+	const toPayok = () => {
+		router.push({
+			path: '/payok'
+		});
+	}
 
 	onBeforeMount(() => {
 		fetchOrders();
@@ -213,17 +220,32 @@
 		width: 100%;
 		box-sizing: border-box;
 		padding: 4vw;
+		display: flex;
+		flex-direction: column;
+		/* 垂直方向排列 */
+		align-items: stretch;
+		/* 拉伸按钮宽度以适应父容器 */
 	}
-
 
 	.wrapper .payment-button button {
 		width: 100%;
+		/* 按钮占满整个宽度 */
 		height: 10vw;
 		border: none;
-		/*去掉外轮廓线*/
 		outline: none;
 		border-radius: 4px;
 		background-color: #38CA73;
 		color: #fff;
+		margin-bottom: 2vw;
+		/* 按钮与"取消订单"之间的间距 */
+	}
+
+	.quxiaodingdan {
+		align-self: flex-end;
+		/* 右对齐 */
+		color: #0097FF;
+		/* 根据需要调整颜色 */
+		cursor: pointer;
+
 	}
 </style>
