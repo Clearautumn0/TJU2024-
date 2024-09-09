@@ -1,3 +1,4 @@
+
 <template>
 	<div class="wrapper">
 
@@ -274,4 +275,5 @@ const register = () => {
 .wrapper .footer li i {
 	font-size: 5vw;
 }
+
 </style>

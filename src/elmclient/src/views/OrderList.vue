@@ -84,6 +84,7 @@ const user = reactive({});
 const router = useRouter();  // 使用 useRouter 获取路由实例
 
 // 获取用户信息和订单数据
+
 const getUserOrders = () => {
 	const storedUser = JSON.parse(sessionStorage.getItem('user')); // Vue 3 中 sessionStorage 的直接访问方式
 	if (storedUser) {  // 检查 storedUser 是否为 null 或 undefined
@@ -99,9 +100,10 @@ const getUserOrders = () => {
 			.catch(error => {
 				console.error(error);  // 错误处理
 			});
+
 	} else {
 		console.warn("用户信息为空，无法获取订单数据");  // 如果用户信息为空，打印警告日志
-		router.push({path: '/login'})
+		router.push({ path: '/login' })
 	}
 };
 

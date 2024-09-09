@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-// // import { configureCompat } from '@vue/compat';
+
 import App from './App.vue';
 import router from './router';
 import axiosInstance from './utils/interceptor.js'
@@ -17,10 +17,7 @@ import {
 	removeLocalStorage
 } from './common.js';
 
-// 启用兼容模式
-// configureCompat({
-// 	MODE: 2, // 兼容模式：2 代表全面兼容 Vue 2 语法
-// });
+
 // // 启用兼容模式
 // configureCompat({
 // 	MODE: 2, // 兼容模式：2 代表全面兼容 Vue 2 语法

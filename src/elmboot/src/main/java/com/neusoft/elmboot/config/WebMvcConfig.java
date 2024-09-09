@@ -49,8 +49,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
         //排除拦截，除了注册登录(此时还没token)，其他都拦截
         excludePath.add("/users/login");  //登录
         excludePath.add("/public-key");  //登录
+        excludePath.add("/captcha");  //验证码
         excludePath.add("/static/**");  //静态资源
         excludePath.add("/assets/**");  //静态资源
+        
+
  
         registry.addInterceptor(tokenInterceptor)
                 .addPathPatterns("/**")

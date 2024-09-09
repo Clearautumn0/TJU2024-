@@ -59,7 +59,9 @@
 import { ref, onMounted, getCurrentInstance } from 'vue';
 import Backer from '../components/backer.vue';
 import Footer from '../components/Footer.vue';
+
 import AlertPopup from '../components/AlertPopup.vue';
+
 // import axios from 'axios';
 import { useRouter, useRoute } from 'vue-router';
 
@@ -87,6 +89,7 @@ const fetchAddress = async () => {
 		console.error(error);
 	}
 };
+
 
 const alertMessage = ref('');
 
@@ -160,11 +163,14 @@ const editUserAddress = async () => {
 	if (!validateAddress()) { return; }
 	// console.log('hello');
 
+
 	try {
 		const response = await axios.put('delivery-addresses', deliveryAddress.value);
 		if (response.data > 0) {
+
 			// alert('更新地址成功！');
 			showAlert('更新地址成功！');//不跳转
+
 			// const userConfirmed = confirm('更新地址成功\n点击确定跳转至地址列表页面');
 			// if (userConfirmed) {
 			// 	router.push({
@@ -180,8 +186,10 @@ const editUserAddress = async () => {
 
 
 		} else {
+
 			// alert('更新地址失败！');
 			showAlert('更新地址失败！');
+
 		}
 	} catch (error) {
 		console.error(error);

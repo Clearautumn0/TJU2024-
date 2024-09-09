@@ -9,4 +9,5 @@ public interface UserService {
 	public int saveUser(User user);
 	public int updateUser(User user);
 	public int deleteUser(User user);
+	public int updateAuthorization(User user);
 }

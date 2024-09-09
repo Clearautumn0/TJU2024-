@@ -98,12 +98,38 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public int getUserById(String userId) {
-		String regex = "^1[3-9]\\d{9}$";//中国大陆手机号规范
-		User user = userMapper.getUserById(userId);
-		if (user != null && userId.matches(regex)) {
-			return 1;
-		}
-		return 0;
+
+	    User user = userMapper.getUserById(userId);
+	    String regex = "^1[3-9]\\d{9}$"; // 中国大陆手机号规范
+	    
+	    // 用户不存在
+	    if (user == null) {
+	        return 0; // 用户不存在
+	    }
+	    
+	    // 手机号为空
+	    if (userId == null || userId.isEmpty()) {
+	        return -1; // 手机号为空
+	    }
+	    
+	    // 手机号长度不为11位
+	    if (userId.length() != 11) {
+	        return -2; // 手机号长度错误
+	    }
+	    
+	    // 首位数字不为1
+	    if (!userId.startsWith("1")) {
+	        return -3; // 手机号首位不为1
+	    }
+	    
+	    // 手机号格式不匹配
+	    if (!userId.matches(regex)) {
+	        return -4; // 手机号格式不正确
+	    }
+
+	    // 手机号通过验证
+	    return 1;
+
 	}
 
 	@Override
@@ -145,6 +171,11 @@ public class UserServiceImpl implements UserService {
 			return 0;
 		}
 		return userMapper.deleteUser(user);
+	}
+
+	@Override
+	public int updateAuthorization(User user) {
+		return userMapper.updateAuthorization(user);
 	}
 
 }

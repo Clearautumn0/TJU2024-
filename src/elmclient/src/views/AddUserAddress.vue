@@ -61,10 +61,12 @@
 <script setup>
 import { ref, reactive, onMounted, getCurrentInstance } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+
 import Footer from '../components/Footer.vue';
 import Backer from '../components/backer.vue';
 import AlertPopup from '../components/AlertPopup.vue';
 import { getSessionStorage } from '../common.js';
+
 
 const instance = getCurrentInstance();
 const axios = instance?.appContext.config.globalProperties.$axios;
@@ -80,6 +82,7 @@ const deliveryAddress = reactive({
 	contactTel: '',
 	address: ''
 });
+
 
 const alertMessage = ref('');
 
@@ -157,6 +160,7 @@ const addUserAddress = async () => {
 onMounted(() => {
 	user.value = getSessionStorage('user');
 });
+
 </script>
 
 

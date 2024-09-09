@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,6 +41,12 @@ public class OrdersController {
 		Map<String, Integer> response = new HashMap<>();
 		response.put("data", ordersService.createOrders(orders));
 		return response;
+	}
+	
+	@PatchMapping("/{orderId}")
+	public int setOrder(@PathVariable Integer orderId) {
+		return ordersService.setOrders(orderId);
+
 	}
 
 }

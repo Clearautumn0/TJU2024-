@@ -47,7 +47,9 @@ import { ref, onMounted, computed, getCurrentInstance } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import Backer from '../components/backer.vue';
 import Footer from '../components/Footer.vue';
+
 import AlertPopup from '../components/AlertPopup.vue';
+
 import { getSessionStorage, setLocalStorage, removeLocalStorage, getLocalStorage } from '../common.js';
 
 // 获取全局 axios 实例
@@ -61,6 +63,7 @@ const businessId = ref(route.query.businessId);
 const user = ref({});
 const deliveryAddressArr = ref([]);
 
+
 const alertMessage = ref('');
 
 // 显示弹窗的方法
@@ -69,6 +72,7 @@ const showAlert = (message) => {
 	const popup = instance?.refs.alertPopup;
 	popup?.openPopup();
 };
+
 
 onMounted(() => {
 	user.value = getSessionStorage('user');
@@ -98,8 +102,10 @@ const editUserAddress = (daId) => {
 };
 
 const removeUserAddress = (daId) => {
+
 	// if (!confirm('确认要删除此送货地址吗？')) return;
 	showAlert('删除地址成功');//直接删除，没有再次确定选项
+
 
 	axios.delete(`delivery-addresses/${daId}`)
 		.then(response => {
@@ -110,7 +116,9 @@ const removeUserAddress = (daId) => {
 				}
 				listDeliveryAddressByUserId();
 			} else {
+
 				showAlert('删除地址失败！');
+
 			}
 		})
 		.catch(error => {
