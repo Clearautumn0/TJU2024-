@@ -36,7 +36,7 @@ public class OrderTimeoutCanceller {
         	LocalDateTime orderDateTime = LocalDateTime.parse(orderDateStr, formatter);
 
         	// 判断是否超时30分钟
-        	if (now.isAfter(orderDateTime.plusMinutes(1))) {
+        	if (now.isAfter(orderDateTime.plusMinutes(15))) {
         	    ordersService.cancelOrder(order.getOrderId());
         	}
         }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,6 +40,13 @@ public class OrdersController {
 	public Map<String, Integer> createOrders(@RequestBody Orders orders) throws Exception{
 		Map<String, Integer> response = new HashMap<>();
 		response.put("data", ordersService.createOrders(orders));
+		return response;
+	}
+	
+	@DeleteMapping
+	public Map<String, Integer> cancelOrder(@PathVariable Integer orderId) throws Exception{
+		Map<String, Integer> response = new HashMap<>();
+		response.put("data", ordersService.cancelOrder(orderId));
 		return response;
 	}
 
