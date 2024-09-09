@@ -111,8 +111,10 @@
 		<div v-if="showCaptchaModal" class="captcha-modal">
 			<div class="captcha-container">
 				<h3>请输入验证码</h3>
-				<img :src="captchaUrl" alt="验证码" class="captcha-image" />
-				<input type="text" v-model="captchaInput" placeholder="输入验证码" />
+				<div class="captcha-box">
+					<input type="text" v-model="captchaInput" placeholder="请输入验证码" />
+					<img :src="captchaUrl" alt="验证码" class="captcha-image" />
+				</div>		
 				<button @click="verifyCaptcha">提交</button>
 				<button @click="closeCaptcha">取消</button>
 			</div>
@@ -367,7 +369,7 @@
 </script>
 
 <style scoped>
-	.captcha-modal {
+	.wrapper .captcha-modal {
 		position: fixed;
 		top: 0;
 		left: 0;
@@ -379,19 +381,52 @@
 		align-items: center;
 	}
 
-	.captcha-container {
+	.wrapper .captcha-modal .captcha-container {
 		background-color: white;
-		padding: 20px;
-		border-radius: 10px;
-		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+		padding: 2vw;
+		border-radius: 5vw;
+		box-shadow: 0 1vw 5vw rgba(0, 0, 0, 0.2);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-wrap: wrap;
+	}
+	
+	.wrapper .captcha-modal .captcha-container .captcha-box{
+		width: 100%;
+		height: 30vw;
+		display: flex;
+		align-items: center;
+		margin-top: 5vw;
+		margin: 2vw;
 	}
 
-	.captcha-image {
-		margin: 10px 0;
+	.wrapper .captcha-modal .captcha-container .captcha-image {
+		width: 40vw;
+		height: 20vw;
+		margin-left: 2vw;
+	}
+	
+	.wrapper .captcha-modal .captcha-container input{
+		border: 1px solid #cdcdcd; /* 细线边框，颜色为黑色 */
+		outline: none;
+		width: 50%;
+		height: 12vw;
+		font-size: 4vw;
+		padding-left: 2vw;
 	}
 
-	button {
-		margin: 5px;
+	.wrapper .captcha-modal .captcha-container button {
+		border: none;
+		outline: none;
+		border-radius: 5vw;
+		width: 35vw;
+		height: 10vw;
+		margin: 3vw;
+		background-color: #328fce;
+		color: #ffffff;
+		font-size: 4vw;
+		font-weight: 500;
 	}
 
 	/****************** 总容器 ******************/
@@ -788,4 +823,5 @@
 	.wrapper .cart-details li .cart-rightbox {
 		font-size: 4vw;
 	}
+	
 </style>
