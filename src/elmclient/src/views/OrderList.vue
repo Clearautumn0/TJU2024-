@@ -133,9 +133,11 @@
 		return orderArr.value.filter(order => order.orderState === 0);
 	});
 
+
 	onMounted(() => {
 		getUserOrders();
 	});
+
 </script>
 
 <style scoped>

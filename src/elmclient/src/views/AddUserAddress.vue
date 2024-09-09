@@ -67,8 +67,6 @@ import { getSessionStorage } from '../common.js'; // Adjust if necessary
 const instance = getCurrentInstance();
 const axios = instance?.appContext.config.globalProperties.$axios;
 
-
-
 const router = useRouter();
 const route = useRoute();
 
