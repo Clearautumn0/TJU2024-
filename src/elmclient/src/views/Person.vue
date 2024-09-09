@@ -69,13 +69,16 @@
 		</ul>
 
 		<!--  账号绑定部分 -->
+        <!--
 		<div class="Id-box">
 			<div class="Id">
 				<p>账号绑定</p>
 			</div>
 		</div>
+        -->
 
 		<!--  账号绑定信息部分 -->
+        <!--
 		<ul class="bind-list">
 			<li>
 				<div class="left">
@@ -123,6 +126,8 @@
 				<hr>
 			</li>
 		</ul>
+        -->
+
 		<!--  底部 -->
 		<div class="bottom">
 
