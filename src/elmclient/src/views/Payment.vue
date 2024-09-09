@@ -49,48 +49,36 @@
 </template>
 
 <!-- <script>
+<script setup>
+import { ref, reactive, onBeforeMount, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import Backer from '../components/backer.vue';
 import Footer from '../components/Footer.vue';
 
-export default {
-	name: 'Payment',
-	data() {
-		return {
-			orderId: this.$route.query.orderId,
-			orders: {
-				business: {}
-			},
-			isShowDetailet: false
-		}
-	},
-	created() {
-		this.$axios.get(`orders/${this.orderId}`
-		).then(response => {
-			this.orders = response.data;
-		}).catch(error => {
-			console.error(error);
-		});
-	},
-	mounted() {
-		//这里的代码是实现：一旦路由到在线支付组件，就不能回到订单确认组件。
-		//先将当前url添加到history对象中
-		history.pushState(null, null, document.URL);
-		//popstate事件能够监听history对象的变化
-		window.onpopstate = () => {
-			this.$router.push({ path: '/index' });
-		}
-	},
-	destroyed() {
-		window.onpopstate = null;
-	},
-	methods: {
-		detailetShow() {
-			this.isShowDetailet = !this.isShowDetailet;
-		}
-	},
-	components: {
-		Footer,
-		Backer
+// 获取全局 axios 实例
+const instance = getCurrentInstance();
+const axios = instance?.appContext.config.globalProperties.$axios;
+
+const route = useRoute();
+const router = useRouter();
+
+const orders = reactive({
+	business: {},
+	orderTotal: 0,
+	list: []
+});
+const isShowDetailet = ref(false);
+
+const detailetShow = () => {
+	isShowDetailet.value = !isShowDetailet.value;
+};
+
+const fetchOrders = async () => {
+	try {
+		const response = await axios.get(`orders/${route.query.orderId}`);
+		Object.assign(orders, response);
+	} catch (error) {
+		console.error(error);
 	}
 }
 </script> -->
