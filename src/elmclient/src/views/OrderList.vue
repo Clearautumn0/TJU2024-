@@ -9,7 +9,7 @@
 		<!-- 订单列表部分 -->
 		<h3>未支付订单信息：</h3>
 		<ul class="order">
-			<li v-for="item in unpaidOrders">
+			<li v-for="item in orderArr">
 				<div class="order-info">
 					<p>
 						{{ item.business.businessName }}
@@ -37,8 +37,8 @@
 		</ul>
 
 		<h3>已支付订单信息：</h3>
-		<ul class="order">
-			<li v-for="item in paidOrders">
+		<!-- <ul class="order">
+			<li v-for="item in orderArr">
 				<div class="order-info">
 					<p>
 						{{ item.business.businessName }}
@@ -63,99 +63,61 @@
 			<li class="empty-li">
 				<div class="empty-message">已经到底了...</div>
 			</li>
-		</ul>
+		</ul> -->
 
 		<!-- 底部菜单部分 -->
 		<Footer></Footer>
 
 	</div>
 </template>
-
-<script>
-import {
-	ref,
-	reactive,
-	onMounted,
-	computed
-} from 'vue';
-import {
-	useRoute,
-	useRouter
-} from 'vue-router'
+<script setup>
+import { ref, reactive, onMounted, getCurrentInstance } from 'vue';
+import { useRouter } from 'vue-router';  // 导入 useRouter
 import Footer from '../components/Footer.vue';
-import axios from 'axios';
-// import Backer from '../components/backer.vue';
 
-export default {
-	name: 'OrderList',
-	components: {
-		Footer
-	},
-	setup() {
-		// 获取路由实例和路由参数
-		const route = useRoute();
-		const router = useRouter();
+// 获取全局 axios 实例
+const instance = getCurrentInstance();
+const axios = instance?.appContext.config.globalProperties.$axios;
 
-		const orderArr = ref([]);
-		const user = reactive({});
+const orderArr = ref([]);
+const user = reactive({});
+const router = useRouter();  // 使用 useRouter 获取路由实例
 
-		// 获取用户信息和订单数据
-		const getUserOrders = () => {
-			const storedUser = JSON.parse(sessionStorage.getItem('user')); // Vue 3 中 sessionStorage 的直接访问方式
-			Object.assign(user, storedUser);
+// 获取用户信息和订单数据
+const getUserOrders = () => {
+	const storedUser = JSON.parse(sessionStorage.getItem('user')); // Vue 3 中 sessionStorage 的直接访问方式
+	Object.assign(user, storedUser);
 
-			axios.get(`orders/user/${user.userId}`)
-				.then(response => {
-					let result = response.data;
-					result.forEach(orders => {
-						orders.isShowDetailet = false;
-					});
-					orderArr.value = result;
-				})
-				.catch(error => {
-					console.error(error);
-				});
-		};
-
-		// 跳转到支付页面
-		const goToPayment = (orderId) => {
-			router.push({
-				path: '/payment',
-				query: {
-					orderId: orderId
-				}
+	axios.get(`orders/user/${user.userId}`)
+		.then(response => {
+			let result = response;
+			result.forEach(orders => {
+				orders.isShowDetailet = false;
 			});
-		};
-
-		// 切换订单详情的显示状态
-		const detailetShow = (orders) => {
-			orders.isShowDetailet = !orders.isShowDetailet;
-		};
-
-		// 过滤已支付订单
-		const paidOrders = computed(() => {
-			return orderArr.value.filter(order => order.orderState === 1);
+			orderArr.value = result;
+		})
+		.catch(error => {
+			console.error(error);
 		});
+};
 
-		// 过滤未支付订单
-		const unpaidOrders = computed(() => {
-			return orderArr.value.filter(order => order.orderState === 0);
-		});
+// 跳转到支付页面
+const goToPayment = (orderId) => {
+	router.push({
+		path: '/payment',
+		query: { orderId: orderId }
+	});
+};
 
-		onMounted(() => {
-			getUserOrders();
-		});
+// 切换订单详情的显示状态
+const detailetShow = (orders) => {
+	orders.isShowDetailet = !orders.isShowDetailet;
+};
 
-		return {
-			orderArr,
-			user,
-			goToPayment,
-			detailetShow,
-			paidOrders,
-			unpaidOrders
-		};
-	}
-}
+onMounted(() => {
+	getUserOrders();
+});
+
 </script>
 
 <style scoped>

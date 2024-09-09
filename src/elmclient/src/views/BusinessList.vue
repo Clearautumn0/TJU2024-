@@ -36,11 +36,15 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive, onMounted, getCurrentInstance } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import axios from 'axios'; // 确保你在项目中安装并引入了 axios
+// import axios from 'axios'; // 确保你在项目中安装并引入了 axios
 import Footer from '../components/Footer.vue';
 import Backer from '../components/backer.vue';
+
+// 获取全局 axios 实例
+const instance = getCurrentInstance();
+const axios = instance?.appContext.config.globalProperties.$axios;
 
 // 获取路由参数
 const route = useRoute();
@@ -65,7 +69,7 @@ const listCart = async () => {
 				userId: user.value.userId
 			}
 		});
-		const cartArr = response.data;
+		const cartArr = response;
 
 		// 遍历所有食品列表
 		for (let businessItem of businessArr) {
@@ -85,7 +89,7 @@ const listCart = async () => {
 const fetchBusinessData = async () => {
 	try {
 		const response = await axios.get(`businesses/orderType/${orderTypeId.value}`);
-		businessArr.splice(0, businessArr.length, ...response.data); // 使用 splice 进行响应式更新
+		businessArr.splice(0, businessArr.length, ...response); // 使用 splice 进行响应式更新
 		if (user.value != null) {
 			listCart();
 		}

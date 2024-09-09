@@ -1,10 +1,11 @@
 import { createApp } from 'vue';
-// import { configureCompat } from '@vue/compat';
+// // import { configureCompat } from '@vue/compat';
 import App from './App.vue';
 import router from './router';
+import axiosInstance from './utils/interceptor.js'
 
 import 'font-awesome/css/font-awesome.min.css';
-import axios from 'axios';
+// import axios from 'axios'	//已在utils/interceptor.js导入;
 import qs from 'qs';
 import {
 	getCurDate,
@@ -20,12 +21,16 @@ import {
 // configureCompat({
 // 	MODE: 2, // 兼容模式：2 代表全面兼容 Vue 2 语法
 // });
+// // 启用兼容模式
+// configureCompat({
+// 	MODE: 2, // 兼容模式：2 代表全面兼容 Vue 2 语法
+// });
 
 const app = createApp(App);
 
 // 设置 axios 的基础 URL
-axios.defaults.baseURL = 'http://localhost:8080/elm/';
-app.config.globalProperties.$axios = axios;
+
+app.config.globalProperties.$axios = axiosInstance;
 app.config.globalProperties.$qs = qs;
 app.config.globalProperties.$getCurDate = getCurDate;
 app.config.globalProperties.$setSessionStorage = setSessionStorage;

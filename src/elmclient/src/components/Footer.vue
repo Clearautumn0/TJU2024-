@@ -19,25 +19,26 @@
 	</ul>
 </template>
 
-<script>
-export default {
-	name: 'Footer',
-	methods: {
-		toIndex() {
-			this.$router.push({ path: '/index' });
-		},
-		toOrderList() {
-			this.$router.push({ path: '/orderList' });
-		},
-		toselfpage() {
-			this.$router.push({ path: '/selfpage' });
-		}
-		,
-		test(){
-			this.$router.push({path: '/'});
-		}
-	}
-}
+<script setup>
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+const toIndex = () => {
+  router.push({ path: '/index' });
+};
+
+const toOrderList = () => {
+  router.push({ path: '/orderList' });
+};
+
+const toselfpage = () => {
+  router.push({ path: '/selfpage' });
+};
+
+const test = () => {
+  router.push({ path: '/' });
+};
 </script>
 
 <style>

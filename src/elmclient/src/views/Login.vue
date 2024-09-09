@@ -13,7 +13,7 @@
 					手机号码：
 				</div>
 				<div class="content">
-					<input type="text" v-model="userId" placeholder="手机号码">
+					<input type="text" v-model="userId" placeholder="手机号码" @blur="validateTel">
 				</div>
 			</li>
 			<li>
@@ -21,7 +21,7 @@
 					密码：
 				</div>
 				<div class="content">
-					<input type="password" v-model="password" placeholder="密码">
+					<input type="password" v-model="password" placeholder="密码" @blur="validatePw">
 				</div>
 			</li>
 		</ul>
@@ -33,213 +33,116 @@
 			<button @click="register">去注册</button>
 		</div>
 
+		<AlertPopup ref="alertPopup" :message="alertMessage" />
+
 		<!-- 底部菜单部分 -->
 		<Footer></Footer>
 	</div>
 </template>
 
-<!-- <script>
-	import Footer from '../components/Footer.vue';
+<script setup>
+import { ref, getCurrentInstance } from 'vue';
 
-	export default {
-		name: 'Login',
-		data() {
-			return {
-				userId: '',
-				password: ''
-			}
-		},
-		methods: {
-			login() {
-				if (this.userId == '') {
-					alert('手机号码不能为空！');
-					return;
-				}
-				if (this.password == '') {
-					alert('密码不能为空！');
-					return;
-				}
+import Footer from '../components/Footer.vue';
+import AlertPopup from '../components/AlertPopup.vue';
 
-				//登录请求
-				this.$axios.post('users/login', {
-					userId: this.userId,
-					password: this.password
-				}).then(response => {
-					let user = response.data;
-					console.log(response);
-					if (user == null || user == '') {
-						alert('用户名或密码不正确！');
-					} else {
-						//sessionstorage有容量限制，为了防止数据溢出，所以不将userImg数据放入session中
-						user.userImg = '';
-						this.$setSessionStorage('user', user);
-						this.$router.go(-1);
-					}
-				}).catch(error => {
-					console.error(error);
-				});
-			},
-			register() {
-				this.$router.push({
-					path: 'register'
-				});
-			}
-		},
-		components: {
-			Footer
+import JSEncrypt from 'jsencrypt';
+import { useRouter } from 'vue-router';
+import { setSessionStorage } from '../common.js'; // 确保你有一个setSessionStorage方法
+
+// 获取全局 axios 实例
+const instance = getCurrentInstance();
+const axios = instance?.appContext.config.globalProperties.$axios;
+
+const router = useRouter();
+const userId = ref('');
+const password = ref('');
+
+const alertMessage = ref('');
+
+// 显示弹窗的方法
+const showAlert = (message) => {
+	alertMessage.value = message;
+	const popup = instance?.refs.alertPopup;
+	popup?.openPopup();
+};
+
+//联系人电话
+const validateTel = () => {
+	if (userId.value === '') {
+		showAlert('手机号码不能为空！');
+		return false;
+	}
+	return true;
+
+}
+//联系人密码
+const validatePw = () => {
+	if (password.value === '') {
+		showAlert('密码不能为空！');
+		return false;
+	}
+	return true;
+}
+
+const login = async () => {
+	if (!validateTel()) {
+		return;
+	}
+	if (!validatePw()) {
+		return;
+	}
+
+	// 获取公钥并加密密码
+	try {
+		const keyResponse = await axios.get('/public-key');
+		const publicKey = keyResponse.data;
+
+		// 使用公钥加密密码
+		const encryptor = new JSEncrypt();
+		encryptor.setPublicKey(publicKey);
+		const encryptedPassword = encryptor.encrypt(password.value);
+		if (!encryptedPassword) {
+			showAlert('密码加密失败，请稍后再试！');
+			return;
 		}
+
+		// 发送加密后的密码进行登录
+		const loginResponse = await axios.post('users/login', {
+			userId: userId.value,
+			password: encryptedPassword
+		});
+		const user = loginResponse;
+		if (user == null || user == '') {
+			showAlert('用户名或密码不正确！');
+		} else {
+			// sessionStorage有容量限制，为了防止数据溢出，所以不将userImg数据放入session中
+			user.userImg = '';
+			setSessionStorage('user', user);
+			sessionStorage.setItem('token', user.token);
+			router.go(-1);
+		}
+	} catch (error) {
+		console.error('登录失败：', error);
 	}
-</script> -->
+};
 
-<script>
-import { ref } from 'vue';
-import Footer from '../components/Footer.vue';
-import { useRouter } from 'vue-router';
-import axios from 'axios';
-import { setSessionStorage } from '../common.js'; // 确保你有一个setSessionStorage方法
+const register = () => {
+	router.push({
+		path: 'register'
+	});
+};
 
-export default {
-	name: 'Login',
-	components: {
-		Footer
-	},
-	setup() {
-		const router = useRouter();
-		const userId = ref('');
-		const password = ref('');
+// return {
+// 	userId,
+// 	password,
+// 	login,
+// 	register
+// };
 
-		const login = () => {
-			if (userId.value === '') {
-				alert('手机号码不能为空！');
-				return;
-			}
-			if (password.value === '') {
-				alert('密码不能为空！');
-				return;
-			}
 
-			// 登录请求
-			axios.post('users/login', {
-				userId: userId.value,
-				password: password.value
-			}).then(response => {
-				const user = response.data;
-				console.log(response);
-				if (user == null || user == '') {
-					alert('用户名或密码不正确！');
-				} else {
-					// sessionStorage有容量限制，为了防止数据溢出，所以不将userImg数据放入session中
-					user.userImg = '';
-					setSessionStorage('user', user);
-					router.go(-1);
-				}
-			}).catch(error => {
-				console.error(error);
-			});
-		};
-
-		const register = () => {
-			router.push({
-				path: 'register'
-			});
-		};
-
-		return {
-			userId,
-			password,
-			login,
-			register
-		};
-	}
-}
 </script>
-<!-- ------------------------加入公钥---------------------------- -->
-<!-- <script>
-import { ref } from 'vue';
-import Footer from '../components/Footer.vue';
-import { useRouter } from 'vue-router';
-import axios from 'axios';
-import { setSessionStorage } from '../common.js'; // 确保你有一个setSessionStorage方法
-import JSEncrypt from 'jsencrypt'; // 引入jsencrypt库
 
-export default {
-	name: 'Login',
-	components: {
-		Footer
-	},
-	setup() {
-		const router = useRouter();
-		const userId = ref('');
-		const password = ref('');
-
-		// 登录函数
-		const login = () => {
-			if (userId.value === '') {
-				alert('手机号码不能为空！');
-				return;
-			}
-			if (password.value === '') {
-				alert('密码不能为空！');
-				return;
-			}
-
-			// 获取公钥并加密密码
-			axios.get('/public-key')
-				.then(response => {
-					const publicKey = response.data;
-
-					// 使用公钥加密密码
-					const encryptor = new JSEncrypt();
-					encryptor.setPublicKey(publicKey);
-					const encryptedPassword = encryptor.encrypt(password.value);
-
-					if (!encryptedPassword) {
-						alert('密码加密失败，请稍后再试！');
-						return;
-					}
-
-					// 发送加密后的密码进行登录
-					axios.post('users/login', {
-						userId: userId.value,
-						password: encryptedPassword
-					})
-						.then(response => {
-							const user = response.data;
-							if (user == null || user === '') {
-								alert('用户名或密码不正确！');
-							} else {
-								// sessionStorage有容量限制，不将userImg数据放入session中
-								user.userImg = '';
-								setSessionStorage('user', user);
-								setSessionStorage('token', user.token); // 你还可以存储token
-								router.go(-1);
-							}
-						})
-						.catch(error => {
-							console.error('登录失败：', error);
-						});
-				})
-				.catch(error => {
-					console.error('获取公钥失败：', error);
-				});
-		};
-
-		const register = () => {
-			router.push({
-				path: 'register'
-			});
-		};
-
-		return {
-			userId,
-			password,
-			login,
-			register
-		};
-	}
-}
-</script> -->
- <!--------------------------------------加入公钥------------------------------->
 <style scoped>
 /****************** 总容器 ******************/
 .wrapper {

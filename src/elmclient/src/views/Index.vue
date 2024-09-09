@@ -341,55 +341,53 @@
 	</div>
 </template>
 
-<script>
+<script setup>
 import Footer from '../components/Footer.vue';
 import { onMounted, onBeforeUnmount, nextTick, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-export default {
-	name: 'Index',
-	components: {
-		Footer
-	},
-	setup() {
-		const fixedBox = ref(null); // 使用 ref 来创建一个响应式的引用
-		const router = useRouter();
 
-		const handleScroll = () => {
-			let s1 = document.documentElement.scrollTop;
-			let s2 = document.body.scrollTop;
-			let scroll = s1 === 0 ? s2 : s1;
-			let width = document.documentElement.clientWidth;
+const fixedBox = ref(null); // 使用 ref 来创建一个响应式的引用
+const router = useRouter();
 
-			if (scroll > width * 0.12) {
-				fixedBox.value.style.position = 'fixed';
-				fixedBox.value.style.left = '0';
-				fixedBox.value.style.top = '0';
-			} else {
-				fixedBox.value.style.position = 'static';
-			}
-		};
+const handleScroll = () => {
+	let s1 = document.documentElement.scrollTop;
+	let s2 = document.body.scrollTop;
+	let scroll = s1 === 0 ? s2 : s1;
+	let width = document.documentElement.clientWidth;
 
-		let removeScrollListener = () => {
-			document.onscroll = null;
-		};
-
-		onMounted(() => {
-			nextTick(() => {
-				document.onscroll = handleScroll;
-			});
-		});
-
-		onBeforeUnmount(removeScrollListener);
-
-		return {
-			fixedBox, // 将 fixedBox 包含在返回对象中，以便在模板中使用
-			toBusinessList: (orderTypeId) => {
-				router.push({ path: '/businessList', query: { orderTypeId: orderTypeId } });
-			}
-		};
+	if (scroll > width * 0.12) {
+		fixedBox.value.style.position = 'fixed';
+		fixedBox.value.style.left = '0';
+		fixedBox.value.style.top = '0';
+	} else {
+		fixedBox.value.style.position = 'static';
 	}
-}
+};
+
+let removeScrollListener = () => {
+	document.onscroll = null;
+};
+
+onMounted(() => {
+	nextTick(() => {
+		document.onscroll = handleScroll;
+	});
+});
+
+onBeforeUnmount(removeScrollListener);
+
+const toBusinessList = (orderTypeId) => {
+  router.push({ path: '/businessList', query: { orderTypeId } });
+};
+
+// return {
+// 	fixedBox, // 将 fixedBox 包含在返回对象中，以便在模板中使用
+// 	toBusinessList: (orderTypeId) => {
+// 		router.push({ path: '/businessList', query: { orderTypeId: orderTypeId } });
+// 	}
+// };
+
 </script>
 
 <style scoped>

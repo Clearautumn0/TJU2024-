@@ -132,39 +132,40 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import { useRouter } from 'vue-router';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, getCurrentInstance } from 'vue';
 import Backer from '../components/backer.vue';
 import { getSessionStorage, getLocalStorage } from '../common.js';
 
-export default {
-    components: {
-        Backer
-    },
-    setup() {
-        const deliveryaddress = ref({});
-        const user = ref({});
-        const router = useRouter();
+// 获取全局 axios 实例
+const instance = getCurrentInstance();
+const axios = instance?.appContext.config.globalProperties.$axios;
 
-        // 使用 onMounted 生命周期钩子来代替 created
-        onMounted(() => {
-            user.value = getSessionStorage('user') || { userName: '未登录' , userId: ''};
-            deliveryaddress.value = getLocalStorage(user.value.userId);
-        });
 
-        const toUserAddress = () => {
-            router.push({ path: '/userAddress' });
-        };
 
-        // 返回响应式数据和方法，使其在模板中可用
-        return {
-            user,
-            deliveryaddress,
-            toUserAddress
-        };
-    }
-}
+const user = ref({});
+const deliveryaddress = ref({});
+
+const router = useRouter();
+
+// 使用 onMounted 生命周期钩子来代替 created
+onMounted(() => {
+    user.value = getSessionStorage('user') || {userName: '未登录', userId: ''};
+    deliveryaddress.value = getLocalStorage(user.value.userId);
+});
+
+const toUserAddress = () => {
+    router.push({ path: '/userAddress' });
+};
+
+// 返回响应式数据和方法，使其在模板中可用
+// return {
+//     user,
+//     deliveryaddress,
+//     toUserAddress
+// };
+
 </script>
 
 <style scoped>

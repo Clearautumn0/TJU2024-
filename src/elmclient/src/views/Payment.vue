@@ -48,10 +48,19 @@
 	</div>
 </template>
 
-<!-- <script>
 <script setup>
-import { ref, reactive, onBeforeMount, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import {
+	ref,
+	reactive,
+	onBeforeMount,
+	onMounted,
+	onBeforeUnmount,
+	getCurrentInstance
+} from 'vue';
+import {
+	useRouter,
+	useRoute
+} from 'vue-router';
 import Backer from '../components/backer.vue';
 import Footer from '../components/Footer.vue';
 
@@ -79,71 +88,30 @@ const fetchOrders = async () => {
 		Object.assign(orders, response);
 	} catch (error) {
 		console.error(error);
-	}
-}
-</script> -->
 
-<script>
-import { ref, reactive, onMounted, onUnmounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import axios from 'axios';
-import Backer from '../components/backer.vue';
-import Footer from '../components/Footer.vue';
-
-export default {
-	name: 'Payment',
-	components: {
-		Footer,
-		Backer
-	},
-	setup() {
-		const route = useRoute();
-		const router = useRouter();
-		const orderId = route.query.orderId;
-		const orders = reactive({
-			business: {},
-			list: [],
-			orderTotal: 0
-		});
-		const isShowDetailet = ref(false);
-
-		// 获取订单数据
-		axios.get(`orders/${orderId}`)
-			.then(response => {
-				Object.assign(orders, response.data);
-			})
-			.catch(error => {
-				console.error(error);
-			});
-
-		// 阻止用户返回到订单确认页面
-		onMounted(() => {
-			history.pushState(null, null, document.URL);
-			window.onpopstate = () => {
-				router.push({ path: '/index' });
-			};
-		});
-
-		// 清理 popstate 事件监听器
-		onUnmounted(() => {
-			window.onpopstate = null;
-		});
-
-		// 显示/隐藏订单详情
-		const detailetShow = () => {
-			isShowDetailet.value = !isShowDetailet.value;
-		};
-
-		return {
-			orderId,
-			orders,
-			isShowDetailet,
-			detailetShow
-		};
 	}
 };
-</script>
 
+onBeforeMount(() => {
+	fetchOrders();
+});
+
+onMounted(() => {
+	// 这里的代码是实现：一旦路由到在线支付组件，就不能回到订单确认组件。
+	// 先将当前url添加到history对象中
+	history.pushState(null, null, document.URL);
+	// popstate事件能够监听history对象的变化
+	window.onpopstate = () => {
+		router.push({
+			path: '/index'
+		});
+	};
+});
+
+onBeforeUnmount(() => {
+	window.onpopstate = null;
+});
+</script>
 
 <style scoped>
 /****************** 总容器 ******************/
@@ -246,6 +214,7 @@ export default {
 	box-sizing: border-box;
 	padding: 4vw;
 }
+
 
 .wrapper .payment-button button {
 	width: 100%;
