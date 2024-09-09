@@ -42,6 +42,7 @@ public class TokenInterceptor implements HandlerInterceptor {
     		response.setStatus(HttpServletResponse.SC_OK);
             return true;
     	}
+
     	
         response.setCharacterEncoding("utf-8");
         String token = request.getHeader("token");
