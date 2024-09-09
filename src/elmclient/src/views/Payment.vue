@@ -93,16 +93,24 @@ const fetchOrders = async () => {
 	}
 };
 
-const toPayok = () => {
-	router.push({ path: '/payok' });
-}
+const toPayok = async () => {
+	try {
+		const response = await axios.patch(`orders/${route.query.orderId}`);
+		if (response.data > 0) {
+			router.push({ path: '/payok' });
+		}
+	} catch (error) {
+		console.error(error);
+	}
+
+};
 
 const deleteOrder = async () => {
 	try {
 		const response = await axios.delete(`orders/${route.query.orderId}`);
-		if(response.data > 0){
+		if (response.data > 0) {
 			alert('ok');
-			router.push({path: '/orderList'});
+			router.push({ path: '/orderList' });
 		}
 	} catch (error) {
 		console.error(error);
