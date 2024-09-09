@@ -774,6 +774,7 @@ const toBusinessList = (orderTypeId) => {
 	/* 背景色为透明 */
 	list-style: none;
 	border-bottom: 0px;
+	outline: none;
 }
 
 .empty-message {

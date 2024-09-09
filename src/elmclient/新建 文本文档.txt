@@ -1,0 +1,95 @@
+<script>
+import { ref } from 'vue';
+import Footer from '../components/Footer.vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
+import { setSessionStorage } from '../common.js';
+import JSEncrypt from 'jsencrypt';
+
+export default {
+	name: 'Login',
+	components: {
+		Footer
+	},
+	setup() {
+		const router = useRouter();
+		const userId = ref('');
+		const password = ref('');
+
+		// 登录函数
+		const login = () => {
+			if (userId.value === '') {
+				alert('手机号码不能为空！');
+				return;
+			}
+			if (password.value === '') {
+				alert('密码不能为空！');
+				return;
+			}
+
+			// 获取公钥并加密密码
+			axios.get('/public-key')
+				.then(response => {
+					const publicKey = response.data;
+
+					// 检查公钥格式是否正确
+					if (!publicKey || !publicKey.includes('BEGIN PUBLIC KEY')) {
+						alert('获取的公钥格式不正确！');
+						console.error('无效的公钥格式:', publicKey);
+						return;
+					}
+
+					// 使用公钥加密密码
+					const encryptor = new JSEncrypt();
+					encryptor.setPublicKey(publicKey);
+					const encryptedPassword = encryptor.encrypt(password.value);
+
+					if (!encryptedPassword) {
+						alert('密码加密失败，请稍后再试！');
+						console.error('加密失败:', encryptedPassword);
+						return;
+					}
+
+					// 发送加密后的密码进行登录
+					axios.post('users/login', {
+						userId: userId.value,
+						password: encryptedPassword
+					})
+						.then(response => {
+							const user = response.data;
+							if (!user || user === '') {
+								alert('用户名或密码不正确！');
+							} else {
+								// sessionStorage有容量限制，不将userImg数据放入session中
+								user.userImg = '';
+								setSessionStorage('user', user);
+								setSessionStorage('token', user.token); // 你还可以存储token
+								router.go(-1);
+							}
+						})
+						.catch(error => {
+							console.error('登录失败：', error.response || error);
+							alert('登录失败，请检查网络或稍后再试！');
+						});
+				})
+				.catch(error => {
+					console.error('获取公钥失败：', error.response || error);
+					alert('获取公钥失败，请稍后再试！');
+				});
+		};
+
+		const register = () => {
+			router.push({
+				path: 'register'
+			});
+		};
+
+		return {
+			userId,
+			password,
+			login,
+			register
+		};
+	}
+}
+</script>

@@ -50,10 +50,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
         excludePath.add("/users/login");  //登录
         excludePath.add("/public-key");  //登录
         excludePath.add("/captcha");  //验证码
-//        excludePath.add("/orders/**");  
         excludePath.add("/static/**");  //静态资源
         excludePath.add("/assets/**");  //静态资源
         
+
  
         registry.addInterceptor(tokenInterceptor)
                 .addPathPatterns("/**")

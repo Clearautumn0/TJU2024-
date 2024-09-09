@@ -44,6 +44,8 @@ axiosInstance.interceptors.response.use(
     },
     async error => {
         // 对响应错误做点什么
+        console.error('响应错误:', error);
+
         if (!error.response) {
             // 网络错误，可能是网络不稳定导致的
             axiosInstance.defaults.retryCount += 1;
@@ -68,7 +70,9 @@ axiosInstance.interceptors.response.use(
             // 如果是服务器返回的错误，可以根据状态码做不同的处理
             if (error.response.status === 401) {
                 // 例如，401 未授权，可能需要重新登录
-                //console.error('可能需要重新登录');
+
+                console.error('可能需要重新登录');
+
                 router.push('/login');
             }
             // 抛出错误，可以在调用请求时通过 .catch() 捕获
