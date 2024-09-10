@@ -1,4 +1,3 @@
-
 <template>
 	<div class="wrapper">
 
@@ -49,7 +48,7 @@ import AlertPopup from '../components/AlertPopup.vue';
 
 import JSEncrypt from 'jsencrypt';
 import { useRouter } from 'vue-router';
-import { setSessionStorage } from '../common.js'; // 确保你有一个setSessionStorage方法
+import { setSessionStorage, setLocalStorage } from '../common.js'; // 确保你有一个setSessionStorage方法
 
 // 获取全局 axios 实例
 const instance = getCurrentInstance();
@@ -114,13 +113,16 @@ const login = async () => {
 			password: encryptedPassword
 		});
 		const user = loginResponse;
+		console.log(user);
 		if (user == null || user == '') {
 			showAlert('用户名或密码不正确！');
 		} else {
 			// sessionStorage有容量限制，为了防止数据溢出，所以不将userImg数据放入session中
+			setLocalStorage(`userImg${user.userId}`, user.userImg);
 			user.userImg = '';
-			setSessionStorage('user', user);
 			sessionStorage.setItem('token', user.token);
+			user.token = '';
+			setSessionStorage('user', user);
 			router.go(-1);
 		}
 	} catch (error) {
@@ -275,5 +277,4 @@ const register = () => {
 .wrapper .footer li i {
 	font-size: 5vw;
 }
-
 </style>

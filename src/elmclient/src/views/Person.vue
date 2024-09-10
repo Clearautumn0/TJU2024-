@@ -186,8 +186,9 @@ const router = useRouter();
 // 使用 onMounted 生命周期钩子来代替 created
 onMounted(() => {
 	user.value = getSessionStorage('user') || { userName: '未登录', userId: '', usserImg: '' };
-	imageUrl.value = user.value.userImg;
+	imageUrl.value = getLocalStorage(`userImg${user.value.userId}`);
 	deliveryaddress.value = getLocalStorage(user.value.userId);
+	console.log(deliveryaddress.value);
 });
 
 const toUserAddress = () => {
@@ -206,6 +207,7 @@ const toEditUserName = () => {
 	else {
 		router.push({ path: '/editUserName' });
 	}
+	
 }
 
 </script>
