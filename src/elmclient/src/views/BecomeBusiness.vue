@@ -25,13 +25,25 @@
 						<input type="text" class="input-field" placeholder="请填写门店实际位置" v-model="storeAddress">
 					</div>
 				</li>
-				<li>
+				<!-- <li>
 					<div class="input-container">
 						<span class="input-label">商家分类</span>
 						<input type="text" class="input-field" placeholder="请输入分类" v-model="storeCategory">
 					</div>
-				</li>
+				</li> -->
 				<li>
+					<div class="input-container">
+						<span class="input-label">商家分类</span>
+						<!-- 使用 v-model 绑定选中的值到 storeCategory 变量 -->
+						<select class="input-field" v-model="storeCategoryInt">
+							<!-- 循环创建十个选项 -->
+							<option v-for="(category, index) in categories" :key="category" :value="index + 1">
+								{{ category }}
+							</option>
+						</select>
+					</div>
+				</li>
+				<!-- <li>
 					<div class="input-container">
 						<span class="input-label">手机号码</span>
 						<input type="text" class="input-field" placeholder="请输入" v-model="phoneNumber">
@@ -42,11 +54,11 @@
 						<span class="input-label">设置密码</span>
 						<input type="text" class="input-field" placeholder="请输入" v-model="password">
 					</div>
-				</li>
+				</li> -->
 			</ul>
 
 			<div class="register-button">
-				<button @click="register">立即入驻</button>
+				<button @click="registerBusiness">立即入驻</button>
 			</div>
 		</div>
 	</div>
@@ -54,30 +66,59 @@
 </template>
 
 <script setup>
-import { ref, getCurrentInstance } from 'vue';
+import { ref, getCurrentInstance, computed } from 'vue';
 import Backer from '../components/backer.vue';
-
-const storeName = ref('');
-const storeAddress = ref('');
-const storeCategory = ref('');
-const phoneNumber = ref('');
-const password = ref('');
+import { getSessionStorage, getLocalStorage } from '../common.js';
+import { useRouter } from 'vue-router';
 
 // 获取全局 axios 实例
 const instance = getCurrentInstance();
 const axios = instance?.appContext.config.globalProperties.$axios;
 
+
+const router = useRouter();
+
+
+const storeName = ref('');
+const storeAddress = ref('');
+const storeCategoryInt = ref(null);
+const user = ref({});
+// const phoneNumber = ref('');
+// const password = ref('');
+const categories = ref([
+	'美食', '早餐', '跑腿代购', '汉堡披萨', '甜品饮品',
+	'速食简餐', '地方小吃', '米粉面馆', '包子粥铺', '炸鸡炸串'
+]);
+
+const storeCategory = computed({
+	get: () => categories.value[storeCategoryInt.value - 1],
+	set: (category) => {
+		const index = categories.value.indexOf(category);
+		if (index !== -1) {
+			storeCategoryInt.value = index + 1;
+		}
+	}
+});
+
 // 定义点击函数
-function register() {
-	// 这里处理注册逻辑
-	console.log('注册信息:', {
-		storeName: storeName.value,
-		storeAddress: storeAddress.value,
-		storeCategory: storeCategory.value,
-		phoneNumber: phoneNumber.value,
-		password: password.value
-	});
-}
+const registerBusiness = async () => {
+	try {
+		user.value = getSessionStorage('user');
+		const response = await axios.post(`businesses/${user.value.userId}`, {
+			businessName: storeName.value,
+			businessAddress: storeAddress.value,
+			orderTypeId: storeCategoryInt.value
+		});
+		// console.log(response);
+
+		router.push({ path: '/person' });
+
+
+	} catch (error) {
+		console.error('Failed to register business:', error);
+	}
+};
+
 
 </script>
 
