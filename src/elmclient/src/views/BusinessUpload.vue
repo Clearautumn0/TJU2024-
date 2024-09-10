@@ -12,19 +12,19 @@
                 <li>
                     <div class="input-container">
                         <span class="input-label">食品名称</span>
-                        <input type="text" class="input-field" placeholder="请输入" v-model="foods.foodName" />
+                        <input type="text" class="input-field" placeholder="请输入" v-model="foods.foodName" @blur="validateName" />
                     </div>
                 </li>
                 <li>
                     <div class="input-container">
                         <span class="input-label">食品介绍</span>
-                        <input type="text" class="input-field" placeholder="请输入" v-model="foods.foodExplain" />
+                        <input type="text" class="input-field" placeholder="请输入" v-model="foods.foodExplain" @blur="validateExplain" />
                     </div>
                 </li>
                 <li>
                     <div class="input-container">
                         <span class="input-label">食品价格</span>
-                        <input type="text" class="input-field" placeholder="请输入" v-model="foods.foodPrice" />
+                        <input type="text" class="input-field" placeholder="请输入" v-model="foods.foodPrice" @blur="validatePrice" />
                     </div>
                 </li>
             </ul>
@@ -98,9 +98,36 @@ const showAlert = (message) => {
     popup?.openPopup();
 };
 
+const validateName = () => {
+    if(foods.value.foodName == ''){
+        showAlert('请输入食品名称！');
+        return false;
+    }
+    return true;
+};
+
+const validateExplain = () => {
+    if(foods.value.foodExplain == ''){
+        showAlert('请输入食品介绍！');
+        return false;
+    }
+    return true;
+}
+
+const validatePrice = () => {
+    if(foods.value.foodPrice == ''){
+        showAlert('请输入食品价格！');
+        return false;
+    }
+    return true;
+}
+
 // 保存信息并上传图片
 const storemessage = async () => {
     console.log(foods.value);
+    if(!validateName() || !validateExplain() || !validatePrice()){
+        return;
+    }
     try {
         const response = await axios.post('foods', {
             foodName: foods.value.foodName,
