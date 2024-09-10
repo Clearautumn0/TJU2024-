@@ -16,6 +16,8 @@ import EditUserName from '../views/EditUserName.vue';
 import Search from '../views/Search.vue';
 import BecomeBusiness from '../views/BecomeBusiness.vue';
 import Payok from '../views/Payok.vue';
+import BusinessUpload from '../views/BusinessUpload.vue';
+import AssociationOf from '../views/AssociationOf.vue';
 import EditUserImg from '../views/EditUserImg.vue';
 
 const routes = [{
@@ -94,6 +96,14 @@ const routes = [{
 	path: '/editUserImg',
 	name: 'EditUserImg',
 	component: EditUserImg
+}, {
+	path: '/businessUpload',
+	name: 'BusinessUpload',
+	component: BusinessUpload
+}, {
+	path: '/associationOf',
+	name: 'AssociationOf',
+	component: AssociationOf
 }
 ];
 
