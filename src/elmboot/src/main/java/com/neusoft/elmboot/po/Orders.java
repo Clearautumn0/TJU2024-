@@ -71,4 +71,5 @@ public class Orders {
 	public void setList(List<OrderDetailet> list) {
 		this.list = list;
 	}
+	
 }

@@ -1,6 +1,5 @@
 <template>
 	<div class="wrapper">
-
 		<!-- header部分 -->
 		<header>
 			<Backer></Backer>
@@ -158,16 +157,18 @@ const sexFilter = (value) => {
 	width: 100%;
 	height: 12vw;
 	background-color: #0097FF;
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
 	color: #fff;
 	font-size: 4.8vw;
+
 	position: fixed;
 	left: 0;
 	top: 0;
 	/*保证在最上层*/
 	z-index: 1000;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 /*************** addresslist ***************/

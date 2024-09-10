@@ -1,3 +1,27 @@
+<<<<<<< HEAD
+.DS_Store
+node_modules
+/dist
+
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+=======
 src/elmclient/node_modules/.package_versions.json
 src/elmclient/node_modules/.recently_updates.txt
 src/elmclient/node_modules/.bin/vue-cli-service
@@ -9999,3 +10023,4 @@ src/elmclient/node_modules/.store/@babel+plugin-transform-async-generator-functi
 src/elmclient/node_modules/.store/@babel+plugin-transform-async-generator-functions@7.25.4/node_modules/@babel/traverse/lib/scope/lib/renamer.js
 src/elmclient/node_modules/.store/@babel+plugin-transform-async-generator-functions@7.25.4/node_modules/@babel/traverse/lib/scope/lib/renamer.js.map
 .vscode/settings.json
+>>>>>>> 735bb3489f3f527d392331374916846c977a2938
