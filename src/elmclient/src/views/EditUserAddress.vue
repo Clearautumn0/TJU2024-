@@ -163,14 +163,14 @@ const editUserAddress = async () => {
 	if (!validateAddress()) { return; }
 	// console.log('hello');
 
-
 	try {
 		const response = await axios.put('delivery-addresses', deliveryAddress.value);
 		if (response.data > 0) {
 
 			// alert('更新地址成功！');
-			showAlert('更新地址成功！');//不跳转
-
+			showAlert('更新地址成功！');
+			router.go(-1);
+			//不跳转
 			// const userConfirmed = confirm('更新地址成功\n点击确定跳转至地址列表页面');
 			// if (userConfirmed) {
 			// 	router.push({
