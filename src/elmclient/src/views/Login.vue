@@ -13,7 +13,7 @@
 					手机号码：
 				</div>
 				<div class="content">
-					<input type="text" v-model="userId" placeholder="手机号码">
+					<input type="text" v-model="userId" placeholder="手机号码" @blur="validateTel">
 				</div>
 			</li>
 			<li>
@@ -21,7 +21,7 @@
 					密码：
 				</div>
 				<div class="content">
-					<input type="password" v-model="password" placeholder="密码">
+					<input type="password" v-model="password" placeholder="密码" @blur="validatePw">
 				</div>
 			</li>
 		</ul>
@@ -33,6 +33,8 @@
 			<button @click="register">去注册</button>
 		</div>
 
+		<AlertPopup ref="alertPopup" :message="alertMessage" />
+
 		<!-- 底部菜单部分 -->
 		<Footer></Footer>
 	</div>
@@ -40,10 +42,13 @@
 
 <script setup>
 import { ref, getCurrentInstance } from 'vue';
+
 import Footer from '../components/Footer.vue';
+import AlertPopup from '../components/AlertPopup.vue';
+
 import JSEncrypt from 'jsencrypt';
 import { useRouter } from 'vue-router';
-import { setSessionStorage } from '../common.js'; // 确保你有一个setSessionStorage方法
+import { setSessionStorage, setLocalStorage } from '../common.js'; // 确保你有一个setSessionStorage方法
 
 // 获取全局 axios 实例
 const instance = getCurrentInstance();
@@ -53,13 +58,38 @@ const router = useRouter();
 const userId = ref('');
 const password = ref('');
 
-const login = async () => {
+const alertMessage = ref('');
+
+// 显示弹窗的方法
+const showAlert = (message) => {
+	alertMessage.value = message;
+	const popup = instance?.refs.alertPopup;
+	popup?.openPopup();
+};
+
+//联系人电话
+const validateTel = () => {
 	if (userId.value === '') {
-		alert('手机号码不能为空！');
+		showAlert('手机号码不能为空！');
+		return false;
+	}
+	return true;
+
+}
+//联系人密码
+const validatePw = () => {
+	if (password.value === '') {
+		showAlert('密码不能为空！');
+		return false;
+	}
+	return true;
+}
+
+const login = async () => {
+	if (!validateTel()) {
 		return;
 	}
-	if (password.value === '') {
-		alert('密码不能为空！');
+	if (!validatePw()) {
 		return;
 	}
 
@@ -73,7 +103,7 @@ const login = async () => {
 		encryptor.setPublicKey(publicKey);
 		const encryptedPassword = encryptor.encrypt(password.value);
 		if (!encryptedPassword) {
-			alert('密码加密失败，请稍后再试！');
+			showAlert('密码加密失败，请稍后再试！');
 			return;
 		}
 
@@ -83,18 +113,21 @@ const login = async () => {
 			password: encryptedPassword
 		});
 		const user = loginResponse;
+		// console.log(user);
 		if (user == null || user == '') {
-			alert('用户名或密码不正确！');
+			showAlert('用户名或密码不正确！');
 		} else {
 			// sessionStorage有容量限制，为了防止数据溢出，所以不将userImg数据放入session中
+			setLocalStorage(`userImg${user.userId}`, user.userImg);
 			user.userImg = '';
-			setSessionStorage('user', user);
 			sessionStorage.setItem('token', user.token);
+			user.token = '';
+			setSessionStorage('user', user);
 			router.go(-1);
 		}
-	}catch (error) {
-        console.error('登录失败：', error);
-    }
+	} catch (error) {
+		console.error('登录失败：', error);
+	}
 };
 
 const register = () => {

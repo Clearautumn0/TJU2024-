@@ -33,9 +33,6 @@ public class UserServiceImpl implements UserService {
     @Value("${security.rsa.private-key}")
     private String privateKeyStr;  // 从配置文件或安全存储中获取私钥
 
-
-	
-	
 	@Override
 	public User getUserByIdByPass(User user) throws Exception {
 		User storedUser = userMapper.getUserById(user.getUserId());
@@ -66,6 +63,7 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public int getUserById(String userId) {
+
 	    User user = userMapper.getUserById(userId);
 	    String regex = "^1[3-9]\\d{9}$"; // 中国大陆手机号规范
 	    
@@ -96,6 +94,7 @@ public class UserServiceImpl implements UserService {
 
 	    // 手机号通过验证
 	    return 1;
+
 	}
 
 	@Override
@@ -111,15 +110,19 @@ public class UserServiceImpl implements UserService {
 	public int updateUser(User user) {
 		User storedUser = userMapper.getUserById(user.getUserId());
 		// 无对应用户
-
 		if (storedUser == null) {
 			return 0;
 		}
-		// 密码不符
-		if (!passwordEncoder.matches(user.getPassword(), storedUser.getPassword())) {
-
-			return 0;
+		if(user.getUserName()==null || user.getUserName().equals("")) {
+			user.setUserName(storedUser.getUserName());
 		}
+		if(user.getUserSex()==null || user.getUserSex()!=0 || user.getUserSex()!=1) {
+			user.setUserSex(storedUser.getUserSex());
+		}
+		if(user.getUserImg()==null || user.getUserImg().equals("")) {
+			user.setUserImg(storedUser.getUserImg());
+		}
+		
 		return userMapper.updateUser(user);
 	}
 
@@ -139,4 +142,8 @@ public class UserServiceImpl implements UserService {
 		return userMapper.deleteUser(user);
 	}
 
+	@Override
+	public int updateAuthorization(User user) {
+		return userMapper.updateAuthorization(user);
+	}
 }

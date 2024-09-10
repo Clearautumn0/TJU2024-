@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-// import { configureCompat } from '@vue/compat';
+
 import App from './App.vue';
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
@@ -18,6 +18,7 @@ import {
 	getLocalStorage,
 	removeLocalStorage
 } from './common.js';
+
 
 // // 启用兼容模式
 // configureCompat({

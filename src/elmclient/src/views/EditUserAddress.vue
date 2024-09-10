@@ -14,7 +14,8 @@
 					联系人：
 				</div>
 				<div class="content">
-					<input type="text" v-model="deliveryAddress.contactName" placeholder="联系人姓名">
+					<input type="text" v-model="deliveryAddress.contactName" placeholder="联系人姓名"
+						@blur="validateContactName">
 				</div>
 			</li>
 			<li>
@@ -32,7 +33,7 @@
 					电话：
 				</div>
 				<div class="content">
-					<input type="tel" v-model="deliveryAddress.contactTel" placeholder="电话">
+					<input type="tel" v-model="deliveryAddress.contactTel" placeholder="电话" @blur="validateContactTel">
 				</div>
 			</li>
 			<li>
@@ -40,7 +41,7 @@
 					收货地址：
 				</div>
 				<div class="content">
-					<input type="text" v-model="deliveryAddress.address" placeholder="收货地址">
+					<input type="text" v-model="deliveryAddress.address" placeholder="收货地址" @blur="validateAddress">
 				</div>
 			</li>
 		</ul>
@@ -48,8 +49,8 @@
 		<div class="button-add">
 			<button @click="editUserAddress">更新</button>
 		</div>
-
-		<!-- 底部菜单部分 -->
+		<AlertPopup ref="alertPopup" :message="alertMessage" />
+		<!-- 底部菜单部分 -->		
 		<Footer></Footer>
 	</div>
 </template>
@@ -58,6 +59,9 @@
 import { ref, onMounted, getCurrentInstance } from 'vue';
 import Backer from '../components/backer.vue';
 import Footer from '../components/Footer.vue';
+
+import AlertPopup from '../components/AlertPopup.vue';
+
 // import axios from 'axios';
 import { useRouter, useRoute } from 'vue-router';
 
@@ -86,24 +90,87 @@ const fetchAddress = async () => {
 	}
 };
 
+
+const alertMessage = ref('');
+
+// 显示弹窗的方法
+const showAlert = (message) => {
+	alertMessage.value = message;
+	const popup = instance?.refs.alertPopup;
+	popup?.openPopup();
+};
+
+// 验证联系人姓名
+const validateContactName = () => {
+	if (deliveryAddress.contactName === '') {
+		showAlert('联系人姓名不能为空！');
+		return false;
+	}
+	return true;
+};
+
+// 验证电话
+const validateContactTel = () => {
+	const phoneRegex = /^1[3-9]\d{9}$/;
+	// console.log('输入的电话:', deliveryAddress.value.contactTel); // 调试输出
+	// console.log('正则表达式匹配:', phoneRegex.test(deliveryAddress.value.contactTel)); // 调试输出
+
+	/************这里得用 .value ********** /
+	/                                      /
+	/                                      /
+	/************************************ */
+
+	if (deliveryAddress.value.contactTel === '') {
+		showAlert('联系人电话不能为空！');
+		return false;
+	}
+	if (!phoneRegex.test(deliveryAddress.value.contactTel)) {
+		showAlert('联系人电话格式不正确');
+		return false;
+	}
+	return true;
+};
+
+// 验证收货地址
+const validateAddress = () => {
+	if (deliveryAddress.address === '') {
+		showAlert('联系人地址不能为空！');
+		return false;
+	}
+	return true;
+};
+
 const editUserAddress = async () => {
-	if (!deliveryAddress.value.contactName) {
-		alert('联系人姓名不能为空！');
-		return;
-	}
-	if (!deliveryAddress.value.contactTel) {
-		alert('联系人电话不能为空！');
-		return;
-	}
-	if (!deliveryAddress.value.address) {
-		alert('联系人地址不能为空！');
-		return;
-	}
+	// if (!deliveryAddress.value.contactName) {
+	// 	alert('联系人姓名不能为空！');
+	// 	return;
+	// }
+	// if (!deliveryAddress.value.contactTel) {
+	// 	alert('联系人电话不能为空！');
+	// 	return;
+	// }
+	// if (!deliveryAddress.value.address) {
+	// 	alert('联系人地址不能为空！');
+	// 	return;
+	// }
+
+	// 最后进行所有验证
+	console.log('hello');
+	if (!validateContactName()) { return; }
+	if (!validateContactTel()) { return; }
+	console.log('hello');
+
+	if (!validateAddress()) { return; }
+	// console.log('hello');
 
 	try {
 		const response = await axios.put('delivery-addresses', deliveryAddress.value);
 		if (response.data > 0) {
-			alert('更新地址成功！');//不跳转
+
+			// alert('更新地址成功！');
+			showAlert('更新地址成功！');
+			router.go(-1);
+			//不跳转
 			// const userConfirmed = confirm('更新地址成功\n点击确定跳转至地址列表页面');
 			// if (userConfirmed) {
 			// 	router.push({
@@ -119,7 +186,10 @@ const editUserAddress = async () => {
 
 
 		} else {
-			alert('更新地址失败！');
+
+			// alert('更新地址失败！');
+			showAlert('更新地址失败！');
+
 		}
 	} catch (error) {
 		console.error(error);
@@ -158,7 +228,7 @@ onMounted(() => {
 	height: 12vw;
 	background-color: #0097FF;
 	display: flex;
-	justify-content: space-around;
+	justify-content: center;
 	align-items: center;
 	color: #fff;
 	font-size: 4.8vw;

@@ -4,19 +4,22 @@
 		<!--  header部分 -->
 		<header>
 			<Backer></Backer>
-			<div class="setUserName">
-				<p>设置昵称</p>
+			<div class="setUserImg">
+				<p>设置头像</p>
 			</div>
-			<div @click="toPerson" class="reposit">
+			<div @click="submitImage" class="reposit">
 				<p>保存</p>
 			</div>
 		</header>
 		<div class="color-box"></div>
 		<div class="name-box">
-			<input type="text" v-model="userName" placeholder="请输入昵称">
+			<input type="file" @change="handleFileChange" accept="image/*">
 		</div>
 		<div class="bottom">
-
+			<!-- 条件渲染，仅在选择文件后显示预览 -->
+			<div v-if="base64Image" class="image-preview">
+				<img :src="base64Image" alt="头像预览" />
+			</div>
 		</div>
 	</div>
 </template>
@@ -33,7 +36,7 @@ import {
 } from 'vue';
 import {
 	getSessionStorage,
-	setSessionStorage
+	setLocalStorage
 } from '../common.js';
 
 const instance = getCurrentInstance();
@@ -41,30 +44,39 @@ const axios = instance?.appContext.config.globalProperties.$axios;
 
 const router = useRouter();
 const user = ref({});
-const userName = ref('');
+const base64Image = ref('');
 
 onMounted(() => {
 	user.value = getSessionStorage('user') || { userName: '未登录', userId: '' };
 });
 
-const toPerson = async () => {
-	try {
-		const response = await axios.put('users', {
-			userId: user.value.userId,
-			userName: userName.value
-		});
-		if(response.data===1){
-			user.value.userName = userName.value;
-			setSessionStorage('user', user.value);
-		}
-		router.go(-1);
+const handleFileChange = (event) => {
+	const file = event.target.files[0];
+	if (file) {
+		const reader = new FileReader();
+		reader.onload = (e) => {
+			base64Image.value = e.target.result;
+		};
+		reader.readAsDataURL(file);
+	}
+};
 
+const submitImage = async () => {
+	try {
+		if (base64Image.value) {
+			const response = await axios.put('users', {
+				userId: user.value.userId,
+				userImg: base64Image.value
+			});
+			if (response.data === 1) {
+				setLocalStorage(`userImg${user.value.userId}`, base64Image.value);
+			}
+			router.go(-1);
+		}
 	} catch (error) {
 		console.error(error);
 	}
 }
-
-
 
 </script>
 
@@ -97,7 +109,7 @@ const toPerson = async () => {
 	height: 5vw;
 }
 
-.wrapper header .setUserName {
+.wrapper header .setUserImg {
 	font-weight: 600;
 }
 

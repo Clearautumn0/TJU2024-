@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +23,7 @@ public class OrdersController {
 
 	@Autowired
 	private OrdersService ordersService;
-	
+
 	//@RequestMapping("/listOrdersByUserId")
 	@GetMapping("/user/{userId}")
 	public List<Orders> listOrdersByUserId(@PathVariable String userId) throws Exception{
@@ -42,10 +43,16 @@ public class OrdersController {
 		response.put("data", ordersService.createOrders(orders));
 		return response;
 	}
-	
 	@PatchMapping("/{orderId}")
 	public int setOrder(@PathVariable Integer orderId) {
 		return ordersService.setOrders(orderId);
+
 	}
 
+	@DeleteMapping("/{orderId}")
+	public Map<String, Integer> cancelOrder(@PathVariable Integer orderId) throws Exception{
+		Map<String, Integer> response = new HashMap<>();
+		response.put("data", ordersService.cancelOrder(orderId));
+		return response;
+	}
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.neusoft.elmboot.po.Business;
@@ -36,10 +37,10 @@ public class BusinessController {
 		return businessService.getBusinessById(businessId);
 	}
 	
-	@PostMapping
-	public Map<String, Integer> registerBusiness(@RequestBody Business business) {
+	@PostMapping("/{userId}")
+	public Map<String, Integer> registerBusiness(@RequestBody Business business, @PathVariable String userId) {
 		Map<String, Integer> response = new HashMap<>();
-		response.put("data", businessService.registerBusiness(business));
+		response.put("data", businessService.registerBusiness(business, userId));
 		return response;
 	}
 	
@@ -51,9 +52,9 @@ public class BusinessController {
 	}
 	
 	@DeleteMapping("/{businessId}")
-	public Map<String, Integer> removeBusiness(@PathVariable Integer businessId) {
+	public Map<String, Integer> removeBusiness(@RequestParam Integer businessId, @RequestParam String userId) {
 		Map<String, Integer> response = new HashMap<>();
-		response.put("data", businessService.removeBusiness(businessId));
+		response.put("data", businessService.removeBusiness(businessId, userId));
 		return response;
 	}
 

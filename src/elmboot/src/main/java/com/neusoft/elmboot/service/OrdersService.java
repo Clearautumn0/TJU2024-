@@ -9,5 +9,7 @@ public interface OrdersService {
 	public int createOrders(Orders orders);
 	public Orders getOrdersById(Integer orderId);
 	public List<Orders> listOrdersByUserId(String userId);
+	public List<Orders> findUnpaidOrders();
+	public int cancelOrder(Integer orderId);
 	public int setOrders(Integer orders);
 }

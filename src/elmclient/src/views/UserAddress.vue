@@ -1,6 +1,5 @@
 <template>
 	<div class="wrapper">
-
 		<!-- header部分 -->
 		<header>
 			<Backer></Backer>
@@ -19,13 +18,23 @@
 					<i class="fa fa-remove" @click="removeUserAddress(item.daId)"></i>
 				</div>
 			</li>
-		</ul>
+			<li class="empty-li">
+				<div class="addbtn" @click="toAddUserAddress">
+					<i class="fa fa-plus-circle"></i>
+					<p>新增收货地址</p>
+				</div>
+			</li>
+			<!-- <li class="empty-li">
 
+			</li> -->
+		</ul>
 		<!-- 新增地址部分 -->
-		<div class="addbtn" @click="toAddUserAddress">
+		<!-- <div class="addbtn" @click="toAddUserAddress">
 			<i class="fa fa-plus-circle"></i>
 			<p>新增收货地址</p>
-		</div>
+		</div> -->
+
+		<AlertPopup ref="alertPopup" :message="alertMessage" />
 
 		<!-- 底部菜单部分 -->
 		<Footer></Footer>
@@ -37,6 +46,9 @@ import { ref, onMounted, computed, getCurrentInstance } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import Backer from '../components/backer.vue';
 import Footer from '../components/Footer.vue';
+
+import AlertPopup from '../components/AlertPopup.vue';
+
 import { getSessionStorage, setLocalStorage, removeLocalStorage, getLocalStorage } from '../common.js';
 
 // 获取全局 axios 实例
@@ -49,6 +61,17 @@ const route = useRoute();
 const businessId = ref(route.query.businessId);
 const user = ref({});
 const deliveryAddressArr = ref([]);
+
+
+const alertMessage = ref('');
+
+// 显示弹窗的方法
+const showAlert = (message) => {
+	alertMessage.value = message;
+	const popup = instance?.refs.alertPopup;
+	popup?.openPopup();
+};
+
 
 onMounted(() => {
 	user.value = getSessionStorage('user');
@@ -67,6 +90,7 @@ const listDeliveryAddressByUserId = () => {
 
 const setDeliveryAddress = (deliveryAddress) => {
 	setLocalStorage(user.value.userId, deliveryAddress);
+	router.go(-1);
 };
 
 const toAddUserAddress = () => {
@@ -78,7 +102,10 @@ const editUserAddress = (daId) => {
 };
 
 const removeUserAddress = (daId) => {
-	if (!confirm('确认要删除此送货地址吗？')) return;
+
+	// if (!confirm('确认要删除此送货地址吗？')) return;
+	showAlert('删除地址成功');//直接删除，没有再次确定选项
+
 
 	axios.delete(`delivery-addresses/${daId}`)
 		.then(response => {
@@ -89,7 +116,9 @@ const removeUserAddress = (daId) => {
 				}
 				listDeliveryAddressByUserId();
 			} else {
-				alert('删除地址失败！');
+
+				showAlert('删除地址失败！');
+
 			}
 		})
 		.catch(error => {
@@ -121,7 +150,7 @@ const sexFilter = (value) => {
 .wrapper {
 	width: 100%;
 	height: 100%;
-	background-color: #F5F5F5;
+	background-color: #fff;
 }
 
 /*************** header ***************/
@@ -129,16 +158,18 @@ const sexFilter = (value) => {
 	width: 100%;
 	height: 12vw;
 	background-color: #0097FF;
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
 	color: #fff;
 	font-size: 4.8vw;
+
 	position: fixed;
 	left: 0;
 	top: 0;
 	/*保证在最上层*/
 	z-index: 1000;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 /*************** addresslist ***************/
@@ -190,10 +221,10 @@ const sexFilter = (value) => {
 .wrapper .addbtn {
 	width: 100%;
 	height: 14vw;
-	border-top: solid 1px #DDD;
-	border-bottom: solid 1px #DDD;
+	border-top: solid 1px #fff;
+	border-bottom: solid 1px #fff;
 	background-color: #fff;
-	margin-top: 4vw;
+	margin-top: -3vw;
 
 	display: flex;
 	justify-content: center;
@@ -207,5 +238,20 @@ const sexFilter = (value) => {
 
 .wrapper .addbtn p {
 	margin-left: 2vw;
+}
+
+.empty-li {
+	width: 200vw;
+	/* 设置矩形的宽度 */
+	height: 30vw;
+	/* 设置矩形的高度 */
+	/* border: 2px solid #000; */
+	/* 添加一个2像素的黑色边框 */
+
+	background-color: transparent;
+	/* 背景色为透明 */
+	list-style: none;
+	margin-bottom: 0px;
+	/* padding-bottom-color: #fff; */
 }
 </style>
