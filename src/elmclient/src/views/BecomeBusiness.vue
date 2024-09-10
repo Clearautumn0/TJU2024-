@@ -8,7 +8,7 @@
 		</header>
 
 		<div class="business-register-img">
-			<img src="../assets/registerbusiness.jpg">
+			<img src="../assets/registerbusiness.png">
 		</div>
 
 		<div class="input-box">
@@ -18,12 +18,14 @@
 						<span class="input-label">门店名称</span>
 						<input type="text" class="input-field" placeholder="需与门牌照名称一致" v-model="storeName">
 					</div>
+					<hr>
 				</li>
 				<li>
 					<div class="input-container">
 						<span class="input-label">门店地址</span>
 						<input type="text" class="input-field" placeholder="请填写门店实际位置" v-model="storeAddress">
 					</div>
+					<hr>
 				</li>
 				<!-- <li>
 					<div class="input-container">
@@ -42,6 +44,7 @@
 							</option>
 						</select>
 					</div>
+					<hr>
 				</li>
 				<!-- <li>
 					<div class="input-container">
@@ -162,7 +165,7 @@ const registerBusiness = async () => {
 
 .wrapper .input-box {
 	width: 95vw;
-	height: 80vw;
+	height: 65vw;
 	margin: 2.5vw;
 	background-color: #ffffff;
 	border-radius: 3vw;
@@ -171,17 +174,19 @@ const registerBusiness = async () => {
 
 .wrapper .input-box li {
 	width: 95vw;
-	height: 10vw;
+	height: 15vw;
 	display: flex;
-	margin: 2vw;
 	align-items: center;
 	justify-content: center;
+	position: relative;
 }
 
 .wrapper .input-box li .input-container {
+	width: 90vw;
+	height: 15vw;
 	display: flex;
 	align-items: center;
-	margin-top: 2vw;
+	padding: 2vw;
 }
 
 .input-label {
@@ -206,7 +211,7 @@ const registerBusiness = async () => {
 
 .wrapper .input-box .register-button {
 	width: 90vw;
-	height: 10vw;
+	height: 12vw;
 	padding: 2.5vw;
 	display: flex;
 	justify-content: center;
@@ -215,7 +220,7 @@ const registerBusiness = async () => {
 
 .wrapper .input-box .register-button button {
 	width: 80%;
-	height: 10vw;
+	height: 12vw;
 	border: none;
 	/*去掉外轮廓线*/
 	outline: none;
@@ -224,5 +229,21 @@ const registerBusiness = async () => {
 	color: #fff;
 	font-size: 4.5vw;
 	font-weight: 300;
+}
+
+/* *****分割线样式******* */
+
+
+.wrapper .input-box ul li hr {
+	width: calc(100% - 4vw);
+	/* 减去左右的边距 */
+	position: absolute;
+	bottom: 0;
+	left: 2vw;
+	/* 确保 <hr> 与左侧对齐 */
+	background-color: #e7e7e7;
+	border: none;
+	height: 0.05vw;
+	margin: 0;
 }
 </style>

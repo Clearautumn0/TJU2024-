@@ -250,7 +250,7 @@ onMounted(() => {
 
 .wrapper .system-setting {
 	width: 95%;
-	height: 30vw;
+	height: 40vw;
 	margin-top: 2vw;
 
 	display: flex;
@@ -265,7 +265,7 @@ onMounted(() => {
 
 .wrapper .system-setting li {
 	width: 23.75vw;
-	height: 15vw;
+	height: 20vw;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;

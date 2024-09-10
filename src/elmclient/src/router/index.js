@@ -92,7 +92,8 @@ const routes = [{
 }, {
 	path: '/manageBusiness',
 	name: 'ManageBusiness',
-	component: ManageBusiness
+	component: ManageBusiness,
+}, {
 	path: '/payok',
 	name: 'Payok',
 	component: Payok
