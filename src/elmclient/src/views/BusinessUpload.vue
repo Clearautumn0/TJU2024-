@@ -54,9 +54,8 @@ const foods = ref({
     foodName: '',
     foodExplain: '',
     foodImg: '',
-    foodPrice: '',
-    businessId: route.query.businessId,
-    delTag: 0
+    foodPrice: 1.0,
+    businessId: 10001
 });
 
 const alertMessage = ref('');
@@ -82,14 +81,14 @@ const showAlert = (message) => {
 const storemessage = async () => {
     console.log(foods.value);
     try {
-        const response = await axios.post(`foods/${foods.value.foodName,
-            foods.value.foodExplain,
-            foods.value.foodPrice,
-            foods.value.foodImg,
-            foods.value.businessId,
-            foods.value.delTag}`);
-
-        if (response > 0) {
+        const response = await axios.post('foods', {
+            foodName: foods.value.foodName,
+            foodExplain: foods.value.foodExplain,
+            foodPrice: foods.value.foodPrice,
+            foodImg: foods.value.foodImg,
+            businessId: foods.value.businessId,
+        });
+        if (response.data > 0) {
             showAlert('添加食品信息成功！');
         } else {
             showAlert('添加食品信息失败！');
