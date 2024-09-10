@@ -36,12 +36,12 @@
 				<p>我的客服</p>
 			</li>
 			<!-- <li v-if="show-businessmanage"> -->
-			<li>
+			<li v-if="user.authorization === 2">
 				<img src="../assets/businessmanage.png">
 				<p>店铺管理</p>
 			</li>
 			<!-- <li v-if="show-becomebusiness"> -->
-			<li @click="toBecomeBusiness">
+			<li @click="toBecomeBusiness" v-if="user.authorization === 1">
 				<img src="../assets/becomebusiness.png">
 				<p>成为商家</p>
 			</li>
@@ -57,7 +57,7 @@
 				<img src="../assets/rule.png">
 				<p>规则中心</p>
 			</li>
-			<li @click="toBusinessUpload">
+			<li @click="toBusinessUpload" v-if="user.authorization === 2">
 				<img src="../assets/rule.png">
 				<p>上架商品</p>
 			</li>
@@ -116,6 +116,8 @@ const toAssociationOf = () =>{
 onMounted(() => {
 	user.value = getSessionStorage('user') || { userName: '未登录', userId: '', usserImg: '' };
 	imageUrl.value = getLocalStorage(`userImg${user.value.userId}`);
+	console.log(user.value);
+
 });
 
 </script>
