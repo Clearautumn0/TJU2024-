@@ -37,8 +37,8 @@ public class BusinessController {
 		return businessService.getBusinessById(businessId);
 	}
 	
-	@PostMapping
-	public Map<String, Integer> registerBusiness(@RequestBody Business business, @RequestParam String userId) {
+	@PostMapping("/{userId}")
+	public Map<String, Integer> registerBusiness(@RequestBody Business business, @PathVariable String userId) {
 		Map<String, Integer> response = new HashMap<>();
 		response.put("data", businessService.registerBusiness(business, userId));
 		return response;

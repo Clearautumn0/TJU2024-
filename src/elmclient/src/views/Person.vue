@@ -16,13 +16,15 @@
 
 		<!--  基础信息列表部分 -->
 		<ul class="message-list">
-			<li>
+			<li @click="toEditUserImg">
 				<div class="left">
 					<p>头像</p>
 				</div>
 				<div class="right">
 					<div class="avatar-frame">
-						<img src="../assets/默认头像.png" alt="无法加载图片" class="avatar-img">
+						<!-- 使用 v-if 检查 imageUrl 是否存在，如果不存在则显示默认图片 -->
+						<img v-if="imageUrl" :src="imageUrl" alt="用户头像" class="avatar-img">
+						<img v-else src="../assets/默认头像.png" alt="无法加载图片" class="avatar-img">
 					</div>
 					<svg t="1725796901210" class="icon" viewBox="0 0 1024 1024" version="1.1"
 						xmlns="http://www.w3.org/2000/svg" p-id="4134" width="200" height="200">
@@ -152,12 +154,7 @@
 			</li>
 		</ul>
         -->
-
-		<!--  底部 -->
-		<div class="bottom">
-
-		</div>
-
+		
 	</div>
 </template>
 
@@ -180,17 +177,18 @@ import {
 const instance = getCurrentInstance();
 const axios = instance?.appContext.config.globalProperties.$axios;
 
-
-
 const user = ref({});
 const deliveryaddress = ref({});
+const imageUrl = ref('');
 
 const router = useRouter();
 
 // 使用 onMounted 生命周期钩子来代替 created
 onMounted(() => {
-	user.value = getSessionStorage('user') || { userName: '未登录', userId: '' };
+	user.value = getSessionStorage('user') || { userName: '未登录', userId: '', usserImg: '' };
+	imageUrl.value = getLocalStorage(`userImg${user.value.userId}`);
 	deliveryaddress.value = getLocalStorage(user.value.userId);
+	// console.log(deliveryaddress.value);
 });
 
 const toUserAddress = () => {
@@ -202,6 +200,16 @@ const toUserAddress = () => {
 	}
 }
 
+const toEditUserImg = () => {
+	if (user.value.userName === '未登录') {
+		router.push({ path: '/login' });
+	}
+	else {
+		router.push({ path: '/editUserImg' });
+	}
+	
+}
+
 const toEditUserName = () => {
 	if (user.value.userName === '未登录') {
 		router.push({ path: '/login' });
@@ -209,14 +217,9 @@ const toEditUserName = () => {
 	else {
 		router.push({ path: '/editUserName' });
 	}
+	
 }
 
-// 返回响应式数据和方法，使其在模板中可用
-// return {
-//     user,
-//     deliveryaddress,
-//     toUserAddress
-// };
 </script>
 
 <style scoped>
