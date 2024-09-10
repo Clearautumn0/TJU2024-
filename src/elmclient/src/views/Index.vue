@@ -345,6 +345,7 @@
 import Footer from '../components/Footer.vue';
 import { onMounted, onBeforeUnmount, nextTick, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { getSessionStorage } from '../common.js';
 
 
 const fixedBox = ref(null); // 使用 ref 来创建一个响应式的引用
@@ -377,22 +378,18 @@ onMounted(() => {
 
 onBeforeUnmount(removeScrollListener);
 
-const toSearch = () =>{
-	router.push({
-		path: 'search'
-	});
+const toSearch = () => {
+	if(getSessionStorage('user')==null){
+		router.push({ path: '/login' });
+	} 
+	else{
+		router.push({ path: '/search' });
+	}
 }
 
 const toBusinessList = (orderTypeId) => {
-  router.push({ path: '/businessList', query: { orderTypeId } });
+	router.push({ path: '/businessList', query: { orderTypeId } });
 };
-
-// return {
-// 	fixedBox, // 将 fixedBox 包含在返回对象中，以便在模板中使用
-// 	toBusinessList: (orderTypeId) => {
-// 		router.push({ path: '/businessList', query: { orderTypeId: orderTypeId } });
-// 	}
-// };
 
 </script>
 
