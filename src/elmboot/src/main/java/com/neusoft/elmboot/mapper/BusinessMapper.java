@@ -5,7 +5,9 @@ import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
 
 import com.neusoft.elmboot.po.Business;
@@ -19,7 +21,10 @@ public interface BusinessMapper {
 	@Select("select * from business where businessId=#{businessId} and delTag=0")
 	public Business getBusinessById(Integer businessId);
 	
-	@Insert("insert into business values(null, #{businessName}, null, null, #{businessImg}, #{orderTypeId}, null, null, null, 0)")
+	@Insert("insert into business(businessName, businessImg, orderTypeId, delTag) " +
+            "values(#{businessName}, #{businessImg}, #{orderTypeId}, 0)")
+	@Options(useGeneratedKeys = true, keyProperty = "businessId")
+    @SelectKey(statement = "SELECT LAST_INSERT_ID()", keyProperty = "businessId", before = false, resultType = Integer.class)
 	public Integer registerBusiness(Business business);
 	
 	@Update("update business set businessName=#{businessName}, businessAddress=#{businessAddress}, businessExplain=#{businessExplain}, businessImg=#{businessImg}"

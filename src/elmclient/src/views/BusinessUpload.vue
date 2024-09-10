@@ -1,36 +1,51 @@
 <template>
+    <!-- 总容器 -->
     <div class="wrapper">
+        <!-- header部分 -->
         <header>
             <Backer></Backer>
-            <h1>上架商品</h1>
+            <p class="title">上架商品</p>
         </header>
-        <ul class="form-group-list">
-            <li class="form-group">
-                <p>食品名称：</p>
-                <input type="text" id="foodName" v-model="foods.foodName" placeholder="食物名称：请输入" />
-            </li>
-            <li class="form-group">
-                <p>食品介绍：</p>
-                <input type="text" id="foodExplain" v-model="foods.foodExplain" placeholder="食品介绍：请输入" />
-            </li>
-            <li class="form-group">
-                <p>食品价格：</p>
-                <input type="text" id="foodPrice" v-model="foods.foodPrice" placeholder="食品价格：请输入" />
-            </li>
-            <li class="form-group">
-                <p>上传图片：</p>
-                <input type="file" @change="onImageChange" accept="image/*" />
-                <div class="image-preview-box" v-if="imageUrl">
-                    <img :src="imageUrl" alt="食品图片预览" class="image-preview" />
-                </div>
-            </li>
-        </ul>
-        <div class="save-button">
-            <button @click="storemessage">保存信息</button>
+
+        <div class="input-box">
+            <ul class="register-message">
+                <li>
+                    <div class="input-container">
+                        <span class="input-label">食品名称</span>
+                        <input type="text" class="input-field" placeholder="请输入" v-model="foods.foodName" />
+                    </div>
+                </li>
+                <li>
+                    <div class="input-container">
+                        <span class="input-label">食品介绍</span>
+                        <input type="text" class="input-field" placeholder="请输入" v-model="foods.foodExplain" />
+                    </div>
+                </li>
+                <li>
+                    <div class="input-container">
+                        <span class="input-label">食品价格</span>
+                        <input type="text" class="input-field" placeholder="请输入" v-model="foods.foodPrice" />
+                    </div>
+                </li>
+            </ul>
+
+            <div class="register-button">
+                <button @click="storemessage">保存信息</button>
+            </div>
+        </div>
+
+        <!-- 修改后的图片预览框，点击上传图片 -->
+        <div class="inputbox2" @click="triggerFileInput">
+            <div class="image-preview-box">
+                <img :src="imageUrl || 'default-image-url.png'" alt="点击添加食品图片" class="image-preview" />
+                <input type="file" @change="handleFileChange" accept="image/*" style="display: none;"
+                    ref="imageInput" />
+            </div>
         </div>
     </div>
     <AlertPopup ref="alertPopup" :message="alertMessage" />
 </template>
+
 
 <script setup>
 import {
@@ -61,8 +76,14 @@ const foods = ref({
 const alertMessage = ref('');
 const imageUrl = ref(null);  // 用于存储图片预览URL
 
-// 图片上传处理函数
-const onImageChange = (event) => {
+// 触发文件输入的点击事件
+const triggerFileInput = () => {
+    const inputElement = instance?.refs.imageInput;
+    inputElement?.click();
+};
+
+// 处理文件选择
+const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
         foods.value.foodImg = file;
@@ -98,99 +119,124 @@ const storemessage = async () => {
         showAlert('添加食品信息失败！');
     }
 };
-
 </script>
 
-
 <style scoped>
+/* 总容器 */
 .wrapper {
     width: 100%;
     height: 100%;
-    background-color: #f8f9fa;
+    background-color: #eaeaea;
 }
 
+/* header */
 .wrapper header {
     width: 100%;
     height: 12vw;
-    background-color: #0097FF;
-    color: #fff;
-    font-size: 3vw;
+    background-color: #ffffff;
+    font-weight: 800;
+    color: #e2e2e2;
+    font-size: 4.5vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 1000;
+.wrapper header p {
+    color: #000000;
+    font-weight: 600;
+}
 
+.wrapper .input-box {
+    width: 95vw;
+    height: 60vw;
+    margin: 2.5vw;
+    background-color: #ffffff;
+    border-radius: 3vw;
+}
+
+.wrapper .input-box li {
+    width: 95vw;
+    height: 10vw;
+    display: flex;
+    margin: 2vw;
+    align-items: center;
+    justify-content: center;
+}
+
+.wrapper .input-box li .input-container {
+    display: flex;
+    align-items: center;
+    margin-top: 2vw;
+}
+
+.input-label {
+    flex: 1;
+    color: #000000;
+    pointer-events: none;
+    font-size: 4vw;
+    cursor: pointer;
+    user-select: none;
+}
+
+.input-field {
+    border: none;
+    outline: none;
+    flex: 3;
+    padding-left: 10vw;
+    padding-right: 2vw;
+    height: 10vw;
+    width: 60vw;
+    font-size: 3.5vw;
+}
+
+.wrapper .input-box .register-button {
+    width: 90vw;
+    height: 10vw;
+    padding: 2.5vw;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-
-.form-group-list {
-    list-style-type: none;
-    padding: 3vw;
-    margin: 0;
-    width: 100%;
-}
-
-.form-group {
-    width: 90vw;
-    margin-bottom: 2rem;
-}
-
-.wrapper .form-group li {
+.wrapper .input-box .register-button button {
+    width: 80%;
+    height: 10vw;
     border: none;
-    width: 90vw;
-    height: 7vw;
-    border-radius: 6vw;
-    padding-left: 2vw;
+    outline: none;
+    border-radius: 8vw;
+    background-color: #1677ff;
+    color: #fff;
+    font-size: 4.5vw;
+    font-weight: 300;
 }
 
-/* input[type="text"] {
-    width: 100vw;
-    font-size: 1rem;
-    padding: 0;
-    margin: 1vw 1vw;
-    margin-right: 1vw;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-} */
+.wrapper .inputbox2 {
+    width: 95vw;
+    height: 50vw;
+    margin: 2.5vw;
+    background-color: #ffffff;
+    border-radius: 3vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
 
 .wrapper .image-preview-box {
-    margin-top: 1vw;
-    width: 90vw;
-    max-width: 500vw;
-    height: auto;
+    width: 86vw;
+    height: 40vw;
     border: 1px solid gray;
-    margin: 1vw 1vw;
     padding: 3vw;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
 .wrapper .image-preview {
     max-width: 100%;
     height: auto;
-}
-
-.wrapper .save-button {
-    width: 90%;
-    margin-left: 5%;
-    margin-top: 3vw;
-    display: flex;
-    justify-content: center;
-}
-
-.wrapper .save-button button {
-    width: 100%;
-    padding: 1.5vw;
-    font-size: 4.5vw;
-    margin-top: 1vw;
-    color: #fff;
-    background-color: #28a745;
-    border: none;
-    border-radius: 0.25rem;
+    object-fit: cover;
 }
 </style>

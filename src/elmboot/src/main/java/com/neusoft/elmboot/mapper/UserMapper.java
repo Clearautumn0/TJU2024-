@@ -28,7 +28,7 @@ public interface UserMapper {
 	@Update("update user set authorization=#{authorization} where userId=#{userId}")
 	public int updateAuthorization(User user);
 	
-	@Update("update user set businessId=#{businessid} where userId=#{userId}")
-	public int updateUserBusinessId(int busienssId, String userId);
+	@Update("update user set businessId=#{businessId} where userId=#{userId}")
+	public int updateUserBusinessId(int businessId, String userId);
 	
 }

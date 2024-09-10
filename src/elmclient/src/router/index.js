@@ -14,9 +14,11 @@ import Selfpage from '../views/Selfpage.vue';
 import Person from '../views/Person.vue';
 import EditUserName from '../views/EditUserName.vue';
 import Search from '../views/Search.vue';
+import BecomeBusiness from '../views/BecomeBusiness.vue';
 import Payok from '../views/Payok.vue';
 import BusinessUpload from '../views/BusinessUpload.vue';
 import AssociationOf from '../views/AssociationOf.vue';
+import EditUserImg from '../views/EditUserImg.vue';
 
 const routes = [{
 	path: '/',
@@ -83,9 +85,17 @@ const routes = [{
 	name: 'Search',
 	component: Search
 }, {
+	path: '/becomeBusiness',
+	name: 'BecomeBusiness',
+	component: BecomeBusiness
+}, {
 	path: '/payok',
 	name: 'Payok',
 	component: Payok
+}, {
+	path: '/editUserImg',
+	name: 'EditUserImg',
+	component: EditUserImg
 }, {
 	path: '/businessUpload',
 	name: 'BusinessUpload',

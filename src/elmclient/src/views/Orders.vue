@@ -128,6 +128,7 @@ onMounted(() => {
 });
 
 const toUserAddress = () => {
+	// if()
 	router.push({ path: '/userAddress', query: { businessId: businessId.value } });
 };
 
@@ -154,16 +155,6 @@ const toPayment = async () => {
 	}
 };
 
-// return {
-// 	business,
-// 	user,
-// 	cartArr,
-// 	deliveryaddress,
-// 	totalPrice,
-// 	toUserAddress,
-// 	toPayment,
-// 	sexFilter
-// };
 </script>
 
 <style scoped>

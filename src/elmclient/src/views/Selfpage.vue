@@ -3,8 +3,9 @@
 		<header class="profile-header">
 			<div class="header-left">
 				<div class="avatar-frame">
-					<img src="../assets/defaultphoto.png" alt="无法加载图片">
-				</div>
+					<img v-if="imageUrl" :src="imageUrl" alt="用户头像" class="avatar-img">
+					<img v-else src="../assets/默认头像.png" alt="无法加载图片" class="avatar-img">
+				</div> 
 				<h2 class="username">{{ user.userName }}</h2>
 			</div>
 			<div class="header-right">
@@ -34,9 +35,15 @@
 				<img src="../assets/kefu.png">
 				<p>我的客服</p>
 			</li>
+			<!-- <li v-if="show-businessmanage"> -->
 			<li>
 				<img src="../assets/businessmanage.png">
 				<p>店铺管理</p>
+			</li>
+			<!-- <li v-if="show-becomebusiness"> -->
+			<li @click="toBecomeBusiness">
+				<img src="../assets/becomebusiness.png">
+				<p>成为商家</p>
 			</li>
 			<li @click="toAssociationOf">
 				<img src="../assets/guanyu.png">
@@ -64,7 +71,7 @@
 import { useRouter } from 'vue-router';
 import { ref, onMounted, getCurrentInstance } from 'vue';
 import Footer from '../components/Footer.vue';
-import { getSessionStorage } from '../common.js';
+import { getSessionStorage, getLocalStorage } from '../common.js';
 
 // 获取全局 axios 实例
 const instance = getCurrentInstance();
@@ -72,17 +79,31 @@ const axios = instance?.appContext.config.globalProperties.$axios;
 
 
 const router = useRouter(); // 使用 useRouter 获取路由实例
-const user = getSessionStorage('user') || { userName: '未登录' }; // 获取用户数据
+const user = ref({});
+const imageUrl = ref('');
 
 const toindividual_inf = () => {
 	router.push({ path: '/person' });
 };
 
 const toUserAddress = () => {
-	router.push({
-		path: '/userAddress'
-	});
+	if (user.value.userName === '未登录') {
+		router.push({ path: '/login' });
+	}
+	else {
+		router.push({ path: '/userAddress' });
+	}
+
 };
+
+const toBecomeBusiness = () => {
+	if (user.value.userName === '未登录') {
+		router.push({ path: '/login' });
+	}
+	else {
+		router.push({ path: '/becomeBusiness' });
+	}
+}
 
 const toBusinessUpload = () =>{
 	router.push({path: '/businessUpload'});
@@ -91,10 +112,11 @@ const toBusinessUpload = () =>{
 const toAssociationOf = () =>{
 	router.push({path: '/associationOf'});
 }
-// return {
-// 	user,
-// 	toindividual_inf
-// };
+
+onMounted(() => {
+	user.value = getSessionStorage('user') || { userName: '未登录', userId: '', usserImg: '' };
+	imageUrl.value = getLocalStorage(`userImg${user.value.userId}`);
+});
 
 </script>
 
@@ -137,6 +159,7 @@ const toAssociationOf = () =>{
 	/* border: 3px solid #ccc; */
 	margin-right: 2vw;
 	margin-left: 2vw;
+	overflow: hidden;
 }
 
 .avatar-frame img {

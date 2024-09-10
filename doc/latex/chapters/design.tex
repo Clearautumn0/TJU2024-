@@ -9,6 +9,8 @@
       \item delTag表示删除标记,其中0:正常，1:删除
       \item food表添加soudOut字段
       \item user .password成员的长度修改为70
+      \item user表添加authorization成员，0:管理员，1:普通用户，2:商家用户
+        \item user表添加businessId成员，无符号，添加外键，对business表businessId的引用
   \end{enumerate}
 \subsection{DB一览表}
 \begin{table}[h]
@@ -153,6 +155,10 @@ NO & 字段名             & 数据类型       & size  & 默认值  & 约束   
 4 & userSex  & int        &    &  & NN    & 用户性别（1：男； 0：女） \\ \hline
 5 & userImg  & mediumtext &    &  &       & 用户头像           \\ \hline
 6 & delTag   & int        &    &  & NN    & 删除标记           \\ \hline
+7 & authorization   & int        &    &  & NN    & 用户权限           \\ \hline
+8 & businessId   & int        &    &  &   PK  & 商家id           \\ \hline
+
+
 \end{tabular}%
 }
 \caption{用户表}

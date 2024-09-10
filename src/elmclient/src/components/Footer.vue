@@ -21,23 +21,29 @@
 
 <script setup>
 import { useRouter } from 'vue-router';
+import { getSessionStorage } from '../common.js';
 
 const router = useRouter();
 
 const toIndex = () => {
-  router.push({ path: '/index' });
+	router.push({ path: '/index' });
 };
 
 const toOrderList = () => {
-  router.push({ path: '/orderList' });
+	if (getSessionStorage('user')===null) {
+		router.push({path:'/login'});
+	}
+	else {
+		router.push({ path: '/orderList' });
+	}
 };
 
 const toselfpage = () => {
-  router.push({ path: '/selfpage' });
+	router.push({ path: '/selfpage' });
 };
 
 const test = () => {
-  router.push({ path: '/' });
+	router.push({ path: '/' });
 };
 </script>
 

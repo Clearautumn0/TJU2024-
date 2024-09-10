@@ -23,7 +23,7 @@ public class OrdersController {
 
 	@Autowired
 	private OrdersService ordersService;
-	
+
 	//@RequestMapping("/listOrdersByUserId")
 	@GetMapping("/user/{userId}")
 	public List<Orders> listOrdersByUserId(@PathVariable String userId) throws Exception{
@@ -49,7 +49,7 @@ public class OrdersController {
 
 	}
 
-	@DeleteMapping
+	@DeleteMapping("/{orderId}")
 	public Map<String, Integer> cancelOrder(@PathVariable Integer orderId) throws Exception{
 		Map<String, Integer> response = new HashMap<>();
 		response.put("data", ordersService.cancelOrder(orderId));
