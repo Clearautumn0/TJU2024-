@@ -90,6 +90,7 @@ const fetchBusinessData = async () => {
 	try {
 		const response = await axios.get(`businesses/orderType/${orderTypeId.value}`);
 		businessArr.splice(0, businessArr.length, ...response); // 使用 splice 进行响应式更新
+		// console.log(businessArr);
 		if (user.value != null) {
 			listCart();
 		}
@@ -140,14 +141,14 @@ onMounted(() => {
 }
 
 /* 返回按钮样式 */
-.wrapper header .back-button {
+/* .wrapper header .back-button {
 	position: absolute;
 	left: 2vw;
 	top: 2vw;
 	width: 8vw;
 	height: 8vw;
 	cursor: pointer;
-}
+} */
 
 /****************** 商家列表部分 ******************/
 .wrapper .business {

@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.neusoft.elmboot.po.DeliveryAddress;
 
@@ -24,6 +25,6 @@ public interface DeliveryAddressMapper {
 	@Insert("insert into deliveryAddress values (null, #{contactName}, #{contactSex}, #{contactTel}, #{address}, #{userId}, 0)")
 	public int copyDeliveryAddress(DeliveryAddress deliveryAddress);
 	
-	@Delete("update deliveryAddress set delTag=1 where daId=#{daId}")
+	@Update("update deliveryAddress set delTag=1 where daId=#{daId}")
 	public int deleteDeliveryAddress(Integer daId);
 }
