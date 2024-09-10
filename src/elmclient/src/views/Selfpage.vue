@@ -86,11 +86,6 @@ const toUserAddress = () => {
 	});
 };
 
-const toUserAddress = () => {
-	router.push({
-		path: '/userAddress'
-	});
-};
 
 const toBecomeBusiness =() =>{
 	router.push({
