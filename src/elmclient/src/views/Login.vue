@@ -113,7 +113,7 @@ const login = async () => {
 			password: encryptedPassword
 		});
 		const user = loginResponse;
-		console.log(user);
+		// console.log(user);
 		if (user == null || user == '') {
 			showAlert('用户名或密码不正确！');
 		} else {
