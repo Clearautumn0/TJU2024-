@@ -9,11 +9,7 @@
 		<!-- 订单列表部分 -->
 		<h3>未支付订单信息：</h3>
 		<ul class="order">
-<<<<<<< HEAD
 			<li v-for="item in orderArr" v-show="item.orderState === 0"><!--- v-show筛选未支付的 --->
-=======
-			<li v-for="item in unpaidOrders">
->>>>>>> ed355179b8b2f083d0078d9dcae836d424341f0d
 				<div class="order-info">
 					<p>
 						{{ item.business.businessName }}
@@ -42,11 +38,7 @@
 
 		<h3>已支付订单信息：</h3>
 		<ul class="order">
-<<<<<<< HEAD
 			<li v-for="item in orderArr" v-show="item.orderState === 1"> <!--- v-show筛选已经支付的 --->
-=======
-			<li v-for="item in paidOrders">
->>>>>>> ed355179b8b2f083d0078d9dcae836d424341f0d
 				<div class="order-info">
 					<p>
 						{{ item.business.businessName }}
