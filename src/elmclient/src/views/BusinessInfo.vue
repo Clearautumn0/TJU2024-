@@ -87,7 +87,7 @@
 					</div>
 				</div>
 				<ul>
-					<li v-for="(item, index) in foodArr">
+					<li v-for="(item, index) in foodArr" v-show="item.quantity !=0">
 						<div class="cart-leftbox">
 							<div class="foodimg-box">
 								<img :src="item.foodImg">
