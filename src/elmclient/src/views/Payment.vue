@@ -96,7 +96,9 @@ const fetchOrders = async () => {
 const toPayok = async () => {
 	try {
 		const response = await axios.patch(`orders/${route.query.orderId}`);
-		if (response.data > 0) {//这里标记已支付后直接进入支付成功页面
+		// console.log(response.data);
+		if (response > 0) {//这里标记已支付后直接进入支付成功页面
+			console.log('hello');
 			router.push({ path: '/payok' });
 		}
 	} catch (error) {
@@ -107,7 +109,9 @@ const toPayok = async () => {
 
 const deleteOrder = async () => {
 	try {
+		console.log('hello');
 		const response = await axios.delete(`orders/${route.query.orderId}`);
+		console.log(response);
 		if (response.data > 0) {//删成功后就直接到OrderList页面
 			// alert('ok');
 			router.push({ path: '/orderList' });

@@ -332,7 +332,7 @@
 			foodId: foodArr.value[index].foodId,
 			quantity: foodArr.value[index].quantity + num
 		}).then(response => {
-
+			console.log(response.data);
 			if (response.data === 1) {
 				foodArr.value[index].quantity += num;
 				foodArr.value.sort();

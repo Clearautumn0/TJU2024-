@@ -9,7 +9,7 @@
 		<!-- 订单列表部分 -->
 		<h3>未支付订单信息：</h3>
 		<ul class="order">
-			<li v-for="item in orderArr">
+			<li v-for="item in orderArr" v-show="item.orderState === 0"><!--- v-show筛选未支付的 --->
 				<div class="order-info">
 					<p>
 						{{ item.business.businessName }}
@@ -37,8 +37,8 @@
 		</ul>
 
 		<h3>已支付订单信息：</h3>
-		<!-- <ul class="order">
-			<li v-for="item in orderArr">
+		<ul class="order">
+			<li v-for="item in orderArr" v-show="item.orderState === 1"> <!--- v-show筛选已经支付的 --->
 				<div class="order-info">
 					<p>
 						{{ item.business.businessName }}
@@ -63,7 +63,7 @@
 			<li class="empty-li">
 				<div class="empty-message">已经到底了...</div>
 			</li>
-		</ul> -->
+		</ul>
 
 		<!-- 底部菜单部分 -->
 		<Footer></Footer>
