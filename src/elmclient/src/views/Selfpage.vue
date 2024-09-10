@@ -57,7 +57,7 @@
 				<img src="../assets/rule.png">
 				<p>规则中心</p>
 			</li>
-			<li @click="toBusinessUpload" v-if="user.authorization === 2">
+			<li @click="toBusinessUpload" v-if="user.authorization === 0">
 				<img src="../assets/rule.png">
 				<p>上架商品</p>
 			</li>
