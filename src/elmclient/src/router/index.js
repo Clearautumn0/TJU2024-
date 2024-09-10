@@ -15,6 +15,8 @@ import Person from '../views/Person.vue';
 import EditUserName from '../views/EditUserName.vue';
 import Search from '../views/Search.vue';
 import Payok from '../views/Payok.vue';
+import BusinessUpload from '../views/BusinessUpload.vue';
+import AssociationOf from '../views/AssociationOf.vue';
 
 const routes = [{
 	path: '/',
@@ -84,6 +86,14 @@ const routes = [{
 	path: '/payok',
 	name: 'Payok',
 	component: Payok
+}, {
+	path: '/businessUpload',
+	name: 'BusinessUpload',
+	component: BusinessUpload
+}, {
+	path: '/associationOf',
+	name: 'AssociationOf',
+	component: AssociationOf
 }
 ];
 
