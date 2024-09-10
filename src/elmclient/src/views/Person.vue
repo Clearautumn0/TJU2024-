@@ -188,7 +188,7 @@ onMounted(() => {
 	user.value = getSessionStorage('user') || { userName: '未登录', userId: '', usserImg: '' };
 	imageUrl.value = getLocalStorage(`userImg${user.value.userId}`);
 	deliveryaddress.value = getLocalStorage(user.value.userId);
-	console.log(deliveryaddress.value);
+	// console.log(deliveryaddress.value);
 });
 
 const toUserAddress = () => {
