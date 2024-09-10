@@ -16,6 +16,7 @@ import EditUserName from '../views/EditUserName.vue';
 import Search from '../views/Search.vue';
 import BecomeBusiness from '../views/BecomeBusiness.vue';
 import Payok from '../views/Payok.vue';
+import EditUserImg from '../views/EditUserImg.vue';
 
 const routes = [{
 	path: '/',
@@ -89,6 +90,10 @@ const routes = [{
 	path: '/payok',
 	name: 'Payok',
 	component: Payok
+}, {
+	path: '/editUserImg',
+	name: 'EditUserImg',
+	component: EditUserImg
 }
 ];
 

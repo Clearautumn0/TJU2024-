@@ -16,7 +16,7 @@
 
 		<!--  基础信息列表部分 -->
 		<ul class="message-list">
-			<li>
+			<li @click="toEditUserImg">
 				<div class="left">
 					<p>头像</p>
 				</div>
@@ -198,6 +198,16 @@ const toUserAddress = () => {
 	else {
 		router.push({ path: '/userAddress' });
 	}
+}
+
+const toEditUserImg = () => {
+	if (user.value.userName === '未登录') {
+		router.push({ path: '/login' });
+	}
+	else {
+		router.push({ path: '/editUserImg' });
+	}
+	
 }
 
 const toEditUserName = () => {
