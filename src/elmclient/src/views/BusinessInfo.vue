@@ -331,19 +331,6 @@ const updateCart = async (index, num) => {
 			userId: user.value.userId,
 			foodId: foodArr.value[index].foodId,
 			quantity: foodArr.value[index].quantity + num
-<<<<<<< HEAD
-		}).then(response => {
-			console.log(response.data);
-			if (response.data === 1) {
-				foodArr.value[index].quantity += num;
-				foodArr.value.sort();
-			} else {
-				showAlert('updateCart: 向购物车中更新食品失败！');
-			}
-		}).catch(error => {
-			console.error(error);
-		})
-=======
 		});
 		if (response.data === 1) {
 			foodArr.value[index].quantity += num;
@@ -353,7 +340,6 @@ const updateCart = async (index, num) => {
 		}
 	} catch (error) {
 		console.error(error);
->>>>>>> ed355179b8b2f083d0078d9dcae836d424341f0d
 	}
 }
 

@@ -49,20 +49,15 @@
 		height: 12vw;
 		background-color: #ffffff;
 		color: #e2e2e2;
-		font-size: 4.5vw;
+		font-size: 4.8vw;
 
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
+		justify-content: center;
 	}
 
 	.wrapper header p {
 		color: #000000;
-	}
-	
-	.wrapper header .back-button{
-		width:5vw;
-		height: 5vw;
 	}
 
 	.wrapper header .setUserName {
