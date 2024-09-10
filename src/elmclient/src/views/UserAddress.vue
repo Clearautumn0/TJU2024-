@@ -90,6 +90,7 @@ const listDeliveryAddressByUserId = () => {
 
 const setDeliveryAddress = (deliveryAddress) => {
 	setLocalStorage(user.value.userId, deliveryAddress);
+	router.go(-1);
 };
 
 const toAddUserAddress = () => {

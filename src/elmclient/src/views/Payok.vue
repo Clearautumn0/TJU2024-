@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper">
         <header>
-            <Backer></Backer>
+            <!--<Backer></Backer>-->
             <p class="ziti">支付详情</p>
         </header>
         <div class="center-content">
@@ -19,7 +19,7 @@
 </template>
 
 <script setup>
-import Backer from '../components/backer.vue';
+// import Backer from '../components/backer.vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();

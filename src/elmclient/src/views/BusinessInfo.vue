@@ -249,6 +249,7 @@ const add = async (index) => {
 		console.error(error);
 	}
 
+
 };
 // 验证验证码
 const verifyCaptcha = async () => {
@@ -314,6 +315,7 @@ const saveCart = async (index) => {
 		}
 	} catch (error) {
 		console.error(error);
+
 	}
 }
 const toggleCart = () => {
@@ -333,6 +335,7 @@ const updateCart = async (index, num) => {
 			quantity: foodArr.value[index].quantity + num
 		});
 		if (response.data === 1) {
+			
 			foodArr.value[index].quantity += num;
 			foodArr.value.sort();
 		} else {

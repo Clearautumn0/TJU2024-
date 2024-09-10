@@ -40,10 +40,9 @@
 			</li>
 		</ul>
 		<div class="payment-button">
-			<button @click="toPayok">确认支付</button>
-			<u class="quxiaodingdan" @click="deleteOrder">取消订单</u>
+			<button @click="setOrder2Payok">确认支付</button>
+			<u class="quxiaodingdan">取消订单</u>
 		</div>
-
 		<!-- 底部菜单部分 -->
 		<Footer></Footer>
 	</div>
@@ -65,9 +64,10 @@ import {
 import Backer from '../components/backer.vue';
 import Footer from '../components/Footer.vue';
 
-// 获取全局 axios 实例
-const instance = getCurrentInstance();
-const axios = instance?.appContext.config.globalProperties.$axios;
+	// 获取全局 axios 实例
+	const instance = getCurrentInstance();
+	const axios = instance?.appContext.config.globalProperties.$axios;
+
 
 const route = useRoute();
 const router = useRouter();
@@ -84,43 +84,21 @@ const detailetShow = () => {
 	isShowDetailet.value = !isShowDetailet.value;
 };
 
-const fetchOrders = async () => {
-	try {
-		const response = await axios.get(`orders/${route.query.orderId}`);
-		Object.assign(orders, response);
-	} catch (error) {
-		console.error(error);
+	const fetchOrders = async () => {
+		try {
+			const response = await axios.get(`orders/${route.query.orderId}`);
+			Object.assign(orders, response);
+		} catch (error) {
+			console.error(error);
 
-	}
-};
-
-const toPayok = async () => {
-	try {
-		const response = await axios.patch(`orders/${route.query.orderId}`);
-		// console.log(response.data);
-		if (response > 0) {//这里标记已支付后直接进入支付成功页面
-			console.log('hello');
-			router.push({ path: '/payok' });
 		}
-	} catch (error) {
-		console.error(error);
-	}
+	};
 
-};
-
-const deleteOrder = async () => {
-	try {
-		console.log('hello');
-		const response = await axios.delete(`orders/${route.query.orderId}`);
-		console.log(response);
-		if (response.data > 0) {//删成功后就直接到OrderList页面
-			// alert('ok');
-			router.push({ path: '/orderList' });
-		}
-	} catch (error) {
-		console.error(error);
+	const toPayok = () => {
+		router.push({
+			path: '/payok'
+		});
 	}
-};
 
 onBeforeMount(() => {
 	fetchOrders();
@@ -270,7 +248,51 @@ onBeforeUnmount(() => {
 	/* 根据需要调整颜色 */
 	cursor: pointer;
 
-}
-
-
+	}
+	
+	
+	.wrapper .cancel-button {
+		width: 20vw;
+		box-sizing: border-box;
+		padding: 2vw;
+		margin-left: auto;
+		margin-right: 6vw;
+	}
+	
+	.wrapper .cancel-button button {
+		width: 20vw;
+		height: 10vw;
+		border: none;
+		/*去掉外轮廓线*/
+		outline: none;
+		margin-right: 3vw;
+		border-radius: 4px;
+		background-color: #00aaff;
+		color: #fff;
+	}
+	
+	
+/* 	.wrapper .cancel-button{
+		width: 12vw;
+		height: 12vw;
+		margin-left: auto;
+		margin-right: 3vw;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+	} */
+	
+/* 	.wrapper .cancel-button svg{
+		width: 5vw;
+		height: 5vw;
+	} */
+	
+	/* .wrapper .cancel-button p{
+		margin-top: 2vw;
+		font-size: 2.5vw;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	} */
 </style>
