@@ -111,15 +111,19 @@ public class UserServiceImpl implements UserService {
 	public int updateUser(User user) {
 		User storedUser = userMapper.getUserById(user.getUserId());
 		// 无对应用户
-
 		if (storedUser == null) {
 			return 0;
 		}
-		// 密码不符
-		if (!passwordEncoder.matches(user.getPassword(), storedUser.getPassword())) {
-
-			return 0;
+		if(user.getUserName()==null || user.getUserName().equals("")) {
+			user.setUserName(storedUser.getUserName());
 		}
+		if(user.getUserSex()==null || user.getUserSex()!=0 || user.getUserSex()!=1) {
+			user.setUserSex(storedUser.getUserSex());
+		}
+		if(user.getUserImg()==null || user.getUserImg().equals("")) {
+			user.setUserImg(storedUser.getUserImg());
+		}
+		
 		return userMapper.updateUser(user);
 	}
 

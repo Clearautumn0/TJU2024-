@@ -19,7 +19,7 @@ public interface UserMapper {
 	@Insert("insert into user values(#{userId},#{password},#{userName},#{userSex},null,0,1,null)")
 	public int saveUser(User user);
 	
-	@Update("update user set userName=#{userName},userSex=#{userSex},userImg=#{userImg} where userId=#{userId} and password=#{password} and delTag=0")
+	@Update("update user set userName=#{userName},userSex=#{userSex},userImg=#{userImg} where userId=#{userId} and delTag=0")
 	public int updateUser(User user);
 	
 	@Update("update user set delTag=1 where userId=#{userId} and password=#{password}")
