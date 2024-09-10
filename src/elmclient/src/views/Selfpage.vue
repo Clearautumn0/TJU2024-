@@ -26,7 +26,7 @@
 			</li>
 		</ul>
 		<ul class="system-setting">
-			<li>
+			<li @click="toUserAddress">
 				<img src="../assets/address.png">
 				<p>我的地址</p>
 			</li>
@@ -34,9 +34,15 @@
 				<img src="../assets/kefu.png">
 				<p>我的客服</p>
 			</li>
+			<!-- <li v-if="show-businessmanage"> -->
 			<li>
 				<img src="../assets/businessmanage.png">
 				<p>店铺管理</p>
+			</li>
+			<!-- <li v-if="show-becomebusiness"> -->
+			<li @click="toBecomeBusiness">
+				<img src="../assets/becomebusiness.png">
+				<p>成为商家</p>
 			</li>
 			<li>
 				<img src="../assets/guanyu.png">
@@ -74,6 +80,25 @@ const toindividual_inf = () => {
 	router.push({ path: '/person' });
 };
 
+const toUserAddress = () => {
+	if (user.userName === '未登录') {
+		router.push({ path: '/login' });
+	}
+	else {
+		router.push({ path: '/userAddress' });
+	}
+
+};
+
+
+const toBecomeBusiness = () => {
+	if (user.userName === '未登录') {
+		router.push({ path: '/login' });
+	}
+	else {
+		router.push({ path: '/becomeBusiness' });
+	}
+}
 // return {
 // 	user,
 // 	toindividual_inf

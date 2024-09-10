@@ -194,15 +194,21 @@ onMounted(() => {
 });
 
 const toUserAddress = () => {
-	router.push({
-		path: '/userAddress'
-	});
-};
+	if (user.value.userName === '未登录') {
+		router.push({ path: '/login' });
+	}
+	else {
+		router.push({ path: '/userAddress' });
+	}
+}
 
 const toEditUserName = () => {
-	router.push({
-		path: '/editUserName'
-	})
+	if (user.value.userName === '未登录') {
+		router.push({ path: '/login' });
+	}
+	else {
+		router.push({ path: '/editUserName' });
+	}
 }
 
 // 返回响应式数据和方法，使其在模板中可用
