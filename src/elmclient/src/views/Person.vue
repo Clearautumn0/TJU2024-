@@ -16,7 +16,7 @@
 
 		<!--  基础信息列表部分 -->
 		<ul class="message-list">
-			<li @click="toEditUserImg">
+			<li @click="toggleImg">
 				<div class="left">
 					<p>头像</p>
 				</div>
@@ -95,6 +95,35 @@
 			</li>
 		</ul>
 
+		<div v-if="isAvatarOpen" class="overlay"></div>
+		<!--阴影背景  v-show="totalQuantity != 0" 表示有food的时候显示购物车-->
+
+		<div v-if="isAvatarOpen" class="Avatar-update">
+			<div class="button-box">
+				<ul>
+					<li>
+						<p>拍一张</p>
+						<el-divider class="custom-divider" />
+					</li>
+					<li>
+						<p @click="triggerFileInput">上传头像</p>
+						<el-divider class="custom-divider" />
+						<input ref="fileInput" type="file" accept="image/*" style="display: none;"
+							@change="handleFileChange" />
+					</li>
+					<div class="driver-box"></div>
+					<li class="cancel-box" @click="toggleImg">
+						<p>取消</p>
+						<el-divider class="custom-divider" />
+					</li>
+				</ul>
+				<!-- 绑定点击事件的 el-button -->
+				<!-- <el-button type="primary" @click="triggerFileInput">
+					上传头像
+				</el-button> -->
+			</div>
+		</div>
+
 		<!--  账号绑定部分 -->
 		<!--
 		<div class="Id-box">
@@ -154,299 +183,404 @@
 			</li>
 		</ul>
         -->
-		
+
 	</div>
 </template>
 
 <script setup>
-import {
-	useRouter
-} from 'vue-router';
-import {
-	ref,
-	onMounted,
-	getCurrentInstance
-} from 'vue';
-import Backer from '../components/backer.vue';
-import {
-	getSessionStorage,
-	getLocalStorage
-} from '../common.js';
+	import {
+		useRouter
+	} from 'vue-router';
+	import {
+		ref,
+		onMounted,
+		getCurrentInstance
+	} from 'vue';
+	import Backer from '../components/backer.vue';
+	import {
+		getSessionStorage,
+		getLocalStorage
+	} from '../common.js';
 
-// 获取全局 axios 实例
-const instance = getCurrentInstance();
-const axios = instance?.appContext.config.globalProperties.$axios;
+	// 获取全局 axios 实例
+	const instance = getCurrentInstance();
+	const axios = instance?.appContext.config.globalProperties.$axios;
 
-const user = ref({});
-const deliveryaddress = ref({});
-const imageUrl = ref('');
+	const user = ref({});
+	const deliveryaddress = ref({});
+	const imageUrl = ref('');
 
-const router = useRouter();
-
-// 使用 onMounted 生命周期钩子来代替 created
-onMounted(() => {
-	user.value = getSessionStorage('user') || { userName: '未登录', userId: '', usserImg: '' };
-	imageUrl.value = getLocalStorage(`userImg${user.value.userId}`);
-	deliveryaddress.value = getLocalStorage(user.value.userId);
-	// console.log(deliveryaddress.value);
-});
-
-const toUserAddress = () => {
-	if (user.value.userName === '未登录') {
-		router.push({ path: '/login' });
-	}
-	else {
-		router.push({ path: '/userAddress' });
-	}
-}
-
-const toEditUserImg = () => {
-	if (user.value.userName === '未登录') {
-		router.push({ path: '/login' });
-	}
-	else {
-		router.push({ path: '/editUserImg' });
-	}
+	const router = useRouter();
+	const isAvatarOpen = ref(false);
 	
-}
-
-const toEditUserName = () => {
-	if (user.value.userName === '未登录') {
-		router.push({ path: '/login' });
-	}
-	else {
-		router.push({ path: '/editUserName' });
-	}
+	const fileInput = ref(null);
 	
-}
+	const triggerFileInput = () => {
+	  fileInput.value.click(); // 触发隐藏的文件输入框点击事件
+	};
+	
+	const handleFileChange = (event) => {
+	  const file = event.target.files[0];
+	  if (file) {
+	    const reader = new FileReader();
+	    reader.onload = (e) => {
+	      base64Image.value = e.target.result;
+	    };
+	    reader.readAsDataURL(file);
+	  }
+	};
 
+	// 使用 onMounted 生命周期钩子来代替 created
+	onMounted(() => {
+		user.value = getSessionStorage('user') || {
+			userName: '未登录',
+			userId: '',
+			usserImg: ''
+		};
+		imageUrl.value = getLocalStorage(`userImg${user.value.userId}`);
+		deliveryaddress.value = getLocalStorage(user.value.userId);
+		// console.log(deliveryaddress.value);
+	});
+
+	const toggleImg = () => {
+		isAvatarOpen.value = !isAvatarOpen.value;
+	}
+
+	const toUserAddress = () => {
+		if (user.value.userName === '未登录') {
+			router.push({
+				path: '/login'
+			});
+		} else {
+			router.push({
+				path: '/userAddress'
+			});
+		}
+	}
+
+	const toEditUserImg = () => {
+		if (user.value.userName === '未登录') {
+			router.push({
+				path: '/login'
+			});
+		} else {
+			router.push({
+				path: '/editUserImg'
+			});
+		}
+
+	}
+
+	const toPerson = () => {
+		if (user.value.userName === '未登录') {
+			router.push({
+				path: '/login'
+			});
+		} else {
+			router.push({
+				path: '/person'
+			});
+		}
+
+	}
+
+	const toEditUserName = () => {
+		if (user.value.userName === '未登录') {
+			router.push({
+				path: '/login'
+			});
+		} else {
+			router.push({
+				path: '/editUserName'
+			});
+		}
+
+	}
 </script>
 
 <style scoped>
-/********************* 总容器  *********************/
-.wrapper {
-	width: 100%;
-	height: 100%;
-}
+	/********************* 总容器  *********************/
+	.wrapper {
+		width: 100%;
+		height: 100%;
+	}
 
-/********************* header  *********************/
-.wrapper header {
-	width: 100%;
-	height: 12vw;
-	background-color: #ffffff;
-	font-weight: 800;
-	color: #e2e2e2;
-	font-size: 4.5vw;
+	/********************* header  *********************/
+	.wrapper header {
+		width: 100%;
+		height: 12vw;
+		background-color: #ffffff;
+		font-weight: 800;
+		color: #e2e2e2;
+		font-size: 4.5vw;
 
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
 
-.wrapper header p {
-	color: #000000;
-	font-weight: 600;
-}
+	.wrapper header p {
+		color: #000000;
+		font-weight: 600;
+	}
 
-/********************* message  *********************/
-.wrapper .message-box {
-	width: 100%;
-	height: 11vw;
-	background-color: #ebebeb;
+	/********************* message  *********************/
+	.wrapper .message-box {
+		width: 100%;
+		height: 11vw;
+		background-color: #ebebeb;
 
-	display: flex;
-	align-items: flex-start;
-}
+		display: flex;
+		align-items: flex-start;
+	}
 
-.wrapper .message-box .message {
-	font-size: 3.5vw;
-	margin-left: 2vw;
-	margin-top: 4vw;
-	color: #5e5e5e;
-}
+	.wrapper .message-box .message {
+		font-size: 3.5vw;
+		margin-left: 2vw;
+		margin-top: 4vw;
+		color: #5e5e5e;
+	}
 
-/********************* message列表 *********************/
-.wrapper .message-list {
-	width: 100%;
-	height: 60vw;
+	/********************* message列表 *********************/
+	.wrapper .message-list {
+		width: 100%;
+		height: 60vw;
 
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: flex-start;
-}
-
-
-
-.wrapper .message-list li {
-	width: 100vw;
-	height: 12vw;
-
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	position: relative;
-}
-
-.wrapper .message-list li .left {
-	width: 20vw;
-	height: 4vw;
-
-	display: flex;
-	align-items: center;
-	justify-content: flex-start;
-}
-
-.wrapper .message-list li .left p {
-	font-size: 4vw;
-	font-weight: 525;
-	margin-left: 2vw;
-	/* 	margin-top: 3.8vw; */
-}
-
-.wrapper .message-list li .right {
-	display: flex;
-	align-items: center;
-	margin-right: 4vw;
-}
-
-.wrapper .message-list li .right svg {
-	width: 5vw;
-	height: 5vw;
-	display: flex;
-	align-items: center;
-	color: #888;
-
-	cursor: pointer;
-}
-
-.wrapper .message-list li .right p {
-	font-size: 4vw;
-	color: #888;
-}
-
-/*头像显示*/
-.avatar-frame {
-	width: 10vw;
-	/* 使用视口宽度的10%作为宽度 */
-	height: 10vw;
-	/* 使用视口宽度的10%作为高度 */
-	border-radius: 50%;
-	/* overflow: hidden; */
-	border: 2px solid #ccc;
-	margin-right: 0vw;
-	/*调整右对齐 */
-	/* margin-left: 2vw; */
-	/* overflow: hidden; */
-}
-
-.avatar-frame img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	border-radius: 50%;
-}
-
-/* *****分割线样式******* */
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-start;
+	}
 
 
-.wrapper .message-list li hr {
-	width: calc(100% - 4vw);
-	/* 减去左右的边距 */
-	position: absolute;
-	bottom: 0;
-	left: 2vw;
-	/* 确保 <hr> 与左侧对齐 */
-	background-color: #e2e2e2;
-	border: none;
-	height: 0.05vw;
-	margin: 0;
-}
 
-/********************* 账号绑定  *********************/
-.wrapper .Id-box {
-	width: 100%;
-	height: 11vw;
-	background-color: #ebebeb;
+	.wrapper .message-list li {
+		width: 100vw;
+		height: 12vw;
 
-	display: flex;
-	align-items: flex-start;
-}
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		position: relative;
+	}
 
-.wrapper .Id-box .Id {
-	font-size: 3.5vw;
-	margin-left: 2vw;
-	margin-top: 4vw;
-	color: #5e5e5e;
-}
+	.wrapper .message-list li .left {
+		width: 20vw;
+		height: 4vw;
 
-/********************* 绑定列表 *********************/
-.wrapper .bind-list {
-	width: 100%;
-	height: 60vw;
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+	}
 
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: flex-start;
-}
+	.wrapper .message-list li .left p {
+		font-size: 4vw;
+		font-weight: 525;
+		margin-left: 2vw;
+		/* 	margin-top: 3.8vw; */
+	}
 
-.wrapper .bind-list li {
-	width: 100vw;
-	height: 12vw;
+	.wrapper .message-list li .right {
+		display: flex;
+		align-items: center;
+		margin-right: 4vw;
+	}
 
-	position: relative;
+	.wrapper .message-list li .right svg {
+		width: 5vw;
+		height: 5vw;
+		display: flex;
+		align-items: center;
+		color: #888;
 
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-}
+		cursor: pointer;
+	}
 
-.wrapper .bind-list li .left {
-	font-size: 4vw;
-	font-weight: 500;
+	.wrapper .message-list li .right p {
+		font-size: 4vw;
+		color: #888;
+	}
 
-	display: flex;
-	align-items: center;
-	margin-left: 2.0vw;
-}
+	/*头像显示*/
+	.avatar-frame {
+		width: 10vw;
+		/* 使用视口宽度的10%作为宽度 */
+		height: 10vw;
+		/* 使用视口宽度的10%作为高度 */
+		border-radius: 50%;
+		/* overflow: hidden; */
+		border: 2px solid #ccc;
+		margin-right: 0vw;
+		/*调整右对齐 */
+		/* margin-left: 2vw; */
+		/* overflow: hidden; */
+	}
 
-.wrapper .bind-list li .left img {
-	width: 5vw;
-	height: 5vw;
+	.avatar-frame img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: 50%;
+	}
 
-	display: flex;
-	align-items: center;
-	margin-right: 3vw;
-}
+	/* *****分割线样式******* */
 
-.wrapper .bind-list li .right svg {
-	width: 5vw;
-	height: 5vw;
-	display: flex;
-	align-items: center;
-	margin-right: 4vw;
-	color: #888;
 
-	cursor: pointer;
-}
+	.wrapper .message-list li hr {
+		width: calc(100% - 4vw);
+		/* 减去左右的边距 */
+		position: absolute;
+		bottom: 0;
+		left: 2vw;
+		/* 确保 <hr> 与左侧对齐 */
+		background-color: #e2e2e2;
+		border: none;
+		height: 0.05vw;
+		margin: 0;
+	}
 
-.wrapper .bind-list li hr {
-	width: 98vw;
-	margin-left: 2vw;
+	/****************** 阴影背景 ******************/
+	.wrapper .overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
 
-	position: absolute;
-	bottom: 0;
+		background-color: rgba(0, 0, 0, 0.5);
+		z-index: 1000;
+	}
 
-	background-color: #e2e2e2;
-	border: none;
-	/* 移除默认的边框 */
-	height: 0.05vw;
-	/* 设置分割线的高度 */
-	margin-bottom: 0;
-}
+	.wrapper .button-box {
+		position: fixed;
+		bottom: 0;
+		/* 固定在视口底部 */
+		width: 100vw;
+		height: 40vw;
+		border-radius: 5vw 5vw 0 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background-color: #ffffff;
+		z-index: 1100;
+	}
 
-.wrapper .bottom {
-	width: 100%;
-	height: 100%;
-	background-color: #ebebeb;
-}
+	.wrapper .button-box li {
+		position: relative;
+		width: 100vw;
+		height: 13vw;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-wrap: wrap;
+	}
+
+	.wrapper .button-box ul .driver-box {
+		width: 100vw;
+		height: 1.5vw;
+		background-color: #eaeaea;
+	}
+
+	.wrapper .button-box li .custom-divider {
+		margin: 0vw;
+		padding: 0;
+		position: absolute;
+		bottom: 0;
+	}
+
+	.wrapper .button-box li p {
+		font-size: 4.5vw;
+		font-weight: 500;
+	}
+
+	.wrapper .button-box .cancel-box p {
+		color: #b1b1b1;
+	}
+
+	/********************* 账号绑定  *********************/
+	.wrapper .Id-box {
+		width: 100%;
+		height: 11vw;
+		background-color: #ebebeb;
+
+		display: flex;
+		align-items: flex-start;
+	}
+
+	.wrapper .Id-box .Id {
+		font-size: 3.5vw;
+		margin-left: 2vw;
+		margin-top: 4vw;
+		color: #5e5e5e;
+	}
+
+	/********************* 绑定列表 *********************/
+	.wrapper .bind-list {
+		width: 100%;
+		height: 60vw;
+
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-start;
+	}
+
+	.wrapper .bind-list li {
+		width: 100vw;
+		height: 12vw;
+
+		position: relative;
+
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.wrapper .bind-list li .left {
+		font-size: 4vw;
+		font-weight: 500;
+
+		display: flex;
+		align-items: center;
+		margin-left: 2.0vw;
+	}
+
+	.wrapper .bind-list li .left img {
+		width: 5vw;
+		height: 5vw;
+
+		display: flex;
+		align-items: center;
+		margin-right: 3vw;
+	}
+
+	.wrapper .bind-list li .right svg {
+		width: 5vw;
+		height: 5vw;
+		display: flex;
+		align-items: center;
+		margin-right: 4vw;
+		color: #888;
+
+		cursor: pointer;
+	}
+
+	.wrapper .bind-list li hr {
+		width: 98vw;
+		margin-left: 2vw;
+
+		position: absolute;
+		bottom: 0;
+
+		background-color: #e2e2e2;
+		border: none;
+		/* 移除默认的边框 */
+		height: 0.05vw;
+		/* 设置分割线的高度 */
+		margin-bottom: 0;
+	}
+
+	.wrapper .bottom {
+		width: 100%;
+		height: 100%;
+		background-color: #ebebeb;
+	}
 </style>

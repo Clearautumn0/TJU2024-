@@ -724,6 +724,7 @@ const totalSettle = computed(() => {
 		align-items: center;
 	}
 	*/
+   /****************** 阴影背景 ******************/
 .cart .overlay {
 	position: fixed;
 	top: 0;
