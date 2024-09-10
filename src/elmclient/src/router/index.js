@@ -14,6 +14,7 @@ import Selfpage from '../views/Selfpage.vue';
 import Person from '../views/Person.vue';
 import EditUserName from '../views/EditUserName.vue';
 import Search from '../views/Search.vue';
+import BecomeBusiness from '../views/BecomeBusiness.vue';
 import Payok from '../views/Payok.vue';
 
 const routes = [{
@@ -80,6 +81,10 @@ const routes = [{
 	path: '/search',
 	name: 'Search',
 	component: Search
+}, {
+	path: '/becomeBusiness',
+	name: 'BecomeBusiness',
+	component: BecomeBusiness
 }, {
 	path: '/payok',
 	name: 'Payok',
