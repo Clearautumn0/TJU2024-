@@ -26,7 +26,7 @@
 			</li>
 		</ul>
 		<ul class="system-setting">
-			<li>
+			<li @click="toUserAddress">
 				<img src="../assets/address.png">
 				<p>我的地址</p>
 			</li>
@@ -72,6 +72,12 @@ const user = getSessionStorage('user') || { userName: '未登录' }; // 获取�
 
 const toindividual_inf = () => {
 	router.push({ path: '/person' });
+};
+
+const toUserAddress = () => {
+	router.push({
+		path: '/userAddress'
+	});
 };
 
 // return {

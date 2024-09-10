@@ -147,6 +147,7 @@ const addUserAddress = async () => {
 				showAlert('新增地址成功！');
 				// alert('ok');
 				// router.push({ path: '/userAddress', query: { businessId: businessId.value } });
+				router.go(-1);
 			} else {
 				showAlert('新增地址失败！');
 			}
