@@ -298,20 +298,19 @@
 
 	const saveCart = (index) => {
 		axios.post('carts', {
-				businessId: businessId.value,
-				userId: user.value.userId,
-				foodId: foodArr.value[index].foodId
+			businessId: businessId.value,
+			userId: user.value.userId,
+			foodId: foodArr.value[index].foodId
+		}).then(response => {
+			if (response.data === 1) {
+				foodArr.value[index].quantity = 0;
+				foodArr.value.sort();
+			} else {
+				showAlert('从购物车中删除食品失败！');
 			}
-		).then(response => {
-		if (response.data === 1) {
-			foodArr.value[index].quantity = 0;
-			foodArr.value.sort();
-		} else {
-			showAlert('从购物车中删除食品失败！');
-		}
-	}).catch(error => {
-		console.error(error);
-	})
+		}).catch(error => {
+			console.error(error);
+		})
 	}
 
 
