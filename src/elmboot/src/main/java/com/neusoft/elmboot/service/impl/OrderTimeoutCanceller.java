@@ -35,7 +35,7 @@ public class OrderTimeoutCanceller {
         	// 将字符串转换为 LocalDateTime 对象
         	LocalDateTime orderDateTime = LocalDateTime.parse(orderDateStr, formatter);
 
-        	// 判断是否超时30分钟
+        	// 判断是否超时15分钟
         	if (now.isAfter(orderDateTime.plusMinutes(15))) {
         	    ordersService.cancelOrder(order.getOrderId());
         	}

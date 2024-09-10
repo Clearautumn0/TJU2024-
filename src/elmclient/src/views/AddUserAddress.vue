@@ -178,7 +178,7 @@ onMounted(() => {
 	height: 12vw;
 	background-color: #0097FF;
 	display: flex;
-	justify-content: space-around;
+	justify-content: center;
 	align-items: center;
 	color: #fff;
 	font-size: 4.8vw;
