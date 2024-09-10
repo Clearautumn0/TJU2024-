@@ -81,16 +81,23 @@ const toindividual_inf = () => {
 };
 
 const toUserAddress = () => {
-	router.push({
-		path: '/userAddress'
-	});
+	if (user.userName === '未登录') {
+		router.push({ path: '/login' });
+	}
+	else {
+		router.push({ path: '/userAddress' });
+	}
+
 };
 
 
-const toBecomeBusiness =() =>{
-	router.push({
-		path: '/becomeBusiness'
-	})
+const toBecomeBusiness = () => {
+	if (user.userName === '未登录') {
+		router.push({ path: '/login' });
+	}
+	else {
+		router.push({ path: '/becomeBusiness' });
+	}
 }
 // return {
 // 	user,
