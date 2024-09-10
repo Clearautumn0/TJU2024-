@@ -343,6 +343,7 @@ const updateCart = async (index, num) => {
 		}
 	} catch (error) {
 		console.error(error);
+
 	}
 }
 

@@ -14,7 +14,7 @@
 			<li v-for="item in businessArr" @click="toBusinessInfo(item.businessId)">
 				<div class="business-img">
 					<img :src="item.businessImg">
-					<div class="business-img-quantity" v-show="item.quantity > 0">{{ item.quantity }}</div>
+					<!-- <div class="business-img-quantity" v-show="item.quantity > 0">{{ item.quantity }}</div> -->
 				</div>
 				<div class="business-info">
 					<h3>{{ item.businessName }}</h3>
