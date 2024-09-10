@@ -93,7 +93,15 @@
 				</div>
 				<hr>
 			</li>
+			<div class="driver-box"></div>
+			<li>
+				<div @click="toLogin" class="exit-button">
+					<p>退出当前账号</p>
+				</div>
+			</li>
 		</ul>
+
+		<div class="bottom"></div>
 
 		<div v-if="isAvatarOpen" class="overlay"></div>
 		<!--阴影背景  v-show="totalQuantity != 0" 表示有food的时候显示购物车-->
@@ -212,22 +220,22 @@
 
 	const router = useRouter();
 	const isAvatarOpen = ref(false);
-	
+
 	const fileInput = ref(null);
-	
+
 	const triggerFileInput = () => {
-	  fileInput.value.click(); // 触发隐藏的文件输入框点击事件
+		fileInput.value.click(); // 触发隐藏的文件输入框点击事件
 	};
-	
+
 	const handleFileChange = (event) => {
-	  const file = event.target.files[0];
-	  if (file) {
-	    const reader = new FileReader();
-	    reader.onload = (e) => {
-	      base64Image.value = e.target.result;
-	    };
-	    reader.readAsDataURL(file);
-	  }
+		const file = event.target.files[0];
+		if (file) {
+			const reader = new FileReader();
+			reader.onload = (e) => {
+				base64Image.value = e.target.result;
+			};
+			reader.readAsDataURL(file);
+		}
 	};
 
 	// 使用 onMounted 生命周期钩子来代替 created
@@ -294,7 +302,11 @@
 				path: '/editUserName'
 			});
 		}
-
+		const toLogin = () => {
+			router.push({
+				path: '/login'
+			});
+		}
 	}
 </script>
 
@@ -436,6 +448,21 @@
 		border: none;
 		height: 0.05vw;
 		margin: 0;
+	}
+
+	.wrapper ul .driver-box {
+		width: 100vw;
+		height: 1.5vw;
+		background-color: #eaeaea;
+	}
+
+	.wrapper ul li .exit-button {
+		width: 100vw;
+		height: 12vw;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background-color: #ffffff;
 	}
 
 	/****************** 阴影背景 ******************/
