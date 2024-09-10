@@ -40,8 +40,8 @@
 			</li>
 		</ul>
 		<div class="payment-button">
-			<button @click="setOrder2Payok">确认支付</button>
-			<u class="quxiaodingdan">取消订单</u>
+			<button @click="payOrder">确认支付</button>
+			<u class="quxiaodingdan" @click="cancelOrder">取消订单</u>
 		</div>
 		<!-- 底部菜单部分 -->
 		<Footer></Footer>
@@ -93,14 +93,23 @@ const fetchOrders = async () => {
 	}
 };
 
-const setOrder2Payok = async () => {
+const payOrder = async () => {
 	try {
 		const response = await axios.patch(`orders/${route.query.orderId}`);
 		toPayok();
 	} catch (error) {
 		console.error(error);
 	}
+}
 
+const cancelOrder = async () => {
+	try {
+		const response = await axios.delete(`orders/${route.query.orderId}`);
+		// console.log(response);
+		router.push({ path: '/orderList' });
+	} catch (error) {
+		console.error(error);
+	}
 }
 
 const toPayok = () => {
@@ -257,27 +266,51 @@ onBeforeUnmount(() => {
 	/* 根据需要调整颜色 */
 	cursor: pointer;
 
-	}
-	
-	
-	.wrapper .cancel-button {
-		width: 20vw;
-		box-sizing: border-box;
-		padding: 2vw;
+}
+
+
+.wrapper .cancel-button {
+	width: 20vw;
+	box-sizing: border-box;
+	padding: 2vw;
+	margin-left: auto;
+	margin-right: 6vw;
+}
+
+.wrapper .cancel-button button {
+	width: 20vw;
+	height: 10vw;
+	border: none;
+	/*去掉外轮廓线*/
+	outline: none;
+	margin-right: 3vw;
+	border-radius: 4px;
+	background-color: #00aaff;
+	color: #fff;
+}
+
+
+/* 	.wrapper .cancel-button{
+		width: 12vw;
+		height: 12vw;
 		margin-left: auto;
-		margin-right: 6vw;
-	}
-	
-	.wrapper .cancel-button button {
-		width: 20vw;
-		height: 10vw;
-		border: none;
-		/*去掉外轮廓线*/
-		outline: none;
 		margin-right: 3vw;
-		border-radius: 4px;
-		background-color: #00aaff;
-		color: #fff;
-	}
-	
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+	} */
+
+/* 	.wrapper .cancel-button svg{
+		width: 5vw;
+		height: 5vw;
+	} */
+
+/* .wrapper .cancel-button p{
+		margin-top: 2vw;
+		font-size: 2.5vw;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	} */
 </style>

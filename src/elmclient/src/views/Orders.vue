@@ -154,16 +154,6 @@ const toPayment = async () => {
 	}
 };
 
-// return {
-// 	business,
-// 	user,
-// 	cartArr,
-// 	deliveryaddress,
-// 	totalPrice,
-// 	toUserAddress,
-// 	toPayment,
-// 	sexFilter
-// };
 </script>
 
 <style scoped>

@@ -49,7 +49,7 @@ public class OrdersController {
 
 	}
 
-	@DeleteMapping
+	@DeleteMapping("/{orderId}")
 	public Map<String, Integer> cancelOrder(@PathVariable Integer orderId) throws Exception{
 		Map<String, Integer> response = new HashMap<>();
 		response.put("data", ordersService.cancelOrder(orderId));
