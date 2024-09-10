@@ -15,6 +15,7 @@ import Person from '../views/Person.vue';
 import EditUserName from '../views/EditUserName.vue';
 import Search from '../views/Search.vue';
 import BecomeBusiness from '../views/BecomeBusiness.vue';
+import ManageBusiness from '../views/ManageBusiness.vue';
 
 const routes = [{
 	path: '/',
@@ -84,6 +85,10 @@ const routes = [{
 	path: '/becomeBusiness',
 	name: 'BecomeBusiness',
 	component: BecomeBusiness
+}, {
+	path: '/manageBusiness',
+	name: 'ManageBusiness',
+	component: ManageBusiness
 }
 ];
 

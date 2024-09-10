@@ -40,13 +40,14 @@
 				<li>
 					<div class="input-container">
 						<span class="input-label">设置密码</span>
-						<input type="text" class="input-field" placeholder="请输入">
+						<input type="text" class="input-field" placeholder="请输入">		
 					</div>
 				</li>
 			</ul>
 			
 			<div class="register-button">
-				<button>立即入驻</button>
+				<!-- <button>立即入驻</button> -->
+				 <el-button type="primary" round>立即入驻</el-button>
 			</div>
 		</div>
 	</div>
@@ -55,6 +56,7 @@
 
 <script setup>
 	import Backer from '../components/backer.vue';
+
 </script>
 
 <style scoped>

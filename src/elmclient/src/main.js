@@ -1,6 +1,8 @@
 import { createApp } from 'vue';
 // import { configureCompat } from '@vue/compat';
 import App from './App.vue';
+import ElementPlus from 'element-plus';
+import 'element-plus/dist/index.css';
 import router from './router';
 import axiosInstance from './utils/interceptor.js'
 
@@ -62,4 +64,5 @@ router.beforeEach((to, from, next) => {
 
 // 创建 Vue 实例并挂载
 app.use(router);
+app.use(ElementPlus);
 app.mount('#app');
