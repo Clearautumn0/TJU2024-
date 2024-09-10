@@ -38,7 +38,7 @@
 				<img src="../assets/businessmanage.png">
 				<p>店铺管理</p>
 			</li>
-			<li>
+			<li @click="toAssociationOf">
 				<img src="../assets/guanyu.png">
 				<p>关于饿了吧</p>
 			</li>
@@ -49,6 +49,10 @@
 			<li>
 				<img src="../assets/rule.png">
 				<p>规则中心</p>
+			</li>
+			<li @click="toBusinessUpload">
+				<img src="../assets/rule.png">
+				<p>上架商品</p>
 			</li>
 		</ul>
 
@@ -80,6 +84,13 @@ const toUserAddress = () => {
 	});
 };
 
+const toBusinessUpload = () =>{
+	router.push({path: '/businessUpload'});
+}
+
+const toAssociationOf = () =>{
+	router.push({path: '/associationOf'});
+}
 // return {
 // 	user,
 // 	toindividual_inf
