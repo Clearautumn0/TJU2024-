@@ -1,7 +1,7 @@
 <template>
 	<div class="wrapper">
 		<header class="profile-header">
-			<div class="header-left">
+			<div class="header-left" @click="toLogin">
 				<div class="avatar-frame">
 					<img v-if="imageUrl" :src="imageUrl" alt="用户头像" class="avatar-img">
 					<img v-else src="../assets/默认头像.png" alt="无法加载图片" class="avatar-img">
@@ -36,7 +36,7 @@
 				<p>我的客服</p>
 			</li>
 			<!-- <li v-if="show-businessmanage"> -->
-			<li @click="toBusinessUpload" v-if="user.authorization === 2">
+			<li @click="toBusinessindex" v-if="user.authorization === 2">
 				<img src="../assets/businessmanage.png">
 				<p>店铺管理</p>
 			</li>
@@ -61,10 +61,10 @@
 				<img src="../assets/rule.png">
 				<p>上架商品</p>
 			</li> -->
-			<li @click="toBusinessindex">
+			<!-- <li @click="toBusinessindex" v-if="user.authorization === 2">
 				<img src="../assets/rule.png">
 				<p>商家主页</p>
-			</li>
+			</li> -->
 		</ul>
 
 		<Footer></Footer>
@@ -81,7 +81,7 @@ import { getSessionStorage, getLocalStorage } from '../common.js';
 const instance = getCurrentInstance();
 const axios = instance?.appContext.config.globalProperties.$axios;
 
-
+const businessId = ref(null);
 const router = useRouter(); // 使用 useRouter 获取路由实例
 const user = ref({});
 const imageUrl = ref('');
@@ -100,14 +100,11 @@ const toUserAddress = () => {
 
 };
 
-const toBusinessUpload = () =>{
+const toLogin = () => {
 	if (user.value.userName === '未登录') {
 		router.push({ path: '/login' });
 	}
-	else {
-		router.push({ path: '/businessUpload' });
-	}
-}
+};
 
 const toBecomeBusiness = () => {
 	if (user.value.userName === '未登录') {
@@ -131,16 +128,33 @@ const toBusinessindex = () =>{
 	if (user.value.userName === '未登录') {
 		router.push({ path: '/login' });
 	}
+	if(businessId.value===null){
+		router.push({ path: '/becomeBusiness' });
+	}
 	else {
 	router.push({path: '/businessIndex'});
 	}
 }
 
+const getBusinessId = async () => {
+		try {
+			// 根据userId查询businessId
+			user.value = getSessionStorage('user');
+			console.log(user.value);
+			businessId.value = await axios.get(`users/businessId/${user.value.userId}`);
+		} catch (error) {
+			console.error('Error initializing:', error);
+		}
+	};
+
 onMounted(() => {
 	user.value = getSessionStorage('user') || { userName: '未登录', userId: '', usserImg: '' };
+	if(user.value.userId!=''){
+		getBusinessId();
+	}
 	imageUrl.value = getLocalStorage(`userImg${user.value.userId}`);
+	// user.value.authorization = 2;
 	// console.log(user.value);
-
 });
 
 </script>
