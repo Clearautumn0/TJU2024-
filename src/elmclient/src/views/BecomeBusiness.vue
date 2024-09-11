@@ -55,11 +55,8 @@
 				<li>
 					<div class="input-container">
 						<span class="input-label">设置密码</span>
-<<<<<<< HEAD
 						<input type="text" class="input-field" placeholder="请输入">		
-=======
 						<input type="text" class="input-field" placeholder="请输入" v-model="password">
->>>>>>> e073d123905cc8d4c582584d8a210b618a9705e8
 					</div>
 				</li> -->
 			</ul>
