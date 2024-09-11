@@ -79,6 +79,7 @@ const user = ref({});
 
 const initialize = async () => {
     try {
+        // 根据userId查询businessId
         user.value = getSessionStorage('user');
         businessId.value = await axios.get(`users/businessId/${user.value.userId}`);
 

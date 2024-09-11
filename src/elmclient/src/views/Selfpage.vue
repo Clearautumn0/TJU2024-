@@ -57,10 +57,10 @@
 				<img src="../assets/rule.png">
 				<p>规则中心</p>
 			</li>
-			<li @click="toBusinessUpload" v-if="user.authorization === 0">
+			<!-- <li @click="toBusinessUpload" v-if="user.authorization === 2">
 				<img src="../assets/rule.png">
 				<p>上架商品</p>
-			</li>
+			</li> -->
 			<li @click="toBusinessindex">
 				<img src="../assets/rule.png">
 				<p>商家主页</p>
