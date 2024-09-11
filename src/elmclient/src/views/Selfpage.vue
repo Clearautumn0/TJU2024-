@@ -61,7 +61,7 @@
 				<img src="../assets/rule.png">
 				<p>上架商品</p>
 			</li> -->
-			<li @click="toBusinessindex">
+			<li @click="toBusinessindex" v-if="user.authorization === 2">
 				<img src="../assets/rule.png">
 				<p>商家主页</p>
 			</li>
@@ -145,7 +145,8 @@ const toBusinessindex = () =>{
 onMounted(() => {
 	user.value = getSessionStorage('user') || { userName: '未登录', userId: '', usserImg: '' };
 	imageUrl.value = getLocalStorage(`userImg${user.value.userId}`);
-	// console.log(user.value);
+	user.value.authorization = 2;
+	console.log(user.value);
 
 });
 
