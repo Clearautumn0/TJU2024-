@@ -19,37 +19,12 @@
 			<p>{{ business.businessExplain }}</p>
 		</div>
 
-		<!-- <div class="add-button">
-			<el-button @click="toBusinessUpload" type="primary" plain>上架商品</el-button> -->
-		<!-- <p><span><u @click="toBusinessUpload">上架商品</u></span></p> -->
-		<!-- 	</div> -->
-
-		<!-- 食品列表部分 -->
-		<!-- <ul class="food">
-            <li v-for="(item, index) in foodArr">
-                <div class="food-left">
-                    <img :src="item.foodImg">
-                    <div class="food-left-info">
-                        <h3>{{ item.foodName }}</h3>
-                        <p>{{ item.foodExplain }}</p>
-                        <p>&#165;{{ item.foodPrice }}</p>
-                    </div>
-                </div>
-                <div class="food-right">
-                    <p><span><u @click="deletefoods(item.foodId)">下架商品</u></span></p>
-                </div>
-            </li>
-            <li class="empty-li">
-                <div class="empty-message">已经到底了...</div>
-            </li>
-        </ul> -->
-
 		<!-- 店铺功能部分 -->
 		<div class="managefood">
 			<h4>&#124;商品管理</h4>
 			<el-divider class="driver-line"/>
 			<ul>
-				<li>
+				<li @click="toAddFood">
 					<div class="svg-container">
 						<svg t="1726044451886" class="icon" viewBox="0 0 1024 1024" version="1.1"
 							xmlns="http://www.w3.org/2000/svg" p-id="16582" id="mx_n_1726044451886" width="200"
@@ -67,7 +42,7 @@
 					</div>
 					<p>上架商品</p>
 				</li>
-				<li>
+				<li @click="toOffFood">
 					<div class="svg-container">
 					<svg t="1726044940194" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="17678" id="mx_n_1726044940195" width="200" height="200"><path d="M885.75999999 704h-591.6444448l-91.02222186-500.62222187a35.49866667 35.49866667 0 0 0-6.82666667-15.24622293l-91.02222187-113.77777707a34.13333333 34.13333333 0 1 0-54.8408896 42.32533333l85.7884448 106.7235552L231.53777813 744.27733333a34.13333333 34.13333333 0 0 0 33.45066666 27.98933333h620.7715552a34.13333333 34.13333333 0 0 0 0-68.26666666z" fill="#ffffff" p-id="17679"></path><path d="M983.60888853 174.25066666a33.67822187 33.67822187 0 0 0-26.624-12.97066666H298.43911146a34.13333333 34.13333333 0 0 0 0 68.26666666h615.53777707l-78.73422187 343.15377814-458.9795552 31.1751104a34.13333333 34.13333333 0 0 0 2.2755552 68.26666666h2.50311147l484.01066666-32.768A34.36088853 34.36088853 0 0 0 895.99999999 612.75022186l94.208-409.6a33.67822187 33.67822187 0 0 0-6.59911146-28.8995552zM298.43911146 823.0115552a61.44 61.44 0 1 0 61.44 61.44 61.44 61.44 0 0 0-61.44-61.44z" fill="#ffffff" p-id="17680"></path><path d="M844.34488853 884.4515552m-61.44 0a61.44 61.44 0 1 0 122.88 0 61.44 61.44 0 1 0-122.88 0Z" fill="#ffffff" p-id="17681"></path><path d="M554.66666666 252.07466666a34.13333333 34.13333333 0 0 0-34.13333333 34.13333334v139.0364448l-38.00177814-38.00177814a34.13333333 34.13333333 0 0 0-48.24177706 48.24177814l96.256 96.4835552a36.40888853 36.40888853 0 0 0 11.15022186 7.28177813 31.17511147 31.17511147 0 0 0 12.288 2.5031104 32.31288853 32.31288853 0 0 0 12.5155552-2.5031104 33.90577813 33.90577813 0 0 0 11.15022294-7.28177813l97.62133333-96.4835552a34.36088853 34.36088853 0 0 0 0-48.24177814 33.90577813 33.90577813 0 0 0-48.24177813 0l-38.22933334 38.00177814v-139.0364448a34.13333333 34.13333333 0 0 0-34.13333333-34.13333334z" fill="#ffffff" p-id="17682"></path></svg>
 					</div>
@@ -173,7 +148,19 @@
 	const foodArr = ref([]);
 	const del = ref({});
 	const user = ref({});
-
+	
+	const toAddFood = () => {
+		router.push({
+			path: 'addFood'
+		})
+	}
+	
+	const toOffFood = () => {
+		router.push({
+			path: 'offFood'
+		})
+	}
+	
 	const toBusinessUpload = () => {
 		router.push({
 			path: 'businessUpload'
@@ -518,128 +505,4 @@
 		width: 10vw;
 		height: 10vw;
 	}
-
-	/****************** 食品列表部分 ******************/
-	.wrapper .food {
-		width: 100%;
-		/*使用下外边距避开footer部分*/
-		margin-bottom: 14vw;
-	}
-
-	.wrapper .food li {
-		width: 100%;
-		box-sizing: border-box;
-		padding: 2.5vw;
-		user-select: none;
-
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
-
-	.wrapper .food li .food-left {
-		display: flex;
-		align-items: center;
-	}
-
-	.wrapper .food li .food-left img {
-		width: 20vw;
-		height: 20vw;
-	}
-
-	.wrapper .food li .food-left .food-left-info {
-		margin-left: 3vw;
-	}
-
-	.wrapper .food li .food-left .food-left-info h3 {
-		font-size: 3.8vw;
-		color: #555;
-	}
-
-	.wrapper .food li .food-left .food-left-info p {
-		font-size: 3vw;
-		color: #888;
-		margin-top: 2vw;
-	}
-
-	.wrapper .food li .food-right {
-		width: 16vw;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
-
-	.wrapper .food li .food-right .fa-minus-circle {
-		font-size: 5.5vw;
-		color: #999;
-		cursor: pointer;
-	}
-
-	.wrapper .food li .food-right p {
-		font-size: 3.6vw;
-		color: #333;
-	}
-
-	.wrapper .food li .food-right .fa-plus-circle {
-		font-size: 5.5vw;
-		color: #0097EF;
-		cursor: pointer;
-	}
-
-	.wrapper .add-button {
-		position: absolute;
-		right: 2vw;
-		width: 20vw;
-		height: 7vw;
-		color: #0097FF;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.empty-li {
-		width: 200vw;
-		/* 设置矩形的宽度 */
-		height: 30vw;
-		/* 设置矩形的高度 */
-		/* border: 2px solid #000; */
-		/* 添加一个2像素的黑色边框 */
-		background-color: transparent;
-		/* 背景色为透明 */
-		list-style: none;
-		/* 移除li的默认列表样式 */
-		/* margin: 10px; */
-		/* 添加一些外边距让矩形之间有间隔 */
-	}
-
-	.empty-message {
-		position: absolute;
-		top: -25;
-		/* 将文字放置在顶部 */
-		left: 50%;
-		/* 从左边开始居中 */
-		transform: translateX(-50%);
-		/* 修正left 50%带来的偏移，使其完全居中 */
-		font-size: 4vw;
-		/* 设置字体大小 */
-		color: #000;
-		/* 设置文字颜色 */
-	}
-
-	/*不够起送费时的样式（只有背景色和鼠标样式的区别）*/
-	/*
-	.wrapper .cart .cart-right .cart-right-item{
-		width: 100%;
-		height: 100%;
-		background-color: #535356;
-		color: #fff;
-		font-size: 4.5vw;
-		font-weight: 700;
-		user-select: none;
-		
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-	*/
 </style>

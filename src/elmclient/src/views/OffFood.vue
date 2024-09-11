@@ -19,10 +19,9 @@
             <p>{{ business.businessExplain }}</p>
         </div>
 		
-		<div class="add-button">
+		<!-- <div class="add-button">
 			<el-button @click="toBusinessUpload" type="primary" plain>上架商品</el-button>
-			<!-- <p><span><u @click="toBusinessUpload">上架商品</u></span></p> -->
-		</div>
+		</div> -->
 
         <!-- 食品列表部分 -->
         <ul class="food">
