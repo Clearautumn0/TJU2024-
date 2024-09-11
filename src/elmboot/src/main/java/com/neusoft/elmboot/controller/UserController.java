@@ -37,7 +37,14 @@ public class UserController {
 		Map<String, Integer> response = new HashMap<>();
 		response.put("data", userService.getUserById(userId));
 		return response;
+	}
+	
+	@GetMapping("/businessId/{userId}")
 
+	public Map<String, Integer> getBusinessIdById(@PathVariable String userId) throws Exception{
+		Map<String, Integer> response = new HashMap<>();
+		response.put("data", userService.getBusinessIdById(userId));
+		return response;
 	}
 	
 	//@RequestMapping("/saveUser")

@@ -31,4 +31,7 @@ public interface UserMapper {
 	@Update("update user set businessId=#{businessId} where userId=#{userId}")
 	public int updateUserBusinessId(int businessId, String userId);
 	
+	@Select("select businessId from user where userId=#{userId} and delTag=0")
+	public int getBusinessIdById(String userId);
+	
 }

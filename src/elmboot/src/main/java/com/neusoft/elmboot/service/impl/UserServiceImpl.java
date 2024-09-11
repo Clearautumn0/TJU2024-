@@ -146,4 +146,14 @@ public class UserServiceImpl implements UserService {
 	public int updateAuthorization(User user) {
 		return userMapper.updateAuthorization(user);
 	}
+
+
+
+
+
+
+	@Override
+	public int getBusinessIdById(String userId) {
+		return userMapper.getBusinessIdById(userId);
+	}
 }

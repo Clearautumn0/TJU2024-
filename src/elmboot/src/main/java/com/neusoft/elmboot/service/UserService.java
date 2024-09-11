@@ -10,4 +10,5 @@ public interface UserService {
 	public int updateUser(User user);
 	public int deleteUser(User user);
 	public int updateAuthorization(User user);
+	public int getBusinessIdById(String userId);
 }
