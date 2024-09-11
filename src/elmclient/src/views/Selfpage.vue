@@ -36,7 +36,7 @@
 				<p>我的客服</p>
 			</li>
 			<!-- <li v-if="show-businessmanage"> -->
-			<li @click="toBusinessUpload" v-if="user.authorization === 2">
+			<li @click="toBusinessindex" v-if="user.authorization === 2">
 				<img src="../assets/businessmanage.png">
 				<p>店铺管理</p>
 			</li>
@@ -61,10 +61,10 @@
 				<img src="../assets/rule.png">
 				<p>上架商品</p>
 			</li> -->
-			<li @click="toBusinessindex" v-if="user.authorization === 2">
+			<!-- <li @click="toBusinessindex" v-if="user.authorization === 2">
 				<img src="../assets/rule.png">
 				<p>商家主页</p>
-			</li>
+			</li> -->
 		</ul>
 
 		<Footer></Footer>
@@ -106,15 +106,6 @@ const toLogin = () => {
 	}
 };
 
-const toBusinessUpload = () =>{
-	if (user.value.userName === '未登录') {
-		router.push({ path: '/login' });
-	}
-	else {
-		router.push({ path: '/businessUpload' });
-	}
-}
-
 const toBecomeBusiness = () => {
 	if (user.value.userName === '未登录') {
 		router.push({ path: '/login' });
@@ -137,6 +128,7 @@ const toBusinessindex = () =>{
 	if (user.value.userName === '未登录') {
 		router.push({ path: '/login' });
 	}
+	// if(user.value.)
 	else {
 	router.push({path: '/businessIndex'});
 	}
