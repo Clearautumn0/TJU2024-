@@ -46,26 +46,56 @@
 					</div>
 					<hr>
 				</li>
-				<!-- <li>
-					<div class="input-container">
-						<span class="input-label">手机号码</span>
-						<input type="text" class="input-field" placeholder="请输入" v-model="phoneNumber">
-					</div>
-				</li>
+				
 				<li>
-					<div class="input-container">
-						<span class="input-label">设置密码</span>
-						<input type="text" class="input-field" placeholder="请输入">		
-						<input type="text" class="input-field" placeholder="请输入" v-model="password">
+					<div @click="toggleinputbusiness" class="input-container">
+						<span class="input-label">商家图片</span>
+						<button>请上传图片</button>
+						<!-- <input type="text" class="input-field" placeholder="请填写门店实际位置" v-model="storeAddress"> -->
 					</div>
-				</li> -->
+					<hr>
+				</li>
 			</ul>
+			
+			<div class=""></div>
 
 			<div class="register-button">
 				<!-- <button>立即入驻</button> -->
 				 <!-- <el-button type="primary" round>立即入驻</el-button> -->
 				<button @click="registerBusiness">立即入驻</button>
 			</div>
+			
+			<div class="bottom"></div>
+			
+			<div v-if="isAvatarOpen" class="overlay"></div>
+			<!--阴影背景  v-show="totalQuantity != 0" 表示有food的时候显示购物车-->
+			
+			<div v-if="isAvatarOpen" class="Avatar-update">
+				<div class="button-box">
+					<ul>
+						<li>
+							<p>拍一张</p>
+							<el-divider class="custom-divider" />
+						</li>
+						<li>
+							<p @click="triggerFileInput">上传商家头像</p>
+							<el-divider class="custom-divider" />
+							<input ref="fileInput" type="file" accept="image/*" style="display: none;"
+								@change="handleFileChange" />
+						</li>
+						<div class="driver-box"></div>
+						<li class="cancel-box" @click="toggleinputbusiness">
+							<p>取消</p>
+							<el-divider class="custom-divider" />
+						</li>
+					</ul>
+					<!-- 绑定点击事件的 el-button -->
+					<!-- <el-button type="primary" @click="triggerFileInput">
+						上传头像
+					</el-button> -->
+				</div>
+			</div>
+			
 		</div>
 	</div>
 
@@ -83,7 +113,7 @@ const axios = instance?.appContext.config.globalProperties.$axios;
 
 
 const router = useRouter();
-
+const isAvatarOpen = ref(false);
 
 const storeName = ref('');
 const storeAddress = ref('');
@@ -95,6 +125,10 @@ const categories = ref([
 	'美食', '早餐', '跑腿代购', '汉堡披萨', '甜品饮品',
 	'速食简餐', '地方小吃', '米粉面馆', '包子粥铺', '炸鸡炸串'
 ]);
+
+const toggleinputbusiness = () => {
+	isAvatarOpen.value = !isAvatarOpen.value;
+}
 
 const storeCategory = computed({
 	get: () => categories.value[storeCategoryInt.value - 1],
@@ -167,7 +201,7 @@ const registerBusiness = async () => {
 
 .wrapper .input-box {
 	width: 95vw;
-	height: 65vw;
+	height: 80vw;
 	margin: 2.5vw;
 	background-color: #ffffff;
 	border-radius: 3vw;
@@ -189,6 +223,14 @@ const registerBusiness = async () => {
 	display: flex;
 	align-items: center;
 	padding: 2vw;
+}
+
+
+.wrapper .input-box li .input-container button{
+	border: none;
+	outline: none;
+	color: #757575;
+	background-color: #fff;
 }
 
 .input-label {
@@ -248,4 +290,64 @@ const registerBusiness = async () => {
 	height: 0.05vw;
 	margin: 0;
 }
+
+/****************** 阴影背景 ******************/
+.wrapper .overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 1000;
+}
+
+.wrapper .button-box {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	/* 固定在视口底部 */
+	width: 100vw;
+	height: 40vw;
+	border-radius: 5vw 5vw 0 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #ffffff;
+	z-index: 1100;
+}
+
+.wrapper .button-box li {
+	position: relative;
+	width: 100vw;
+	height: 13vw;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.wrapper .button-box ul .driver-box {
+	width: 100vw;
+	height: 1.5vw;
+	background-color: #eaeaea;
+}
+
+.wrapper .button-box li .custom-divider {
+	margin: 0vw;
+	padding: 0;
+	position: absolute;
+	bottom: 0;
+}
+
+.wrapper .button-box li p {
+	font-size: 4.5vw;
+	font-weight: 500;
+}
+
+.wrapper .button-box .cancel-box p {
+	color: #b1b1b1;
+}
+
 </style>
