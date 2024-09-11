@@ -74,7 +74,7 @@
 <script setup>
 import { ref, getCurrentInstance, computed } from 'vue';
 import Backer from '../components/backer.vue';
-import { getSessionStorage, getLocalStorage } from '../common.js';
+import { getSessionStorage, getLocalStorage, setSessionStorage } from '../common.js';
 import { useRouter } from 'vue-router';
 
 // 获取全局 axios 实例
@@ -115,9 +115,14 @@ const registerBusiness = async () => {
 			businessAddress: storeAddress.value,
 			orderTypeId: storeCategoryInt.value
 		});
-		// console.log(response);
+		console.log(response);
+		if(response.data>=2){
+			user.value.authorization = 2;
+			setSessionStorage('user', user.value);
+		}
 
-		router.push({ path: '/person' });
+		router.back();
+		// router.push({ path: '/person' });
 
 
 	} catch (error) {
