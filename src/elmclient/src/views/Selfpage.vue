@@ -150,7 +150,7 @@ onMounted(() => {
 	user.value = getSessionStorage('user') || { userName: '未登录', userId: '', usserImg: '' };
 	getBusinessId();
 	imageUrl.value = getLocalStorage(`userImg${user.value.userId}`);
-	user.value.authorization = 2;
+	// user.value.authorization = 2;
 	// console.log(user.value);
 });
 
