@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.neusoft.elmboot.po.Food;
@@ -56,9 +57,9 @@ public class FoodController {
 	}
 	
 	@DeleteMapping
-	public Map<String, Integer> removeFood(@RequestBody Food food) {
+	public Map<String, Integer> removeFood(@RequestParam Integer businessId, @RequestParam Integer foodId) {
 		Map<String, Integer> response = new HashMap<>();
-		response.put("data", foodService.removeFood(food));
+		response.put("data", foodService.removeFood(businessId, foodId));
 		return response;
 	}
 }

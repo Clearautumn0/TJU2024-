@@ -11,5 +11,5 @@ public interface FoodService {
 	public Integer addFood(Food food);
 	public Integer updateFood(Food food);
 	public Integer setFood(Food food);
-	public Integer removeFood(Food food);
+	public Integer removeFood(Integer businessId, Integer foodId);
 }

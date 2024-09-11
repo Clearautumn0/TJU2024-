@@ -46,10 +46,12 @@ public class FoodServiceImpl implements FoodService{
 	}
 
 	
-	
 	@Override
-	public Integer removeFood(Food food) {
-		return foodMapper.deleteFood(food);
+	public Integer removeFood(Integer businessId, Integer foodId) {
+		Food newFood = new Food();
+		newFood.setBusinessId(businessId);
+		newFood.setFoodId(foodId);
+		return foodMapper.deleteFood(newFood);
 	}
 
 }

@@ -66,13 +66,6 @@ import {
 const instance = getCurrentInstance();
 const axios = instance?.appContext.config.globalProperties.$axios;
 
-// const showCaptchaModal = ref(false);
-// const captchaInput = ref('');
-// const captchaUrl = ref('');
-// const pendingIndex = ref(null);
-// const isCaptchaVerified = ref(false); // 添加一个状态来跟踪验证码是否验证通过
-
-
 // 获取路由实例和路由参数
 const route = useRoute();
 const router = useRouter();
@@ -81,15 +74,15 @@ const router = useRouter();
 const businessId = ref(null);
 const business = ref({});
 const foodArr = ref([]);
+const del = ref({});
 const user = ref({});
-// const isCartOpen = ref(false);
 
 const initialize = async () => {
     try {
         user.value = getSessionStorage('user');
         businessId.value = await axios.get(`users/businessId/${user.value.userId}`);
 
-        console.log(businessId.value)
+        // console.log(businessId.value)
         // 根据 businessId 查询商家信息
         const businessResponse = await axios.get(`businesses/${businessId.value.data}`);
         business.value = businessResponse;
@@ -101,10 +94,6 @@ const initialize = async () => {
             food.quantity = 0;
         });
 
-        // // 如果已登录，那么需要去查询购物车中是否已经选购了某个食品
-        // if (user.value) {
-        //     await listCart();
-        // }
     } catch (error) {
         console.error('Error initializing:', error);
     }
@@ -112,34 +101,8 @@ const initialize = async () => {
 // 在组件创建时调用
 onMounted(() => {
     initialize();
-    // if (user.value !== null) {
-    //     listCart(0);
-    // }
 });
 
-// // 定义方法
-// async function listCart() {
-//     try {
-//         const response = await axios.get('carts/user', {
-//             params: {
-//                 businessId: businessId.value,
-//                 userId: user.value.userId
-//             }
-//         });
-//         const cartArr = response;
-//         foodArr.value.forEach(foodItem => {
-//             foodItem.quantity = 0;
-//             cartArr.forEach(cartItem => {
-//                 if (cartItem.foodId === foodItem.foodId) {
-//                     foodItem.quantity = cartItem.quantity;
-//                 }
-//             });
-//         });
-//         foodArr.value.sort();
-//     } catch (error) {
-//         console.error('Error fetching cart:', error);
-//     }
-// }
 const alertMessage = ref('');
 
 // 显示弹窗的方法
@@ -150,14 +113,24 @@ const showAlert = (message) => {
 };
 
 //下架商品
-const deletefoods = (foodId) => {
+const deletefoods = async (foodId) => {
     try {
-        const response = axios.delete(`foods/${businessId.value, foodId.value}`);
-        if (response > 0) {
+        // console.log(businessId.value);
+        // console.log(foodId);
+        const response = await axios.delete('foods', {
+            params: {
+                businessId: businessId.value.data,
+                foodId: foodId
+            }
+        });
+        del.value = response;
+        console.log(del.value);
+        if (del.value.data > 0) {
             showAlert('下架商品成功！');
         } else {
             showAlert('下架商品失败！');
         }
+        router.go(0);
     } catch (error) {
         console.warn(error);
     }
