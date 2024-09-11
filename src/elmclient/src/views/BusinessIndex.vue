@@ -151,19 +151,19 @@
 	
 	const toAddFood = () => {
 		router.push({
-			path: 'addFood'
+			path: '/addFood'
 		})
 	}
 	
 	const toOffFood = () => {
 		router.push({
-			path: 'offFood'
+			path: '/offFood'
 		})
 	}
 	
 	const toBusinessUpload = () => {
 		router.push({
-			path: 'businessUpload'
+			path: '/businessUpload'
 		})
 	}
 

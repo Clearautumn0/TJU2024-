@@ -83,7 +83,8 @@ import {
 	onBeforeMount,
 	onMounted,
 	onBeforeUnmount,
-	getCurrentInstance
+	getCurrentInstance,
+	computed
 } from 'vue';
 import {
 	useRouter,
@@ -109,23 +110,9 @@ const foods = ref({
 });
 
 const alertMessage = ref('');
-// const imageUrl = ref(''); // 用于存储图片预览URL
 const base64Image = ref('');
 const fileInput = ref(null);
 const user = ref({});
-
-// // 定义文件列表的响应式状态
-// const fileList = ref([]);
-
-// // 文件移除时的处理函数
-// const handleRemove = (uploadFile, uploadFiles) => {
-// 	console.log(uploadFile, uploadFiles);
-// };
-
-// // 文件预览时的处理函数
-// const handlePreview = (file) => {
-// 	console.log(file);
-// };
 
 // 触发隐藏的文件输入框点击事件
 const triggerFileInput = () => {
@@ -168,9 +155,30 @@ const validateExplain = () => {
 	return true;
 }
 
+const isFoodPriceValidNumber = computed(() => {
+	const price = foods.value.foodPrice;
+	// 尝试将字符串转换为数字
+	const numericPrice = parseFloat(price);
+	// 检查转换后的数字是否为有限数值
+	return Number.isFinite(numericPrice) && !isNaN(numericPrice);
+});
+
 const validatePrice = () => {
 	if (foods.value.foodPrice == '') {
 		showAlert('请输入食品价格！');
+		return false;
+	}
+	// console.log(isFoodPriceValidNumber.value);
+	if (!isFoodPriceValidNumber.value) {
+		showAlert('食品价格为数字！');
+		return false;
+	}
+	return true;
+}
+
+const validateImg = () => {
+	if (foods.value.foodImg == '') {
+		showAlert('请上传食品图片！');
 		return false;
 	}
 	return true;
@@ -179,7 +187,7 @@ const validatePrice = () => {
 // 保存信息并上传图片
 const storemessage = async () => {
 	// console.log(foods.value.foodName);
-	if (!validateName() || !validateExplain() || !validatePrice()) {
+	if (!validateName() || !validateExplain() || !validatePrice() || !validateImg()) {
 		return;
 	}
 	try {
