@@ -75,7 +75,7 @@ const deliveryaddress = ref({});
 const totalPrice = computed(() => {
 	let total = 0;
 	cartArr.value.forEach(item => {
-		console.log(item.food);
+		// console.log(item.food);
 		if(item.food!=null){
 			total += item.food.foodPrice * item.quantity;
 		}
