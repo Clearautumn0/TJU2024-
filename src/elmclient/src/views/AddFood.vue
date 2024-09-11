@@ -143,6 +143,8 @@ const handleFileChange = (event) => {
 		reader.onload = (e) => {
 			base64Image.value = e.target.result;
 			foods.value.foodImg = base64Image.value;
+			showAlert('上传食品图片成功');
+			toggleinputfood();
 		};
 		reader.readAsDataURL(file);
 	}
@@ -214,7 +216,7 @@ const storemessage = async () => {
 			foodImg: foods.value.foodImg,
 			businessId: foods.value.businessId,
 		});
-		console.log(response);
+		// console.log(response);
 		if (response.data > 0) {
 			showAlert('添加食品信息成功！');
 		} else {
@@ -244,7 +246,7 @@ const getBusinessId = async () => {
 
 onMounted(() => {
 	getBusinessId();
-	console.log(foods);
+	// console.log(foods);
 });
 </script>
 
