@@ -159,7 +159,7 @@ const submitImage = async () => {
 
 .wrapper .bottom {
   width: 100%;
-  height: ;
+  height: 10vw;
   background-color: #ebebeb;
   z-index: -1;
 }

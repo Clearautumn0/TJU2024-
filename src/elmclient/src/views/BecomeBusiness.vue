@@ -203,9 +203,21 @@ const registerBusiness = async () => {
 	border: none;
 	outline: none;
 	flex: 3;
-	padding-left: 10vw;
+	padding-left: 5vw;
 	/* 留出空间放置标签 */
-	padding-right: 2vw;
+	padding-right: 1vw;
+	height: 10vw;
+	width: 60vw;
+	font-size: 3.5vw;
+}
+
+.input-field2 {
+	border: none;
+	outline: none;
+	flex: 3;
+	padding-left: 3.8vw;
+	/* 留出空间放置标签 */
+	padding-right: 1vw;
 	height: 10vw;
 	width: 60vw;
 	font-size: 3.5vw;
