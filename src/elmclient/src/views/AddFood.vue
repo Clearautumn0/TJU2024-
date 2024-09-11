@@ -244,7 +244,6 @@ const getBusinessId = async () => {
 
 onMounted(() => {
 	getBusinessId();
-	console.log(foods);
 });
 </script>
 

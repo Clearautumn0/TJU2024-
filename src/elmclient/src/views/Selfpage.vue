@@ -154,7 +154,7 @@ onMounted(() => {
 	}
 	imageUrl.value = getLocalStorage(`userImg${user.value.userId}`);
 
-	// user.value.authorization = 2;
+	user.value.authorization = 1;
 	// console.log(user.value);
 });
 

@@ -118,13 +118,42 @@ const isAvatarOpen = ref(false);
 const storeName = ref('');
 const storeAddress = ref('');
 const storeCategoryInt = ref(null);
+const store = ref('');
 const user = ref({});
+
+const businesses = ref({
+	businessName: '',
+	businessAddress: '',
+	orderTypeId: 0,
+	businessImg: '',
+});
+
+const base64Image = ref('');
+const fileInput = ref(null);
 // const phoneNumber = ref('');
 // const password = ref('');
 const categories = ref([
 	'美食', '早餐', '跑腿代购', '汉堡披萨', '甜品饮品',
 	'速食简餐', '地方小吃', '米粉面馆', '包子粥铺', '炸鸡炸串'
 ]);
+
+// 触发隐藏的文件输入框点击事件
+const triggerFileInput = () => {
+	fileInput.value.click();
+};
+
+// 处理文件选择
+const handleFileChange = (event) => {
+	const file = event.target.files[0];
+	if (file) {
+		const reader = new FileReader();
+		reader.onload = (e) => {
+			base64Image.value = e.target.result;
+			businesses.value.businessImg = base64Image.value;
+		};
+		reader.readAsDataURL(file);
+	}
+};
 
 const toggleinputbusiness = () => {
 	isAvatarOpen.value = !isAvatarOpen.value;
@@ -147,7 +176,8 @@ const registerBusiness = async () => {
 		const response = await axios.post(`businesses/${user.value.userId}`, {
 			businessName: storeName.value,
 			businessAddress: storeAddress.value,
-			orderTypeId: storeCategoryInt.value
+			orderTypeId: storeCategoryInt.value,
+			businessImg: businesses.value.businessImg,
 		});
 		// console.log(response);
 		if(response.data>=2){
