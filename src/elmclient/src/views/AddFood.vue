@@ -63,7 +63,7 @@
 		<div class="button-box">
 			<!-- 绑定点击事件的 el-button -->
 			<el-button type="primary" @click="triggerFileInput">
-				上传头像
+				上传食品图片
 			</el-button>
 		</div>
 		<div class="userimg-box">
@@ -348,8 +348,9 @@ onMounted(() => {
 	display: flex;
 }
 
-.wrapper .photo-box button {
+.wrapper .button-box button {
 	width: 40vw;
 	height: 10vw;
+	margin-left: 2vw;
 }
 </style>

@@ -391,7 +391,7 @@
 	.wrapper .managefood ul li .svg-container {
 		width: 15vw;
 		height: 15vw;
-		background-color: #f43256;
+		background-color: #ff6241;
 		/* 背景色 */
 		border-radius: 50%;
 		/* 圆形边框 */
@@ -442,7 +442,7 @@
 	.wrapper .manageorder ul li .svg-container {
 		width: 15vw;
 		height: 15vw;
-		background-color: #f43256;
+		background-color: #ff6241;
 		/* 背景色 */
 		border-radius: 50%;
 		/* 圆形边框 */
@@ -490,7 +490,7 @@
 	.wrapper .businessmessage ul li .svg-container {
 		width: 15vw;
 		height: 15vw;
-		background-color: #f43256;
+		background-color: #ff6241;
 		/* 背景色 */
 		border-radius: 50%;
 		/* 圆形边框 */

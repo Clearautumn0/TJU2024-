@@ -137,9 +137,7 @@ const toBusinessindex = () =>{
 onMounted(() => {
 	user.value = getSessionStorage('user') || { userName: '未登录', userId: '', usserImg: '' };
 	imageUrl.value = getLocalStorage(`userImg${user.value.userId}`);
-	user.value.authorization = 2;
-	console.log(user.value);
-
+	// console.log(user.value);
 });
 
 </script>
