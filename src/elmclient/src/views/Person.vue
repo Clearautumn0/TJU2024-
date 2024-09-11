@@ -208,7 +208,8 @@ import Backer from '../components/backer.vue';
 import {
 	getSessionStorage,
 	getLocalStorage,
-	setLocalStorage
+	setLocalStorage, 
+	removeSessionStorage
 } from '../common.js';
 
 // 获取全局 axios 实例
@@ -322,6 +323,14 @@ const toPerson = () => {
 
 }
 
+const toLogin = () => {
+	removeSessionStorage('token');
+	removeSessionStorage('user');
+	router.push({
+		path: '/login'
+	});
+}
+
 const toEditUserName = () => {
 	if (user.value.userName === '未登录') {
 		router.push({
@@ -332,11 +341,6 @@ const toEditUserName = () => {
 			path: '/editUserName'
 		});
 	}
-	// const toLogin = () => {
-	// 	router.push({
-	// 		path: '/login'
-	// 	});
-	// }
 }
 </script>
 
