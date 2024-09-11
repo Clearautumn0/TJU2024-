@@ -75,7 +75,11 @@ const deliveryaddress = ref({});
 const totalPrice = computed(() => {
 	let total = 0;
 	cartArr.value.forEach(item => {
-		total += item.food.foodPrice * item.quantity;
+		console.log(item.food);
+		if(item.food!=null){
+			total += item.food.foodPrice * item.quantity;
+		}
+
 	});
 	total += business.deliveryPrice || 0; // 防止 deliveryPrice 未定义时报错
 	return parseFloat(total.toFixed(2));
@@ -110,6 +114,7 @@ const fetchCartData = async () => {
 			}
 		});
 		cartArr.value = cartResponse;
+		// console.log(cartArr.value);
 	} catch (error) {
 		console.error('Failed to fetch cart data:', error);
 	}

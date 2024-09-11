@@ -70,12 +70,13 @@ const listCart = async () => {
 			}
 		});
 		const cartArr = response;
+		// console.log(cartArr);
 
 		// 遍历所有食品列表
 		for (let businessItem of businessArr) {
 			businessItem.quantity = 0;
 			for (let cartItem of cartArr) {
-				if (cartItem.businessId == businessItem.businessId) {
+				if (cartItem.businessId == businessItem.businessId && cartItem.food != null) {
 					businessItem.quantity += cartItem.quantity;
 				}
 			}

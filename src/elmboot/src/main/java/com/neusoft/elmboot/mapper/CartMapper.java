@@ -2,6 +2,7 @@ package com.neusoft.elmboot.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Update;
@@ -20,4 +21,7 @@ public interface CartMapper {
 	public int updateCart(Cart cart);
 	
 	public int removeCart(Cart cart);
+	
+	@Delete("delete from cart where foodId=#{foodId} and businessId=#{businessId}")
+	public int removeCartWithDeletedFood(Cart cart);
 }

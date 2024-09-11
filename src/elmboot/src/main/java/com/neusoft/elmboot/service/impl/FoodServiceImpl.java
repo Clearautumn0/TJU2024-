@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.neusoft.elmboot.mapper.CartMapper;
 import com.neusoft.elmboot.mapper.FoodMapper;
+import com.neusoft.elmboot.po.Cart;
 import com.neusoft.elmboot.po.Food;
 import com.neusoft.elmboot.service.FoodService;
 
@@ -15,6 +17,9 @@ public class FoodServiceImpl implements FoodService{
 	
 	@Autowired
 	private FoodMapper foodMapper;
+	
+	@Autowired
+	private CartMapper cartMapper;
 
 	@Override
 	public List<Food> listFoodByBusinessId(Integer businessId) {
@@ -42,7 +47,6 @@ public class FoodServiceImpl implements FoodService{
 	@Override
 	public Integer setFood(Food food) {
 		return foodMapper.setFood(food);
-		
 	}
 
 	
@@ -51,6 +55,12 @@ public class FoodServiceImpl implements FoodService{
 		Food newFood = new Food();
 		newFood.setBusinessId(businessId);
 		newFood.setFoodId(foodId);
+		
+		Cart newCart = new Cart();
+		newCart.setBusinessId(businessId);
+		newCart.setFoodId(foodId);
+		
+		cartMapper.removeCartWithDeletedFood(newCart);
 		return foodMapper.deleteFood(newFood);
 	}
 
