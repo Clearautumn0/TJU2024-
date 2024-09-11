@@ -37,7 +37,7 @@
 					<div class="input-container">
 						<span class="input-label">商家分类</span>
 						<!-- 使用 v-model 绑定选中的值到 storeCategory 变量 -->
-						<select class="input-field" v-model="storeCategoryInt">
+						<select class="input-field2" v-model="storeCategoryInt">
 							<!-- 循环创建十个选项 -->
 							<option v-for="(category, index) in categories" :key="category" :value="index + 1">
 								{{ category }}
@@ -203,9 +203,21 @@ const registerBusiness = async () => {
 	border: none;
 	outline: none;
 	flex: 3;
-	padding-left: 10vw;
+	padding-left: 5vw;
 	/* 留出空间放置标签 */
-	padding-right: 2vw;
+	padding-right: 1vw;
+	height: 10vw;
+	width: 60vw;
+	font-size: 3.5vw;
+}
+
+.input-field2 {
+	border: none;
+	outline: none;
+	flex: 3;
+	padding-left: 3.8vw;
+	/* 留出空间放置标签 */
+	padding-right: 1vw;
 	height: 10vw;
 	width: 60vw;
 	font-size: 3.5vw;
