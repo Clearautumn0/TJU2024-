@@ -36,7 +36,7 @@
 				<p>我的客服</p>
 			</li>
 			<!-- <li v-if="show-businessmanage"> -->
-			<li v-if="user.authorization === 2">
+			<li @click="toBusinessUpload" v-if="user.authorization === 2">
 				<img src="../assets/businessmanage.png">
 				<p>店铺管理</p>
 			</li>
@@ -96,6 +96,15 @@ const toUserAddress = () => {
 
 };
 
+const toBusinessUpload = () =>{
+	if (user.value.userName === '未登录') {
+		router.push({ path: '/login' });
+	}
+	else {
+		router.push({ path: '/businessUpload' });
+	}
+}
+
 const toBecomeBusiness = () => {
 	if (user.value.userName === '未登录') {
 		router.push({ path: '/login' });
@@ -103,10 +112,6 @@ const toBecomeBusiness = () => {
 	else {
 		router.push({ path: '/becomeBusiness' });
 	}
-}
-
-const toBusinessUpload = () =>{
-	router.push({path: '/businessUpload'});
 }
 
 const toAssociationOf = () =>{
