@@ -91,7 +91,7 @@ const toindividual_inf = () => {
 };
 
 const toUserAddress = () => {
-	if (user.value.userName === '未登录') {
+	if (user.value.userId === '') {
 		router.push({ path: '/login' });
 	}
 	else {
@@ -101,13 +101,13 @@ const toUserAddress = () => {
 };
 
 const toLogin = () => {
-	if (user.value.userName === '未登录') {
+	if (user.value.userId === '') {
 		router.push({ path: '/login' });
 	}
 };
 
 const toBecomeBusiness = () => {
-	if (user.value.userName === '未登录') {
+	if (user.value.userId === '') {
 		router.push({ path: '/login' });
 	}
 	else {
@@ -116,7 +116,7 @@ const toBecomeBusiness = () => {
 }
 
 const toAssociationOf = () =>{
-	if (user.value.userName === '未登录') {
+	if (user.value.userId === '') {
 		router.push({ path: '/login' });
 	}
 	else {
@@ -125,7 +125,7 @@ const toAssociationOf = () =>{
 }
 
 const toBusinessindex = () =>{
-	if (user.value.userName === '未登录') {
+	if (user.value.userId === '') {
 		router.push({ path: '/login' });
 	}
 	if(businessId.value===null){
@@ -140,7 +140,7 @@ const getBusinessId = async () => {
 		try {
 			// 根据userId查询businessId
 			user.value = getSessionStorage('user');
-			console.log(user.value);
+			// console.log(user.value);
 			businessId.value = await axios.get(`users/businessId/${user.value.userId}`);
 		} catch (error) {
 			console.error('Error initializing:', error);
@@ -148,7 +148,7 @@ const getBusinessId = async () => {
 	};
 
 onMounted(() => {
-	user.value = getSessionStorage('user') || { userName: '未登录', userId: '', usserImg: '' };
+	user.value = getSessionStorage('user') || { userName: '未登录', userId: '', userImg: '' };
 	if(user.value.userId!=''){
 		getBusinessId();
 	}
