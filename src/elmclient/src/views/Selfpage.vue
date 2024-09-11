@@ -140,7 +140,7 @@ const getBusinessId = async () => {
 		try {
 			// 根据userId查询businessId
 			user.value = getSessionStorage('user');
-			console.log(user.value);
+			// console.log(user.value);
 			businessId.value = await axios.get(`users/businessId/${user.value.userId}`);
 		} catch (error) {
 			console.error('Error initializing:', error);

@@ -37,40 +37,50 @@
 			</div>
 		</div>
 
-		<!-- 修改后的图片预览框，点击上传图片 -->
-		<!-- <div class="inputbox2" @click="triggerFileInput">
-            <div class="image-preview-box">
-                <img :src="imageUrl || 'default-image-url.png'" alt="点击添加食品图片" class="image-preview" />
-                <input type="file" @change="handleFileChange" accept="image/*" style="display: none;"
-                    ref="imageInput" />
-            </div>
-        </div> -->
-		<!-- 定义文件上传的 URL 地址，文件将会上传到这个地址。当前这个 URL 是一个模拟接口地址（可以替换为你自己的服务端接口） -->
-		<!-- <div class="photo-box">
-			<el-upload v-model:file-list="fileList" class="upload-demo"
-				action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15" :on-preview="handlePreview"
-				:on-remove="handleRemove" list-type="picture">
-				<el-button type="primary">上传食品照片</el-button>
-				<template #tip>
-					<div class="el-upload__tip">
-						jpg/png files with a size less than 500kb
-					</div>
-				</template>
-</el-upload>
-</div> -->
 		<!-- 隐藏的文件输入框 -->
-		<input type="file" ref="fileInput" @change="handleFileChange" accept="image/*" style="display: none;" />
-		<div class="button-box">
+		<!-- <input type="file" ref="fileInput" @change="handleFileChange" accept="image/*" style="display: none;" /> -->
+		<div class="button-click">
 			<!-- 绑定点击事件的 el-button -->
-			<el-button type="primary" @click="triggerFileInput">
+			<el-button type="primary" @click="toggleinputfood">
 				上传食品图片
 			</el-button>
 		</div>
-		<div class="userimg-box">
+		
+		<div class="bottom"></div>
+		
+		<div v-if="isAvatarOpen" class="overlay"></div>
+		<!--阴影背景  v-show="totalQuantity != 0" 表示有food的时候显示购物车-->
+		
+		<div v-if="isAvatarOpen" class="Avatar-update">
+			<div class="button-box">
+				<ul>
+					<li>
+						<p>拍一张</p>
+						<el-divider class="custom-divider" />
+					</li>
+					<li>
+						<p @click="triggerFileInput">上传食品图片</p>
+						<el-divider class="custom-divider" />
+						<input ref="fileInput" type="file" accept="image/*" style="display: none;"
+							@change="handleFileChange" />
+					</li>
+					<div class="driver-box"></div>
+					<li class="cancel-box" @click="toggleinputfood">
+						<p>取消</p>
+						<el-divider class="custom-divider" />
+					</li>
+				</ul>
+				<!-- 绑定点击事件的 el-button -->
+				<!-- <el-button type="primary" @click="triggerFileInput">
+					上传头像
+				</el-button> -->
+			</div>
+		</div>
+		<!-- <div class="userimg-box">
 			<div v-if="base64Image" class="image-preview">
 				<img :src="base64Image" alt="头像预览" />
 			</div>
-		</div>
+		</div> -->
 	</div>
 	<AlertPopup ref="alertPopup" :message="alertMessage" />
 </template>
@@ -113,6 +123,12 @@ const alertMessage = ref('');
 const base64Image = ref('');
 const fileInput = ref(null);
 const user = ref({});
+
+const isAvatarOpen = ref(false);
+
+const toggleinputfood = () => {
+	isAvatarOpen.value = !isAvatarOpen.value;
+}
 
 // 触发隐藏的文件输入框点击事件
 const triggerFileInput = () => {
@@ -198,6 +214,7 @@ const storemessage = async () => {
 			foodImg: foods.value.foodImg,
 			businessId: foods.value.businessId,
 		});
+		console.log(response);
 		if (response.data > 0) {
 			showAlert('添加食品信息成功！');
 		} else {
@@ -227,6 +244,7 @@ const getBusinessId = async () => {
 
 onMounted(() => {
 	getBusinessId();
+	console.log(foods);
 });
 </script>
 
@@ -314,7 +332,7 @@ onMounted(() => {
 	border: none;
 	outline: none;
 	border-radius: 8vw;
-	background-color: #1677ff;
+	background-color: #f43256;
 	color: #fff;
 	font-size: 4.5vw;
 	font-weight: 300;
@@ -356,9 +374,77 @@ onMounted(() => {
 	display: flex;
 }
 
-.wrapper .button-box button {
-	width: 40vw;
-	height: 10vw;
-	margin-left: 2vw;
+.wrapper .button-click {
+	width: 100vw;
+	height: 20vw;
+	margin: 2vw;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
+.wrapper .button-click button{
+	border: none;
+	width: 50vw;
+	height: 10vw;
+	background-color: #f43256;
+}
+
+/****************** 阴影背景 ******************/
+.wrapper .overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 1000;
+}
+
+.wrapper .button-box {
+	position: fixed;
+	bottom: 0;
+	/* 固定在视口底部 */
+	width: 100vw;
+	height: 40vw;
+	border-radius: 5vw 5vw 0 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #ffffff;
+	z-index: 1100;
+}
+
+.wrapper .button-box li {
+	position: relative;
+	width: 100vw;
+	height: 13vw;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.wrapper .button-box ul .driver-box {
+	width: 100vw;
+	height: 1.5vw;
+	background-color: #eaeaea;
+}
+
+.wrapper .button-box li .custom-divider {
+	margin: 0vw;
+	padding: 0;
+	position: absolute;
+	bottom: 0;
+}
+
+.wrapper .button-box li p {
+	font-size: 4.5vw;
+	font-weight: 500;
+}
+
+.wrapper .button-box .cancel-box p {
+	color: #b1b1b1;
+}
+
 </style>

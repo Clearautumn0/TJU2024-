@@ -9,7 +9,8 @@
 
 		<!-- 商家logo部分 -->
 		<div class="business-logo">
-			<img :src="business.businessImg">
+			<img v-if="businessImg":src="business.businessImg">
+			<img v-else src="../assets/默认头像.png" alt="无法加载图片" class="avatar-img">
 		</div>
 
 		<!-- 商家信息部分 -->
@@ -142,7 +143,8 @@ import {
 import Backer from '../components/backer.vue'
 import AlertPopup from '../components/AlertPopup.vue';
 import {
-	getSessionStorage
+	getSessionStorage,
+	getLocalStorage
 } from '../common';
 
 // 获取全局 axios 实例
@@ -166,6 +168,8 @@ const business = ref({});
 const foodArr = ref([]);
 const user = ref({});
 const isCartOpen = ref(false);
+
+const businessImage = ref('');
 
 const initialize = async () => {
 	try {
@@ -193,6 +197,7 @@ const initialize = async () => {
 // 在组件创建时调用
 onMounted(() => {
 	initialize();
+	businessImage.value = getLocalStorage(`businessImg${business.value.businessId}`);
 	if (user.value !== null) {
 		listCart(0);
 	}
