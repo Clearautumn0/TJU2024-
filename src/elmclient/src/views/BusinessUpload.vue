@@ -69,8 +69,8 @@ const foods = ref({
     foodName: '',
     foodExplain: '',
     foodImg: '',
-    foodPrice: 1.0,
-    businessId: 10001
+    foodPrice: '',//还得处理
+    businessId: route.query.businessId
 });
 
 const alertMessage = ref('');

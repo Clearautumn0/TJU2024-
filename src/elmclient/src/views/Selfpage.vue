@@ -61,6 +61,10 @@
 				<img src="../assets/rule.png">
 				<p>上架商品</p>
 			</li>
+			<li @click="toBusinessindex">
+				<img src="../assets/rule.png">
+				<p>商家主页</p>
+			</li>
 		</ul>
 
 		<Footer></Footer>
@@ -111,6 +115,10 @@ const toBusinessUpload = () =>{
 
 const toAssociationOf = () =>{
 	router.push({path: '/associationOf'});
+}
+
+const toBusinessindex = () =>{
+	router.push({path: '/businessIndex'});
 }
 
 onMounted(() => {

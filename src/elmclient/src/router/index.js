@@ -19,6 +19,7 @@ import Payok from '../views/Payok.vue';
 import BusinessUpload from '../views/BusinessUpload.vue';
 import AssociationOf from '../views/AssociationOf.vue';
 import EditUserImg from '../views/EditUserImg.vue';
+import BusinessIndex from '../views/BusinessIndex.vue';
 
 const routes = [{
 	path: '/',
@@ -104,6 +105,10 @@ const routes = [{
 	path: '/associationOf',
 	name: 'AssociationOf',
 	component: AssociationOf
+}, {
+	path: '/businessIndex',
+	name: '/BusinessIndex',
+	component: BusinessIndex
 }
 ];
 
