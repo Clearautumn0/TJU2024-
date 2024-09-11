@@ -1,7 +1,7 @@
 <template>
 	<div class="wrapper">
 		<header class="profile-header">
-			<div class="header-left">
+			<div class="header-left" @click="toLogin">
 				<div class="avatar-frame">
 					<img v-if="imageUrl" :src="imageUrl" alt="用户头像" class="avatar-img">
 					<img v-else src="../assets/默认头像.png" alt="无法加载图片" class="avatar-img">
@@ -98,6 +98,12 @@ const toUserAddress = () => {
 		router.push({ path: '/userAddress' });
 	}
 
+};
+
+const toLogin = () => {
+	if (user.value.userName === '未登录') {
+		router.push({ path: '/login' });
+	}
 };
 
 const toBusinessUpload = () =>{
