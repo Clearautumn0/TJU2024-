@@ -16,7 +16,7 @@
 	    <result column="foodId" property="foodId"/>
 	    <result column="quantity" property="quantity"/>
 	    <association property="food" javaType="Food"
-	         select="com.neusoft.elmboot.mapper.FoodMapper.getFoodById" column="foodId"/>
+	         select="com.neusoft.elmboot.mapper.FoodMapper.getFoodByIdIgnoreDelTag" column="foodId"/>
 	</resultMap>
 	
 	<select id="listOrderDetailetByOrderId" parameterType="Integer" resultMap="orderDetailetResultMap">

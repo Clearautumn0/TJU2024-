@@ -16,8 +16,11 @@ public interface FoodMapper {
 	@Select("select * from food where businessId=#{businessId} and soldOut=0 and delTag=0 order by foodId")
 	public List<Food> listFoodByBusinessId(Integer businessId);
 	
-	@Select("select * from food where foodId=#{foodId} and soldOut=0 and  delTag=0")
+	@Select("select * from food where foodId=#{foodId} and delTag=0")
 	public Food getFoodById(Integer foodId);
+	
+	@Select("select * from food where foodId=#{foodId} and soldOut=0")
+	public Food getFoodByIdIgnoreDelTag(Integer foodId);
 	
 	@Insert("insert into food values(null, #{foodName}, #{foodExplain}, #{foodImg}, #{foodPrice}, #{businessId}, #{remarks},0, 0)")
 	public Integer addFood(Food food);

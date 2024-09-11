@@ -81,7 +81,7 @@ import { getSessionStorage, getLocalStorage } from '../common.js';
 const instance = getCurrentInstance();
 const axios = instance?.appContext.config.globalProperties.$axios;
 
-
+const businessId = ref(null);
 const router = useRouter(); // 使用 useRouter 获取路由实例
 const user = ref({});
 const imageUrl = ref('');
@@ -128,14 +128,27 @@ const toBusinessindex = () =>{
 	if (user.value.userName === '未登录') {
 		router.push({ path: '/login' });
 	}
-	// if(user.value.)
+	if(businessId.value===null){
+		router.push({ path: '/becomeBusiness' });
+	}
 	else {
 	router.push({path: '/businessIndex'});
 	}
 }
 
+const getBusinessId = async () => {
+		try {
+			// 根据userId查询businessId
+			user.value = getSessionStorage('user');
+			businessId.value = await axios.get(`users/businessId/${user.value.userId}`);
+		} catch (error) {
+			console.error('Error initializing:', error);
+		}
+	};
+
 onMounted(() => {
 	user.value = getSessionStorage('user') || { userName: '未登录', userId: '', usserImg: '' };
+	getBusinessId();
 	imageUrl.value = getLocalStorage(`userImg${user.value.userId}`);
 	user.value.authorization = 2;
 	console.log(user.value);
