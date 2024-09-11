@@ -12,13 +12,7 @@
       </div>
     </header>
     <!-- 隐藏的文件输入框 -->
-    <input
-      type="file"
-      ref="fileInput"
-      @change="handleFileChange"
-      accept="image/*"
-      style="display: none;"
-    />
+    <input type="file" ref="fileInput" @change="handleFileChange" accept="image/*" style="display: none;" />
     <div class="button-box">
       <!-- 绑定点击事件的 el-button -->
       <el-button type="primary" @click="triggerFileInput">
@@ -151,12 +145,14 @@ const submitImage = async () => {
   align-items: center;
   justify-content: center;
 }
+
 .wrapper .userimg-box .image-preview {
   width: 30vw;
   height: 30vw;
 
 }
-.wrapper .userimg-box .image-preview img{
+
+.wrapper .userimg-box .image-preview img {
   width: 100%;
   height: 100%;
 }
