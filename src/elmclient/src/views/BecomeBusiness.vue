@@ -115,7 +115,7 @@ const registerBusiness = async () => {
 			businessAddress: storeAddress.value,
 			orderTypeId: storeCategoryInt.value
 		});
-		console.log(response);
+		// console.log(response);
 		if(response.data>=2){
 			user.value.authorization = 2;
 			setSessionStorage('user', user.value);

@@ -119,11 +119,21 @@ const toBecomeBusiness = () => {
 }
 
 const toAssociationOf = () =>{
+	if (user.value.userName === '未登录') {
+		router.push({ path: '/login' });
+	}
+	else {
 	router.push({path: '/associationOf'});
+	}
 }
 
 const toBusinessindex = () =>{
+	if (user.value.userName === '未登录') {
+		router.push({ path: '/login' });
+	}
+	else {
 	router.push({path: '/businessIndex'});
+	}
 }
 
 onMounted(() => {
