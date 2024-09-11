@@ -52,7 +52,8 @@ router.beforeEach((to, from, next) => {
 			to.path === '/register' ||
 			to.path === '/selfpage' ||
 			to.path === '/person' ||
-			to.path === '/orderList'
+			to.path === '/orderList'||
+			to.path === '/associationOf'
 		)
 	) {
 		if (user === null) {

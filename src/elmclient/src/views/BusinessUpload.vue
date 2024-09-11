@@ -83,15 +83,15 @@
 	const instance = getCurrentInstance();
 	const axios = instance?.appContext.config.globalProperties.$axios;
 
-	const router = useRouter();
-	const route = useRoute();
-	const foods = ref({
-		foodName: '',
-		foodExplain: '',
-		foodImg: '',
-		foodPrice: 1.0,
-		businessId: 10001
-	});
+const router = useRouter();
+const route = useRoute();
+const foods = ref({
+    foodName: '',
+    foodExplain: '',
+    foodImg: '',
+    foodPrice: '',//还得处理
+    businessId: route.query.businessId
+});
 
 	const alertMessage = ref('');
 	const imageUrl = ref(null); // 用于存储图片预览URL
