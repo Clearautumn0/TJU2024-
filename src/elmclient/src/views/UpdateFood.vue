@@ -4,7 +4,7 @@
         <!-- header部分 -->
         <header>
             <Backer></Backer>
-            <p>下架食品</p>
+            <p>食品管理</p>
         </header>
 
         <!-- 商家logo部分 -->
@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 <div class="food-right">
-                    <p><span><u @click="deletefoods(item.foodId)">下架商品</u></span></p>
+                    <p><span><u @click="updatefoods(item.foodId)">修改商品</u></span></p>
                 </div>
             </li>
             <li class="empty-li">
@@ -124,27 +124,8 @@ const showAlert = (message) => {
 };
 
 //下架商品
-const deletefoods = async (foodId) => {
-    try {
-        // console.log(businessId.value);
-        // console.log(foodId);
-        const response = await axios.delete('foods', {
-            params: {
-                businessId: businessId.value.data,
-                foodId: foodId
-            }
-        });
-        del.value = response;
-        console.log(del.value);
-        if (del.value.data > 0) {
-            showAlert('下架商品成功！');
-        } else {
-            showAlert('下架商品失败！');
-        }
-        router.go(0);
-    } catch (error) {
-        console.warn(error);
-    }
+const updatefoods = async (foodId) => {
+    router.push({ path: '/updateFoodInfo', query: { foodId } });
 };
 
 </script>

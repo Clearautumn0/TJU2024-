@@ -4,7 +4,7 @@
 		<!-- header部分 -->
 		<header>
 			<Backer></Backer>
-			<p class="title">上架商品</p>
+			<p class="title">修改商品</p>
 		</header>
 
 		<div class="input-box">
@@ -123,6 +123,7 @@ const alertMessage = ref('');
 const base64Image = ref('');
 const fileInput = ref(null);
 const user = ref({});
+const foodId = ref(route.query.foodId);
 
 const isAvatarOpen = ref(false);
 
@@ -214,7 +215,8 @@ const storemessage = async () => {
 		return;
 	}
 	try {
-		const response = await axios.post('foods', {
+		const response = await axios.put('foods', {
+			foodId: foodId.value,
 			foodName: foods.value.foodName,
 			foodExplain: foods.value.foodExplain,
 			foodPrice: foods.value.foodPrice,

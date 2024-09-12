@@ -22,6 +22,8 @@ import BusinessIndex from '../views/BusinessIndex.vue';
 import AddFood from '../views/AddFood.vue';
 import OffFood from '../views/OffFood.vue';
 import AdministratorIndex from '../views/AdministratorIndex.vue';
+import UpdateFood from '../views/UpdateFood.vue';
+import UpdateFoodInfo from '../views/UpdateFoodInfo.vue';
 
 const routes = [{
 	path: '/',
@@ -119,6 +121,14 @@ const routes = [{
 	path: '/offFood',
 	name: '/OffFood',
 	component: OffFood
+}, {
+	path: '/updateFood',
+	name: '/UpdateFood',
+	component: UpdateFood
+}, {
+	path: '/updateFoodInfo',
+	name: '/UpdateFoodInfo',
+	component: UpdateFoodInfo
 }
 ];
 
