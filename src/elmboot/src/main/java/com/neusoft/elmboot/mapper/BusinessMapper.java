@@ -21,8 +21,8 @@ public interface BusinessMapper {
 	@Select("select * from business where businessId=#{businessId} and delTag=0")
 	public Business getBusinessById(Integer businessId);
 	
-	@Insert("insert into business(businessName, businessImg, orderTypeId, delTag) " +
-            "values(#{businessName}, #{businessImg}, #{orderTypeId}, 0)")
+	@Insert("insert into business(businessName, businessAddress, businessImg, orderTypeId, delTag) " +
+            "values(#{businessName}, #{businessAddress}, #{businessImg}, #{orderTypeId}, 0)")
 	@Options(useGeneratedKeys = true, keyProperty = "businessId")
     @SelectKey(statement = "SELECT LAST_INSERT_ID()", keyProperty = "businessId", before = false, resultType = Integer.class)
 	public Integer registerBusiness(Business business);
