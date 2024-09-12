@@ -33,9 +33,9 @@ public class OrdersControllerTest {
     @MockBean
     private OrdersService ordersService;
 
-    // Mock the TokenInterceptor if necessary
-    @MockBean
-    private TokenInterceptor tokenInterceptor;
+//    // Mock the TokenInterceptor if necessary
+//    @MockBean
+//    private TokenInterceptor tokenInterceptor;
 
     @BeforeEach
     public void setup() {
