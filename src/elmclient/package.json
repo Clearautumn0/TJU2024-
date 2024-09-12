@@ -1,5 +1,5 @@
 {
-  "name": "elmclient",
+  "name": "elmclientproject",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
+    "@vue/cli": "^5.0.8",
     "@vue/compat": "^3.5.3",
     "@vue/compiler-sfc": "^3.5.3",
     "axios": "^0.19.2",
