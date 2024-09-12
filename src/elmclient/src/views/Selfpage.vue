@@ -158,7 +158,7 @@ const refreshAuthorization = () => {
 onMounted(() => {
 	user.value = getSessionStorage('user') || { userName: '未登录', userId: '', userImg: '' };
 	// console.log(user.value);
-	getBusinessId();
+    getBusinessId();
 
 	if (user.value.userId != '') {
 		imageUrl.value = getLocalStorage(`userImg${user.value.userId}`);
