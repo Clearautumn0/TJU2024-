@@ -163,7 +163,7 @@ onMounted(() => {
 	if (user.value.userId != '') {
 		imageUrl.value = getLocalStorage(`userImg${user.value.userId}`);
 	}
-	console.log(user.value);
+	// console.log(user.value);
 });
 
 </script>
