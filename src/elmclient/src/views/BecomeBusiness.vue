@@ -46,7 +46,7 @@
 					</div>
 					<hr>
 				</li>
-				
+
 				<li>
 					<div @click="toggleinputbusiness" class="input-container">
 						<span class="input-label">商家图片</span>
@@ -56,7 +56,7 @@
 					<hr>
 				</li>
 			</ul>
-			
+
 			<div class=""></div>
 
 			<div class="register-button">
@@ -64,12 +64,12 @@
 				<!-- <el-button type="primary" round>立即入驻</el-button> -->
 				<button @click="registerBusiness">立即入驻</button>
 			</div>
-			
+
 			<div class="bottom"></div>
-			
+
 			<div v-if="isAvatarOpen" class="overlay"></div>
 			<!--阴影背景  v-show="totalQuantity != 0" 表示有food的时候显示购物车-->
-			
+
 			<div v-if="isAvatarOpen" class="Avatar-update">
 				<div class="button-box">
 					<ul>
@@ -95,10 +95,10 @@
 					</el-button> -->
 				</div>
 			</div>
-			
+
 		</div>
 	</div>
-
+	<AlertPopup ref="alertPopup" :message="alertMessage" />
 </template>
 
 <script setup>
@@ -106,6 +106,7 @@ import { ref, getCurrentInstance, computed } from 'vue';
 import Backer from '../components/backer.vue';
 import { getSessionStorage, getLocalStorage, setSessionStorage } from '../common.js';
 import { useRouter } from 'vue-router';
+import AlertPopup from '../components/AlertPopup.vue';
 
 // 获取全局 axios 实例
 const instance = getCurrentInstance();
@@ -130,8 +131,7 @@ const businesses = ref({
 
 const base64Image = ref('');
 const fileInput = ref(null);
-// const phoneNumber = ref('');
-// const password = ref('');
+const alertMessage = ref('');
 const categories = ref([
 	'美食', '早餐', '跑腿代购', '汉堡披萨', '甜品饮品',
 	'速食简餐', '地方小吃', '米粉面馆', '包子粥铺', '炸鸡炸串'
@@ -150,6 +150,8 @@ const handleFileChange = (event) => {
 		reader.onload = (e) => {
 			base64Image.value = e.target.result;
 			businesses.value.businessImg = base64Image.value;
+			showAlert('上传商家头像成功');
+			toggleinputbusiness();
 		};
 		reader.readAsDataURL(file);
 	}
@@ -169,9 +171,56 @@ const storeCategory = computed({
 	}
 });
 
+const showAlert = (message) => {
+	alertMessage.value = message;
+	const popup = instance?.refs.alertPopup;
+	popup?.openPopup();
+};
+
+const validateName = () => {
+	if (storeName.value == '') {
+		showAlert('请输入门店名称！');
+		return false;
+	}
+	return true;
+};
+
+const validateAddress = () => {
+	if (storeAddress.value == '') {
+		showAlert('请输入门店地址！');
+		return false;
+	}
+	return true;
+}
+
+function isCategoryInRange() {
+	const value = storeCategoryInt.value;
+	return Number.isInteger(value) && value >= 1 && value <= 10;
+}
+
+const validateType = () => {
+	if (!isCategoryInRange()) {
+		showAlert('请选择商家类型！');
+		return false;
+	}
+	return true;
+}
+
+const validateImg = () => {
+	if (businesses.value.businessImg == '') {
+		showAlert('请上传商家图片！');
+		return false;
+	}
+	return true;
+}
+
+
 // 定义点击函数
 const registerBusiness = async () => {
 	try {
+		if (!validateName() || !validateAddress() || !validateType() || !validateImg()) {
+			return;
+		}
 		user.value = getSessionStorage('user');
 		const response = await axios.post(`businesses/${user.value.userId}`, {
 			businessName: storeName.value,
@@ -256,7 +305,7 @@ const registerBusiness = async () => {
 }
 
 
-.wrapper .input-box li .input-container button{
+.wrapper .input-box li .input-container button {
 	border: none;
 	outline: none;
 	color: #757575;
@@ -403,5 +452,4 @@ const registerBusiness = async () => {
 .wrapper .button-box .cancel-box p {
 	color: #b1b1b1;
 }
-
 </style>

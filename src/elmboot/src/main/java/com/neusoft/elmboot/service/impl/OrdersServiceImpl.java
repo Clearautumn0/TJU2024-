@@ -28,7 +28,7 @@ public class OrdersServiceImpl implements OrdersService{
 
 	@Override
 	@Transactional
-	public int createOrders(Orders orders) {
+	public Integer createOrders(Orders orders) {
 	    // 1. 查询当前用户购物车中当前商家的所有食品
 	    Cart cart = new Cart();
 	    cart.setUserId(orders.getUserId());
@@ -85,12 +85,12 @@ public class OrdersServiceImpl implements OrdersService{
 	}
 
 	@Override
-	public int cancelOrder(Integer orderId) {
+	public Integer cancelOrder(Integer orderId) {
 		return ordersMapper.cancelOrder(orderId);
 	}
 
 	@Override
-	public int setOrders(Integer orders) {
+	public Integer setOrders(Integer orders) {
 		return ordersMapper.setOrders(orders);
 	}
 }
