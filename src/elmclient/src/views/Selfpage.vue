@@ -142,13 +142,15 @@ const refreshAuthorization = () => {
 	try {
 		user.value = getSessionStorage('user') || { userName: '未登录', userId: '', userImg: '' };
 		// console.log(businessId.value);
-		if (businessId.value != null) {
-			user.value.authorization = 2;
-			setSessionStorage('user', user.value);
-		}
-		else {
-			user.value.authorization = 1;
-			setSessionStorage('user', user.value);
+		if (user.value.userId != '') {
+			if (businessId.value != null) {
+				user.value.authorization = 2;
+				setSessionStorage('user', user.value);
+			}
+			else {
+				user.value.authorization = 1;
+				setSessionStorage('user', user.value);
+			}
 		}
 	} catch (error) {
 		console.error(error);
@@ -158,8 +160,7 @@ const refreshAuthorization = () => {
 onMounted(() => {
 	user.value = getSessionStorage('user') || { userName: '未登录', userId: '', userImg: '' };
 	// console.log(user.value);
-    getBusinessId();
-
+	getBusinessId();
 	if (user.value.userId != '') {
 		imageUrl.value = getLocalStorage(`userImg${user.value.userId}`);
 	}
