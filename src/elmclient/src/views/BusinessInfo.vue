@@ -9,8 +9,7 @@
 
 		<!-- 商家logo部分 -->
 		<div class="business-logo">
-			<img v-if="businessImg":src="business.businessImg">
-			<img v-else src="../assets/默认头像.png" alt="无法加载图片" class="avatar-img">
+			<img :src="business.businessImg">
 		</div>
 
 		<!-- 商家信息部分 -->
