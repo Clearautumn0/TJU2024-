@@ -15,10 +15,12 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.neusoft.elmboot.controller.OrdersController;
+import com.neusoft.elmboot.interceptor.TokenInterceptor;
 import com.neusoft.elmboot.po.Orders;
 import com.neusoft.elmboot.service.OrdersService;
 
@@ -31,23 +33,23 @@ public class OrdersControllerTest {
     @MockBean
     private OrdersService ordersService;
 
+    // Mock the TokenInterceptor if necessary
+    @MockBean
+    private TokenInterceptor tokenInterceptor;
+
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
     }
-    
+
     @Test
     public void testCreateOrders() throws Exception {
-        // Mocking the OrdersService response
         Orders order = new Orders();
         when(ordersService.createOrders(order)).thenReturn(1);
 
-        Map<String, Integer> expectedResponse = new HashMap<>();
-        expectedResponse.put("data", 1);
-
         mockMvc.perform(post("/orders")
                .contentType("application/json")
-               .content("{\"orderId\":1}")) // Replace with actual JSON body for Orders
+               .content("{\"orderId\":1}"))
                .andExpect(status().isOk())
                .andExpect(jsonPath("$.data").value(1));
     }
