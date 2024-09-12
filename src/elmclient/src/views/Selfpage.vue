@@ -168,7 +168,7 @@ const refreshAuthorization = () => {
 
 onMounted(() => {
 	user.value = getSessionStorage('user') || { userName: '未登录', userId: '', userImg: '' };
-	console.log(user.value);
+	// console.log(user.value);
 	getBusinessId();
 	
 	if(user.value.userId!=''){
