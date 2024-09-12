@@ -222,7 +222,7 @@ const deletefoods = async (foodId) => {
 .wrapper header {
     width: 100%;
     height: 12vw;
-    background-color: #0097FF;
+    background-color: #f43256;
     color: #fff;
     font-size: 4.8vw;
 
