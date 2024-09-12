@@ -352,7 +352,7 @@ const fixedBox = ref(null); // 使用 ref 来创建一个响应式的引用
 const router = useRouter();
 
 // 用于显示地址信息的变量
-const locationText = ref("沈阳中心大厦");
+const locationText = ref("天津大学北洋园");
 
 const handleScroll = () => {
 	let s1 = document.documentElement.scrollTop;
