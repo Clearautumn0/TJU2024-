@@ -27,17 +27,17 @@ public class CartServiceImpl implements CartService{
 	
 	
 	@Override
-	public int saveCart(Cart cart) {
+	public Integer saveCart(Cart cart) {
 		return cartMapper.saveCart(cart);
 	}
 	
 	@Override
-	public int updateCart(Cart cart) {
+	public Integer updateCart(Cart cart) {
 		return cartMapper.updateCart(cart);
 	}
 	
 	@Override
-	public int removeCart(Cart cart) {
+	public Integer removeCart(Cart cart) {
 		return cartMapper.removeCart(cart);
 	}
 }

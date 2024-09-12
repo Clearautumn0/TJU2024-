@@ -5,7 +5,7 @@
 				<div class="avatar-frame">
 					<img v-if="imageUrl" :src="imageUrl" alt="用户头像" class="avatar-img">
 					<img v-else src="../assets/默认头像.png" alt="无法加载图片" class="avatar-img">
-				</div> 
+				</div>
 				<h2 class="username">{{ user.userName }}</h2>
 			</div>
 			<div class="header-right">
@@ -75,7 +75,7 @@
 import { useRouter } from 'vue-router';
 import { ref, onMounted, getCurrentInstance } from 'vue';
 import Footer from '../components/Footer.vue';
-import { getSessionStorage, getLocalStorage } from '../common.js';
+import { getSessionStorage, getLocalStorage, setSessionStorage } from '../common.js';
 
 // 获取全局 axios 实例
 const instance = getCurrentInstance();
@@ -91,7 +91,7 @@ const toindividual_inf = () => {
 };
 
 const toUserAddress = () => {
-	if (user.value.userName === '未登录') {
+	if (user.value.userId === '') {
 		router.push({ path: '/login' });
 	}
 	else {
@@ -101,13 +101,13 @@ const toUserAddress = () => {
 };
 
 const toLogin = () => {
-	if (user.value.userName === '未登录') {
+	if (user.value.userId === '') {
 		router.push({ path: '/login' });
 	}
 };
 
 const toBecomeBusiness = () => {
-	if (user.value.userName === '未登录') {
+	if (user.value.userId === '') {
 		router.push({ path: '/login' });
 	}
 	else {
@@ -115,45 +115,61 @@ const toBecomeBusiness = () => {
 	}
 }
 
-const toAssociationOf = () =>{
-	if (user.value.userName === '未登录') {
+const toAssociationOf = () => {
+	if (user.value.userId === '') {
 		router.push({ path: '/login' });
 	}
 	else {
-	router.push({path: '/associationOf'});
+		router.push({ path: '/associationOf' });
 	}
 }
 
-const toBusinessindex = () =>{
-	if (user.value.userName === '未登录') {
+const toBusinessindex = () => {
+	if (user.value.userId === '') {
 		router.push({ path: '/login' });
 	}
-	if(businessId.value===null){
+	if (businessId.value === null) {
 		router.push({ path: '/becomeBusiness' });
 	}
 	else {
-	router.push({path: '/businessIndex'});
+		router.push({ path: '/businessIndex' });
 	}
 }
 
 const getBusinessId = async () => {
-		try {
-			// 根据userId查询businessId
-			user.value = getSessionStorage('user');
-			console.log(user.value);
-			businessId.value = await axios.get(`users/businessId/${user.value.userId}`);
-		} catch (error) {
-			console.error('Error initializing:', error);
+	try {
+		// 根据userId查询businessId
+		user.value = getSessionStorage('user');
+		const response = await axios.get(`users/businessId/${user.value.userId}`);
+		businessId.value = response.data;
+		// console.log(businessId.value);
+		refreshAuthorization();
+	} catch (error) {
+		console.error('Error initializing:', error);
+	}
+};
+
+const refreshAuthorization = () => {
+	try {
+		user.value = getSessionStorage('user');
+		// console.log(businessId.value);
+		if (businessId.value != null) {
+			user.value.authorization = 2;
+			setSessionStorage('user', user.value);
 		}
-	};
+		else{
+			user.value.authorization = 1;
+			setSessionStorage('user', user.value);
+		}
+	} catch (error) {
+		console.error(error);
+	}
+}
 
 onMounted(() => {
-	user.value = getSessionStorage('user') || { userName: '未登录', userId: '', usserImg: '' };
-	if(user.value.userId!=''){
-		getBusinessId();
-	}
+	user.value = getSessionStorage('user') || { userName: '未登录', userId: '', userImg: '' };
+	getBusinessId();
 	imageUrl.value = getLocalStorage(`userImg${user.value.userId}`);
-	// user.value.authorization = 2;
 	// console.log(user.value);
 });
 

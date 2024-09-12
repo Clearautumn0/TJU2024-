@@ -64,6 +64,8 @@ const handleFileChange = (event) => {
     const reader = new FileReader();
     reader.onload = (e) => {
       base64Image.value = e.target.result;
+      showAlert('上传头像成功');
+			toggleinputfood();
     };
     reader.readAsDataURL(file);
   }
@@ -159,7 +161,7 @@ const submitImage = async () => {
 
 .wrapper .bottom {
   width: 100%;
-  height: ;
+  height: 10vw;
   background-color: #ebebeb;
   z-index: -1;
 }

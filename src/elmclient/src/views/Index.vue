@@ -5,7 +5,7 @@
 			<div class="icon-location-box">
 				<div class="icon-location"></div>
 			</div>
-			<div class="location-text">沈阳市规划大厦<i class="fa fa-caret-down"></i></div>
+			<div class="location-text">{{ locationText }}<i class="fa fa-caret-down"></i></div>
 		</header>
 
 		<!-- search部分 -->
@@ -351,6 +351,9 @@ import { getSessionStorage } from '../common.js';
 const fixedBox = ref(null); // 使用 ref 来创建一个响应式的引用
 const router = useRouter();
 
+// 用于显示地址信息的变量
+const locationText = ref("沈阳中心大厦");
+
 const handleScroll = () => {
 	let s1 = document.documentElement.scrollTop;
 	let s2 = document.body.scrollTop;
@@ -366,6 +369,69 @@ const handleScroll = () => {
 	}
 };
 
+
+
+// 获取并处理地理位置
+// const getLocation = () => {
+//   if (navigator.geolocation) {
+//     navigator.geolocation.getCurrentPosition(showPosition, showError);
+//   } else {
+//     locationText.value = "Geolocation is not supported by this browser.";
+//   }
+// };
+
+// 处理成功获取到的经纬度
+// const showPosition = async (position) => {
+//   const latitude = position.coords.latitude;
+//   const longitude = position.coords.longitude;
+
+  // 调用Nominatim API进行逆地理编码
+//   const address = await reverseGeocode(latitude, longitude);
+//   if (address) {
+//     locationText.value = `${address.road || ''}, ${address.city || ''}, ${address.state || ''}, ${address.postcode || ''}, ${address.country || ''}`;
+//   } else {
+//     locationText.value = `经度: ${latitude}, 纬度: ${longitude}`;
+//   }
+// };
+
+// 使用 fetch 进行逆地理编码
+// const reverseGeocode = async (latitude, longitude) => {
+//   try {
+//     const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=geocodejson&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1&accept-language=zh`);
+//     const data = await response.json();
+    
+//     if (data && data.features && data.features.length > 0) {
+//       return data.features[0].properties.address; // 返回地址信息
+//     } else {
+//       console.log('未找到地址信息');
+//       return null;
+//     }
+//   } catch (error) {
+//     console.error('获取地址失败:', error);
+//     return null;
+//   }
+// };
+
+// 处理获取地理位置的错误
+// const showError = (error) => {
+//   switch (error.code) {
+//     case error.PERMISSION_DENIED:
+//       locationText.value = "用户拒绝了地理位置请求。";
+//       break;
+//     case error.POSITION_UNAVAILABLE:
+//       locationText.value = "位置信息不可用。";
+//       break;
+//     case error.TIMEOUT:
+//       locationText.value = "获取位置超时。";
+//       break;
+//     default:
+//       locationText.value = "发生未知错误。";
+//       break;
+//   }
+// };
+
+
+
 let removeScrollListener = () => {
 	document.onscroll = null;
 };
@@ -374,15 +440,16 @@ onMounted(() => {
 	nextTick(() => {
 		document.onscroll = handleScroll;
 	});
+	// getLocation();
 });
 
 onBeforeUnmount(removeScrollListener);
 
 const toSearch = () => {
-	if(getSessionStorage('user')==null){
+	if (getSessionStorage('user') == null) {
 		router.push({ path: '/login' });
-	} 
-	else{
+	}
+	else {
 		router.push({ path: '/search' });
 	}
 }

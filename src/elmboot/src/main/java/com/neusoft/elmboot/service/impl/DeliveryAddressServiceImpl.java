@@ -27,20 +27,20 @@ public class DeliveryAddressServiceImpl implements DeliveryAddressService{
 	}
 	
 	@Override
-	public int saveDeliveryAddress(DeliveryAddress deliveryAddress) {
+	public Integer saveDeliveryAddress(DeliveryAddress deliveryAddress) {
 		return deliveryAddressMapper.saveDeliveryAddress(deliveryAddress);
 	}
 	
 	@Override
 	@Transactional
-	public int updateDeliveryAddress(DeliveryAddress deliveryAddress) {
+	public Integer updateDeliveryAddress(DeliveryAddress deliveryAddress) {
 		int count = deliveryAddressMapper.deleteDeliveryAddress(deliveryAddress.getDaId());
 		count+=deliveryAddressMapper.copyDeliveryAddress(deliveryAddress);
 		return count;
 	}
 	
 	@Override
-	public int removeDeliveryAddress(Integer daId) {
+	public Integer removeDeliveryAddress(Integer daId) {
 		return deliveryAddressMapper.deleteDeliveryAddress(daId);
 	}
 }

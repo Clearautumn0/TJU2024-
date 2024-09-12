@@ -20,11 +20,11 @@ public interface DeliveryAddressMapper {
 	public DeliveryAddress getDeliveryAddressById(Integer daId);
 	
 	@Insert("insert into deliveryAddress values(null,#{contactName},#{contactSex},#{contactTel},#{address},#{userId}, 0)")
-	public int saveDeliveryAddress(DeliveryAddress deliveryAddress);
+	public Integer saveDeliveryAddress(DeliveryAddress deliveryAddress);
 	
 	@Insert("insert into deliveryAddress values (null, #{contactName}, #{contactSex}, #{contactTel}, #{address}, #{userId}, 0)")
-	public int copyDeliveryAddress(DeliveryAddress deliveryAddress);
+	public Integer copyDeliveryAddress(DeliveryAddress deliveryAddress);
 	
 	@Update("update deliveryAddress set delTag=1 where daId=#{daId}")
-	public int deleteDeliveryAddress(Integer daId);
+	public Integer deleteDeliveryAddress(Integer daId);
 }

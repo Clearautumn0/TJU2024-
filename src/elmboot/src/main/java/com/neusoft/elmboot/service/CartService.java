@@ -7,7 +7,7 @@ import com.neusoft.elmboot.po.Cart;
 public interface CartService {
 
 	public List<Cart> listCart(String userId, Integer businessId);
-	public int saveCart(Cart cart);
-	public int updateCart(Cart cart);
-	public int removeCart(Cart cart);
+	public Integer saveCart(Cart cart);
+	public Integer updateCart(Cart cart);
+	public Integer removeCart(Cart cart);
 }

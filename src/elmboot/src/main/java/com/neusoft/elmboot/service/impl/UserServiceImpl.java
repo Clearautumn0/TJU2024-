@@ -56,13 +56,8 @@ public class UserServiceImpl implements UserService {
 
 	}
 	
-	
-	
-	
-	
-	
 	@Override
-	public int getUserById(String userId) {
+	public Integer getUserById(String userId) {
 
 	    User user = userMapper.getUserById(userId);
 	    String regex = "^1[3-9]\\d{9}$"; // 中国大陆手机号规范
@@ -94,20 +89,18 @@ public class UserServiceImpl implements UserService {
 
 	    // 手机号通过验证
 	    return 1;
-
 	}
 
 	@Override
-	public int saveUser(User user) {
+	public Integer saveUser(User user) {
 		// 对前端传入的明文密码进行加密
 		String encodedPassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(encodedPassword);
 		return userMapper.saveUser(user);
 	}
 
-
 	@Override
-	public int updateUser(User user) {
+	public Integer updateUser(User user) {
 		User storedUser = userMapper.getUserById(user.getUserId());
 		// 无对应用户
 		if (storedUser == null) {
@@ -127,7 +120,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int deleteUser(User user) {
+	public Integer deleteUser(User user) {
 		User storedUser = userMapper.getUserById(user.getUserId());
 		// 无对应用户
 
@@ -143,17 +136,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int updateAuthorization(User user) {
+	public Integer updateAuthorization(User user) {
 		return userMapper.updateAuthorization(user);
 	}
 
-
-
-
-
-
 	@Override
-	public int getBusinessIdById(String userId) {
+	public Integer getBusinessIdById(String userId) {
 		return userMapper.getBusinessIdById(userId);
 	}
 }

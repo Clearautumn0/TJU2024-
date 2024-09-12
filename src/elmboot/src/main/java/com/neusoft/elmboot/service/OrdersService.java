@@ -6,10 +6,10 @@ import com.neusoft.elmboot.po.Orders;
 
 public interface OrdersService {
 
-	public int createOrders(Orders orders);
+	public Integer createOrders(Orders orders);
 	public Orders getOrdersById(Integer orderId);
 	public List<Orders> listOrdersByUserId(String userId);
 	public List<Orders> findUnpaidOrders();
-	public int cancelOrder(Integer orderId);
-	public int setOrders(Integer orders);
+	public Integer cancelOrder(Integer orderId);
+	public Integer setOrders(Integer orders);
 }

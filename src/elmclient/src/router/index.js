@@ -15,13 +15,13 @@ import Person from '../views/Person.vue';
 import EditUserName from '../views/EditUserName.vue';
 import Search from '../views/Search.vue';
 import BecomeBusiness from '../views/BecomeBusiness.vue';
-import ManageBusiness from '../views/ManageBusiness.vue';
 import Payok from '../views/Payok.vue';
 import AssociationOf from '../views/AssociationOf.vue';
 import EditUserImg from '../views/EditUserImg.vue';
 import BusinessIndex from '../views/BusinessIndex.vue';
 import AddFood from '../views/AddFood.vue';
 import OffFood from '../views/OffFood.vue';
+import AdministratorIndex from '../views/AdministratorIndex.vue';
 
 const routes = [{
 	path: '/',
@@ -92,9 +92,9 @@ const routes = [{
 	name: 'BecomeBusiness',
 	component: BecomeBusiness
 }, {
-	path: '/manageBusiness',
-	name: 'ManageBusiness',
-	component: ManageBusiness,
+	path: '/administratorIndex',
+	name: 'AdministratorIndex',
+	component: AdministratorIndex,
 }, {
 	path: '/payok',
 	name: 'Payok',

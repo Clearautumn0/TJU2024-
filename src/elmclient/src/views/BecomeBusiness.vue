@@ -37,7 +37,7 @@
 					<div class="input-container">
 						<span class="input-label">商家分类</span>
 						<!-- 使用 v-model 绑定选中的值到 storeCategory 变量 -->
-						<select class="input-field" v-model="storeCategoryInt">
+						<select class="input-field2" v-model="storeCategoryInt">
 							<!-- 循环创建十个选项 -->
 							<option v-for="(category, index) in categories" :key="category" :value="index + 1">
 								{{ category }}
@@ -46,29 +46,59 @@
 					</div>
 					<hr>
 				</li>
-				<!-- <li>
-					<div class="input-container">
-						<span class="input-label">手机号码</span>
-						<input type="text" class="input-field" placeholder="请输入" v-model="phoneNumber">
-					</div>
-				</li>
+
 				<li>
-					<div class="input-container">
-						<span class="input-label">设置密码</span>
-						<input type="text" class="input-field" placeholder="请输入">		
-						<input type="text" class="input-field" placeholder="请输入" v-model="password">
+					<div @click="toggleinputbusiness" class="input-container">
+						<span class="input-label">商家图片</span>
+						<button>请上传图片</button>
+						<!-- <input type="text" class="input-field" placeholder="请填写门店实际位置" v-model="storeAddress"> -->
 					</div>
-				</li> -->
+					<hr>
+				</li>
 			</ul>
+
+			<div class=""></div>
 
 			<div class="register-button">
 				<!-- <button>立即入驻</button> -->
-				 <!-- <el-button type="primary" round>立即入驻</el-button> -->
+				<!-- <el-button type="primary" round>立即入驻</el-button> -->
 				<button @click="registerBusiness">立即入驻</button>
 			</div>
+
+			<div class="bottom"></div>
+
+			<div v-if="isAvatarOpen" class="overlay"></div>
+			<!--阴影背景  v-show="totalQuantity != 0" 表示有food的时候显示购物车-->
+
+			<div v-if="isAvatarOpen" class="Avatar-update">
+				<div class="button-box">
+					<ul>
+						<li>
+							<p>拍一张</p>
+							<el-divider class="custom-divider" />
+						</li>
+						<li>
+							<p @click="triggerFileInput">上传商家头像</p>
+							<el-divider class="custom-divider" />
+							<input ref="fileInput" type="file" accept="image/*" style="display: none;"
+								@change="handleFileChange" />
+						</li>
+						<div class="driver-box"></div>
+						<li class="cancel-box" @click="toggleinputbusiness">
+							<p>取消</p>
+							<el-divider class="custom-divider" />
+						</li>
+					</ul>
+					<!-- 绑定点击事件的 el-button -->
+					<!-- <el-button type="primary" @click="triggerFileInput">
+						上传头像
+					</el-button> -->
+				</div>
+			</div>
+
 		</div>
 	</div>
-
+	<AlertPopup ref="alertPopup" :message="alertMessage" />
 </template>
 
 <script setup>
@@ -76,6 +106,7 @@ import { ref, getCurrentInstance, computed } from 'vue';
 import Backer from '../components/backer.vue';
 import { getSessionStorage, getLocalStorage, setSessionStorage } from '../common.js';
 import { useRouter } from 'vue-router';
+import AlertPopup from '../components/AlertPopup.vue';
 
 // 获取全局 axios 实例
 const instance = getCurrentInstance();
@@ -83,18 +114,52 @@ const axios = instance?.appContext.config.globalProperties.$axios;
 
 
 const router = useRouter();
-
+const isAvatarOpen = ref(false);
 
 const storeName = ref('');
 const storeAddress = ref('');
 const storeCategoryInt = ref(null);
+const store = ref('');
 const user = ref({});
-// const phoneNumber = ref('');
-// const password = ref('');
+
+const businesses = ref({
+	businessName: '',
+	businessAddress: '',
+	orderTypeId: 0,
+	businessImg: '',
+});
+
+const base64Image = ref('');
+const fileInput = ref(null);
+const alertMessage = ref('');
 const categories = ref([
 	'美食', '早餐', '跑腿代购', '汉堡披萨', '甜品饮品',
 	'速食简餐', '地方小吃', '米粉面馆', '包子粥铺', '炸鸡炸串'
 ]);
+
+// 触发隐藏的文件输入框点击事件
+const triggerFileInput = () => {
+	fileInput.value.click();
+};
+
+// 处理文件选择
+const handleFileChange = (event) => {
+	const file = event.target.files[0];
+	if (file) {
+		const reader = new FileReader();
+		reader.onload = (e) => {
+			base64Image.value = e.target.result;
+			businesses.value.businessImg = base64Image.value;
+			showAlert('上传商家头像成功');
+			toggleinputbusiness();
+		};
+		reader.readAsDataURL(file);
+	}
+};
+
+const toggleinputbusiness = () => {
+	isAvatarOpen.value = !isAvatarOpen.value;
+}
 
 const storeCategory = computed({
 	get: () => categories.value[storeCategoryInt.value - 1],
@@ -106,17 +171,65 @@ const storeCategory = computed({
 	}
 });
 
+const showAlert = (message) => {
+	alertMessage.value = message;
+	const popup = instance?.refs.alertPopup;
+	popup?.openPopup();
+};
+
+const validateName = () => {
+	if (storeName.value == '') {
+		showAlert('请输入门店名称！');
+		return false;
+	}
+	return true;
+};
+
+const validateAddress = () => {
+	if (storeAddress.value == '') {
+		showAlert('请输入门店地址！');
+		return false;
+	}
+	return true;
+}
+
+function isCategoryInRange() {
+	const value = storeCategoryInt.value;
+	return Number.isInteger(value) && value >= 1 && value <= 10;
+}
+
+const validateType = () => {
+	if (!isCategoryInRange()) {
+		showAlert('请选择商家类型！');
+		return false;
+	}
+	return true;
+}
+
+const validateImg = () => {
+	if (businesses.value.businessImg == '') {
+		showAlert('请上传商家图片！');
+		return false;
+	}
+	return true;
+}
+
+
 // 定义点击函数
 const registerBusiness = async () => {
 	try {
+		if (!validateName() || !validateAddress() || !validateType() || !validateImg()) {
+			return;
+		}
 		user.value = getSessionStorage('user');
 		const response = await axios.post(`businesses/${user.value.userId}`, {
 			businessName: storeName.value,
 			businessAddress: storeAddress.value,
-			orderTypeId: storeCategoryInt.value
+			orderTypeId: storeCategoryInt.value,
+			businessImg: businesses.value.businessImg,
 		});
 		// console.log(response);
-		if(response.data>=2){
+		if (response.data >= 2) {
 			user.value.authorization = 2;
 			setSessionStorage('user', user.value);
 		}
@@ -167,7 +280,7 @@ const registerBusiness = async () => {
 
 .wrapper .input-box {
 	width: 95vw;
-	height: 65vw;
+	height: 80vw;
 	margin: 2.5vw;
 	background-color: #ffffff;
 	border-radius: 3vw;
@@ -191,6 +304,14 @@ const registerBusiness = async () => {
 	padding: 2vw;
 }
 
+
+.wrapper .input-box li .input-container button {
+	border: none;
+	outline: none;
+	color: #757575;
+	background-color: #fff;
+}
+
 .input-label {
 	flex: 1;
 	color: #000000;
@@ -203,9 +324,33 @@ const registerBusiness = async () => {
 	border: none;
 	outline: none;
 	flex: 3;
-	padding-left: 10vw;
+	padding-left: 5vw;
 	/* 留出空间放置标签 */
-	padding-right: 2vw;
+	padding-right: 1vw;
+	height: 10vw;
+	width: 60vw;
+	font-size: 3.5vw;
+}
+
+.input-field2 {
+	border: none;
+	outline: none;
+	flex: 3;
+	padding-left: 3.8vw;
+	/* 留出空间放置标签 */
+	padding-right: 1vw;
+	height: 10vw;
+	width: 60vw;
+	font-size: 3.5vw;
+}
+
+.input-field2 {
+	border: none;
+	outline: none;
+	flex: 3;
+	padding-left: 3.8vw;
+	/*留出空间放置标签 */
+	padding-right: 1vw;
 	height: 10vw;
 	width: 60vw;
 	font-size: 3.5vw;
@@ -247,5 +392,64 @@ const registerBusiness = async () => {
 	border: none;
 	height: 0.05vw;
 	margin: 0;
+}
+
+/****************** 阴影背景 ******************/
+.wrapper .overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 1000;
+}
+
+.wrapper .button-box {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	/* 固定在视口底部 */
+	width: 100vw;
+	height: 40vw;
+	border-radius: 5vw 5vw 0 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #ffffff;
+	z-index: 1100;
+}
+
+.wrapper .button-box li {
+	position: relative;
+	width: 100vw;
+	height: 13vw;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.wrapper .button-box ul .driver-box {
+	width: 100vw;
+	height: 1.5vw;
+	background-color: #eaeaea;
+}
+
+.wrapper .button-box li .custom-divider {
+	margin: 0vw;
+	padding: 0;
+	position: absolute;
+	bottom: 0;
+}
+
+.wrapper .button-box li p {
+	font-size: 4.5vw;
+	font-weight: 500;
+}
+
+.wrapper .button-box .cancel-box p {
+	color: #b1b1b1;
 }
 </style>

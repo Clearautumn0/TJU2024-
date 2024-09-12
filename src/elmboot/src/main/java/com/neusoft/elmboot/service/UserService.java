@@ -5,10 +5,10 @@ import com.neusoft.elmboot.po.User;
 public interface UserService {
 
 	public User getUserByIdByPass(User user) throws Exception;
-	public int getUserById(String userId);
-	public int saveUser(User user);
-	public int updateUser(User user);
-	public int deleteUser(User user);
-	public int updateAuthorization(User user);
-	public int getBusinessIdById(String userId);
+	public Integer getUserById(String userId);
+	public Integer saveUser(User user);
+	public Integer updateUser(User user);
+	public Integer deleteUser(User user);
+	public Integer updateAuthorization(User user);
+	public Integer getBusinessIdById(String userId);
 }
