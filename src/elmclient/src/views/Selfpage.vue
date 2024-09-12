@@ -149,7 +149,7 @@ const getBusinessId = async () => {
 
 onMounted(() => {
 	user.value = getSessionStorage('user') || { userName: '未登录', userId: '', userImg: '' };
-	if(user.value.userId!=''){
+	if(user.value.authorization===2){
 		getBusinessId();
 	}
 	imageUrl.value = getLocalStorage(`userImg${user.value.userId}`);
