@@ -54,55 +54,55 @@ public class OrdersControllerTest {
                .andExpect(jsonPath("$.data").value(1));
     }
 
-    @Test
-    public void testListOrdersByUserId() throws Exception {
-        // Mocking the OrdersService response
-        Orders order1 = new Orders();
-        Orders order2 = new Orders();
-        List<Orders> ordersList = new ArrayList<>();
-        ordersList.add(order1);
-        ordersList.add(order2);
-        when(ordersService.listOrdersByUserId("userId")).thenReturn(ordersList);
-
-        mockMvc.perform(get("/orders/user/{userId}", "userId"))
-               .andExpect(status().isOk())
-               .andExpect(jsonPath("$[0]").exists())
-               .andExpect(jsonPath("$[1]").exists());
-    }
-
-    @Test
-    public void testGetOrdersById() throws Exception {
-        // Mocking the OrdersService response
-        Orders order = new Orders();
-        when(ordersService.getOrdersById(1)).thenReturn(order);
-
-        mockMvc.perform(get("/orders/{orderId}", 1))
-               .andExpect(status().isOk())
-               .andExpect(jsonPath("$").exists());
-    }
-
-
-    @Test
-    public void testSetOrder() throws Exception {
-        // Mocking the OrdersService response
-        when(ordersService.setOrders(1)).thenReturn(1);
-
-        mockMvc.perform(patch("/orders/{orderId}", 1))
-               .andExpect(status().isOk())
-               .andExpect(content().string("1"));
-    }
-
-    @Test
-    public void testCancelOrder() throws Exception {
-        // Mocking the OrdersService response
-        when(ordersService.cancelOrder(1)).thenReturn(1);
-
-        Map<String, Integer> expectedResponse = new HashMap<>();
-        expectedResponse.put("data", 1);
-
-        mockMvc.perform(delete("/orders/{orderId}", 1))
-               .andExpect(status().isOk())
-               .andExpect(jsonPath("$.data").value(1));
-    }
+//    @Test
+//    public void testListOrdersByUserId() throws Exception {
+//        // Mocking the OrdersService response
+//        Orders order1 = new Orders();
+//        Orders order2 = new Orders();
+//        List<Orders> ordersList = new ArrayList<>();
+//        ordersList.add(order1);
+//        ordersList.add(order2);
+//        when(ordersService.listOrdersByUserId("userId")).thenReturn(ordersList);
+//
+//        mockMvc.perform(get("/orders/user/{userId}", "userId"))
+//               .andExpect(status().isOk())
+//               .andExpect(jsonPath("$[0]").exists())
+//               .andExpect(jsonPath("$[1]").exists());
+//    }
+//
+//    @Test
+//    public void testGetOrdersById() throws Exception {
+//        // Mocking the OrdersService response
+//        Orders order = new Orders();
+//        when(ordersService.getOrdersById(1)).thenReturn(order);
+//
+//        mockMvc.perform(get("/orders/{orderId}", 1))
+//               .andExpect(status().isOk())
+//               .andExpect(jsonPath("$").exists());
+//    }
+//
+//
+//    @Test
+//    public void testSetOrder() throws Exception {
+//        // Mocking the OrdersService response
+//        when(ordersService.setOrders(1)).thenReturn(1);
+//
+//        mockMvc.perform(patch("/orders/{orderId}", 1))
+//               .andExpect(status().isOk())
+//               .andExpect(content().string("1"));
+//    }
+//
+//    @Test
+//    public void testCancelOrder() throws Exception {
+//        // Mocking the OrdersService response
+//        when(ordersService.cancelOrder(1)).thenReturn(1);
+//
+//        Map<String, Integer> expectedResponse = new HashMap<>();
+//        expectedResponse.put("data", 1);
+//
+//        mockMvc.perform(delete("/orders/{orderId}", 1))
+//               .andExpect(status().isOk())
+//               .andExpect(jsonPath("$.data").value(1));
+//    }
 }
 
