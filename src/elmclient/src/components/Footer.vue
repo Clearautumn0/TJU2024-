@@ -30,7 +30,7 @@ const toIndex = () => {
 };
 
 const toOrderList = () => {
-	if (getSessionStorage('user')===null) {
+	if (getSessionStorage('user').userId=='') {
 		router.push({path:'/login'});
 	}
 	else {

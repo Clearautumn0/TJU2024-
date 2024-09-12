@@ -181,14 +181,19 @@ const isFoodPriceValidNumber = computed(() => {
 	return Number.isFinite(numericPrice) && !isNaN(numericPrice);
 });
 
+function isValidPrice(value) {
+  const regex = /^\d{0,3}(\.\d{0,2})?$/;
+  return regex.test(value);
+}
+
 const validatePrice = () => {
 	if (foods.value.foodPrice == '') {
 		showAlert('请输入食品价格！');
 		return false;
 	}
 	// console.log(isFoodPriceValidNumber.value);
-	if (!isFoodPriceValidNumber.value) {
-		showAlert('食品价格为数字！');
+	if (!isFoodPriceValidNumber.value || !isValidPrice(foods.value.foodPrice)) {
+		showAlert('食品价格为数字，且最多5位，小数点后最多2位！');
 		return false;
 	}
 	return true;
@@ -246,7 +251,7 @@ const getBusinessId = async () => {
 
 onMounted(() => {
 	getBusinessId();
-	// console.log(foods);
+	console.log(foods);
 });
 </script>
 

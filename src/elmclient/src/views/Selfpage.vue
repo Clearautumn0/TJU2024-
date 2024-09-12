@@ -57,14 +57,6 @@
 				<img src="../assets/rule.png">
 				<p>规则中心</p>
 			</li>
-			<!-- <li @click="toBusinessUpload" v-if="user.authorization === 2">
-				<img src="../assets/rule.png">
-				<p>上架商品</p>
-			</li> -->
-			<!-- <li @click="toBusinessindex" v-if="user.authorization === 2">
-				<img src="../assets/rule.png">
-				<p>商家主页</p>
-			</li> -->
 		</ul>
 
 		<Footer></Footer>
@@ -91,23 +83,23 @@ const toindividual_inf = () => {
 };
 
 const toUserAddress = () => {
-	if (user.value.userId === '') {
+	if (user.value.userId === "") {
 		router.push({ path: '/login' });
 	}
 	else {
 		router.push({ path: '/userAddress' });
 	}
-
 };
 
 const toLogin = () => {
-	if (user.value.userId === '') {
+	if (user.value.userId === "") {
 		router.push({ path: '/login' });
 	}
 };
 
 const toBecomeBusiness = () => {
-	if (user.value.userId === '') {
+	// console.log(user.value.userId);
+	if (user.value.userId == "") {
 		router.push({ path: '/login' });
 	}
 	else {
@@ -116,17 +108,14 @@ const toBecomeBusiness = () => {
 }
 
 const toAssociationOf = () => {
-	if (user.value.userId === '') {
-		router.push({ path: '/login' });
-	}
-	else {
-		router.push({ path: '/associationOf' });
-	}
+	router.push({ path: '/associationOf' });
 }
 
 const toBusinessindex = () => {
-	if (user.value.userId === '') {
+	// console.log(user.value.userId);
+	if (user.value.userId == "") {
 		router.push({ path: '/login' });
+		return;
 	}
 	if (businessId.value === null) {
 		router.push({ path: '/becomeBusiness' });
@@ -157,7 +146,7 @@ const refreshAuthorization = () => {
 			user.value.authorization = 2;
 			setSessionStorage('user', user.value);
 		}
-		else{
+		else {
 			user.value.authorization = 1;
 			setSessionStorage('user', user.value);
 		}
@@ -170,8 +159,8 @@ onMounted(() => {
 	user.value = getSessionStorage('user') || { userName: '未登录', userId: '', userImg: '' };
 	// console.log(user.value);
 	getBusinessId();
-	
-	if(user.value.userId!=''){
+
+	if (user.value.userId != '') {
 		imageUrl.value = getLocalStorage(`userImg${user.value.userId}`);
 	}
 	// console.log(user.value);
