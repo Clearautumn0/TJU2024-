@@ -76,7 +76,7 @@ const totalPrice = computed(() => {
 	let total = 0;
 	cartArr.value.forEach(item => {
 		// console.log(item.food);
-		if(item.food!=null){
+		if (item.food != null) {
 			total += item.food.foodPrice * item.quantity;
 		}
 
@@ -120,6 +120,9 @@ const fetchCartData = async () => {
 	}
 };
 
+const fetchAllData = async () => {
+	await Promise.all([fetchBusinessData(), fetchCartData()]);
+}
 const sexFilter = (value) => {
 	return value === 1 ? '先生' : '女士';
 };
@@ -127,9 +130,7 @@ const sexFilter = (value) => {
 onMounted(() => {
 	user.value = getSessionStorage('user');
 	deliveryaddress.value = getLocalStorage(user.value.userId);
-
-	fetchBusinessData();
-	fetchCartData();
+	fetchAllData();
 });
 
 const toUserAddress = () => {
