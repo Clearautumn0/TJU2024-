@@ -139,7 +139,7 @@ const toBusinessindex = () => {
 const getBusinessId = async () => {
 	try {
 		// 根据userId查询businessId
-		user.value = getSessionStorage('user');
+		user.value = getSessionStorage('user') || { userName: '未登录', userId: '', userImg: '' };
 		const response = await axios.get(`users/businessId/${user.value.userId}`);
 		businessId.value = response.data;
 		// console.log(businessId.value);
@@ -151,7 +151,7 @@ const getBusinessId = async () => {
 
 const refreshAuthorization = () => {
 	try {
-		user.value = getSessionStorage('user');
+		user.value = getSessionStorage('user') || { userName: '未登录', userId: '', userImg: '' };
 		// console.log(businessId.value);
 		if (businessId.value != null) {
 			user.value.authorization = 2;
@@ -168,8 +168,12 @@ const refreshAuthorization = () => {
 
 onMounted(() => {
 	user.value = getSessionStorage('user') || { userName: '未登录', userId: '', userImg: '' };
+	console.log(user.value);
 	getBusinessId();
-	imageUrl.value = getLocalStorage(`userImg${user.value.userId}`);
+	
+	if(user.value.userId!=''){
+		imageUrl.value = getLocalStorage(`userImg${user.value.userId}`);
+	}
 	// console.log(user.value);
 });
 
