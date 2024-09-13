@@ -310,6 +310,7 @@ const registerBusiness = async () => {
 	outline: none;
 	color: #757575;
 	background-color: #fff;
+	font-size: 3vw;
 }
 
 .input-label {

@@ -100,7 +100,7 @@ const fetchBusinessData = async () => {
 	try {
 		const businessResponse = await axios.get(`businesses/${businessId.value}`);
 		business.value = businessResponse;
-		console.log(business.value)
+		// console.log(business.value)
 	} catch (error) {
 		console.error('Failed to fetch business data:', error);
 	}

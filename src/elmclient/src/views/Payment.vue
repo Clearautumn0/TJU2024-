@@ -256,6 +256,7 @@ onBeforeUnmount(() => {
 	background-color: #38CA73;
 	color: #fff;
 	margin-bottom: 2vw;
+	font-size: 4vw;
 	/* 按钮与"取消订单"之间的间距 */
 }
 
@@ -265,6 +266,7 @@ onBeforeUnmount(() => {
 	color: #0097FF;
 	/* 根据需要调整颜色 */
 	cursor: pointer;
+	font-size: 3.5vw;
 
 }
 
