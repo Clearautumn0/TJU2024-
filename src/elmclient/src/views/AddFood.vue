@@ -393,6 +393,7 @@ onMounted(() => {
 	border: none;
 	width: 50vw;
 	height: 10vw;
+	font-size: 3.5vw;
 	background-color: #f43256;
 }
 

@@ -152,6 +152,7 @@
 		outline: none;
 		width: 90vw;
 		height: 7vw;
+		font-size: 3vw;
 		border-radius: 6vw;
 		/* margin-top: 2vw; */
 		padding-left: 2vw;
@@ -185,6 +186,7 @@
 
 	.wrapper .content .search-history h4 {
 		font-weight: 500;
+		font-size: 5vw;
 	}
 
 	.wrapper .content .search-example {
@@ -198,6 +200,7 @@
 
 	.wrapper .content .search-example h4 {
 		font-weight: 500;
+		font-size: 5vw;
 	}
 	
 /* 	.wrapper .content .search-result {
