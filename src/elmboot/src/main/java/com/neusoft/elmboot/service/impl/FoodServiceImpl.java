@@ -39,8 +39,14 @@ public class FoodServiceImpl implements FoodService{
 	@Override
 	@Transactional
 	public Integer updateFood(Food food) {
+		Cart newCart = new Cart();
+		newCart.setBusinessId(food.getBusinessId());
+		newCart.setFoodId(food.getFoodId());
+		cartMapper.removeCartWithDeletedFood(newCart);
+		
 		int count = foodMapper.deleteFood(food);
 		count+=foodMapper.copyFood(food);
+		
 		return count;
 	}
 	
