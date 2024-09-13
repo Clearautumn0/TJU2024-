@@ -50,7 +50,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, onMounted, getCurrentInstance } from 'vue';
+import { ref, computed, onMounted, getCurrentInstance } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import Backer from '../components/backer.vue';
 
@@ -81,7 +81,7 @@ const totalPrice = computed(() => {
 		}
 
 	});
-	total += business.deliveryPrice || 0; // 防止 deliveryPrice 未定义时报错
+	total += business.value.deliveryPrice || 0; // 防止 deliveryPrice 未定义时报错
 	return parseFloat(total.toFixed(2));
 });
 
@@ -100,7 +100,7 @@ const fetchBusinessData = async () => {
 	try {
 		const businessResponse = await axios.get(`businesses/${businessId.value}`);
 		business.value = businessResponse;
-		console.log(business.value.deliveryPrice)
+
 	} catch (error) {
 		console.error('Failed to fetch business data:', error);
 	}
