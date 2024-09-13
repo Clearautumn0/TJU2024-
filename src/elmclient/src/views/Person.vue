@@ -499,6 +499,10 @@ const toEditUserName = () => {
 	background-color: #ffffff;
 }
 
+.wrapper ul li .exit-button p{
+font-size: 4.5vw;
+}
+
 /****************** 阴影背景 ******************/
 .wrapper .overlay {
 	position: fixed;
