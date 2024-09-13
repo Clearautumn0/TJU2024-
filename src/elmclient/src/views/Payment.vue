@@ -1,5 +1,6 @@
 <template>
 	<div class="wrapper">
+
 		<!-- header部分 -->
 		<header>
 			<Backer></Backer>
@@ -18,7 +19,7 @@
 
 		<!-- 订单明细部分 -->
 		<ul class="order-detailet" v-show="isShowDetailet">
-			<li v-for="item in orders.list" :key="item.food.id">
+			<li v-for="item in orders.list">
 				<p>{{ item.food.foodName }} x {{ item.quantity }}</p>
 				<p>&#165;{{ (parseFloat(item.food.foodPrice * item.quantity).toFixed(2)) }}</p>
 			</li>
@@ -31,32 +32,42 @@
 		<!-- 支付方式部分 -->
 		<ul class="payment-type">
 			<li>
-				<img src="../assets/alipay.png" />
+				<img src="../assets/alipay.png">
 				<i class="fa fa-check-circle"></i>
 			</li>
 			<li>
-				<img src="../assets/wechat.png" />
+				<img src="../assets/wechat.png">
 			</li>
 		</ul>
 		<div class="payment-button">
-			<button @click="payOrder" :disabled="timeUp">确认支付</button>
-			<p class="daojishi">剩余支付时间: {{ minutes }}分{{ seconds }}秒</p><!-- 倒计时部分 -->
+			<button @click="payOrder">确认支付</button>
 			<u class="quxiaodingdan" @click="cancelOrder">取消订单</u>
 		</div>
-
 		<!-- 底部菜单部分 -->
 		<Footer></Footer>
 	</div>
 </template>
 
 <script setup>
-import { ref, reactive, onBeforeMount, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import {
+	ref,
+	reactive,
+	onBeforeMount,
+	onMounted,
+	onBeforeUnmount,
+	getCurrentInstance
+} from 'vue';
+import {
+	useRouter,
+	useRoute
+} from 'vue-router';
 import Backer from '../components/backer.vue';
 import Footer from '../components/Footer.vue';
 
+// 获取全局 axios 实例
 const instance = getCurrentInstance();
 const axios = instance?.appContext.config.globalProperties.$axios;
+
 
 const route = useRoute();
 const router = useRouter();
@@ -67,10 +78,7 @@ const orders = reactive({
 	list: []
 });
 const isShowDetailet = ref(false);
-const minutes = ref(0);
-const seconds = ref(10);
-const timeUp = ref(false);
-let countdownInterval = null;
+
 
 const detailetShow = () => {
 	isShowDetailet.value = !isShowDetailet.value;
@@ -86,69 +94,48 @@ const fetchOrders = async () => {
 };
 
 const payOrder = async () => {
-	if (timeUp.value) return;
 	try {
-		await axios.patch(`orders/${route.query.orderId}`);
+		const response = await axios.patch(`orders/${route.query.orderId}`);
 		toPayok();
 	} catch (error) {
 		console.error(error);
 	}
-};
+}
 
 const cancelOrder = async () => {
 	try {
-		await axios.delete(`orders/${route.query.orderId}`);
+		const response = await axios.delete(`orders/${route.query.orderId}`);
+		// console.log(response);
 		router.push({ path: '/orderList' });
 	} catch (error) {
 		console.error(error);
 	}
-};
-
-const deleteOrder = async () => {
-	try {
-		await axios.delete(`orders/${route.query.orderId}`);
-		router.push({ path: '/orderList' });
-	} catch (error) {
-		console.error(error);
-	}
-};
+}
 
 const toPayok = () => {
 	router.push({
 		path: '/payok'
 	});
-};
+}
 
-const startCountdown = () => {
-	countdownInterval = setInterval(() => {
-		if (seconds.value === 0) {
-			if (minutes.value > 0) {
-				minutes.value--;
-				seconds.value = 59;
-			} else {
-				clearInterval(countdownInterval);
-				timeUp.value = true;
-				// 计时结束后删除订单
-				deleteOrder();
-			}
-		} else {
-			seconds.value--;
-		}
-	}, 1000);
-};
+onBeforeMount(() => {
+	fetchOrders();
+});
 
 onMounted(() => {
-	fetchOrders();
-	startCountdown();
+	// 这里的代码是实现：一旦路由到在线支付组件，就不能回到订单确认组件。
+	// 先将当前url添加到history对象中
 	history.pushState(null, null, document.URL);
+	// popstate事件能够监听history对象的变化
 	window.onpopstate = () => {
-		router.push({ path: '/index' });
+		router.push({
+			path: '/index'
+		});
 	};
 });
 
 onBeforeUnmount(() => {
 	window.onpopstate = null;
-	clearInterval(countdownInterval);
 });
 </script>
 
@@ -265,7 +252,6 @@ onBeforeUnmount(() => {
 	height: 10vw;
 	border: none;
 	outline: none;
-	font-size: 4vw;
 	border-radius: 4px;
 	background-color: #38CA73;
 	color: #fff;
@@ -274,22 +260,12 @@ onBeforeUnmount(() => {
 }
 
 .quxiaodingdan {
-	font-size: 4vw;
 	align-self: flex-end;
 	/* 右对齐 */
 	color: #0097FF;
 	/* 根据需要调整颜色 */
 	cursor: pointer;
 
-}
-
-.daojishi {
-	font-size: 5vw;
-	align-self: flex-start;
-	/* 右对齐 */
-	color: black;
-	/* 根据需要调整颜色 */
-	cursor: pointer;
 }
 
 
