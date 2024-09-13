@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 <div class="food-right">
-                    <p><span><u @click="updatefoods(item.foodId)">修改商品</u></span></p>
+                    <p><span><u @click="updatefoods(item.foodId, item.foodExplain, item.foodPrice, item.foodName)">修改商品</u></span></p>
                 </div>
             </li>
             <li class="empty-li">
@@ -124,8 +124,8 @@ const showAlert = (message) => {
 };
 
 //下架商品
-const updatefoods = async (foodId) => {
-    router.push({ path: '/updateFoodInfo', query: { foodId } });
+const updatefoods = async (foodId, foodExplain, foodPrice, foodName) => {
+    router.push({ path: '/updateFoodInfo', query: { foodId, foodExplain, foodPrice, foodName } });
 };
 
 </script>

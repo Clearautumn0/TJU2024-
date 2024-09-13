@@ -45,12 +45,12 @@
 				上传食品图片
 			</el-button>
 		</div>
-		
+
 		<div class="bottom"></div>
-		
+
 		<div v-if="isAvatarOpen" class="overlay"></div>
 		<!--阴影背景  v-show="totalQuantity != 0" 表示有food的时候显示购物车-->
-		
+
 		<div v-if="isAvatarOpen" class="Avatar-update">
 			<div class="button-box">
 				<ul>
@@ -183,8 +183,8 @@ const isFoodPriceValidNumber = computed(() => {
 });
 
 function isValidPrice(value) {
-  const regex = /^\d{0,3}(\.\d{0,2})?$/;
-  return regex.test(value);
+	const regex = /^\d{0,3}(\.\d{0,2})?$/;
+	return regex.test(value);
 }
 
 const validatePrice = () => {
@@ -214,6 +214,7 @@ const storemessage = async () => {
 	if (!validateName() || !validateExplain() || !validatePrice() || !validateImg()) {
 		return;
 	}
+
 	try {
 		const response = await axios.put('foods', {
 			foodId: foodId.value,
@@ -253,7 +254,11 @@ const getBusinessId = async () => {
 
 onMounted(() => {
 	getBusinessId();
-	// console.log(foods);
+	foods.value.foodName = ref(route.query.foodName);
+	foods.value.foodExplain = ref(route.query.foodExplain);
+	foods.value.foodPrice = ref(route.query.foodPrice);
+	// console.log(foodExplain.value);
+	// console.log(foodPrice.value);
 });
 </script>
 
@@ -391,7 +396,8 @@ onMounted(() => {
 	align-items: center;
 	justify-content: center;
 }
-.wrapper .button-click button{
+
+.wrapper .button-click button {
 	border: none;
 	width: 50vw;
 	height: 10vw;
@@ -455,5 +461,4 @@ onMounted(() => {
 .wrapper .button-box .cancel-box p {
 	color: #b1b1b1;
 }
-
 </style>
