@@ -7,6 +7,9 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/cli": "^6.1.2",
+    "@capacitor/core": "^6.1.2",
     "@element-plus/icons-vue": "^2.3.1",
     "@vue/cli": "^5.0.8",
     "@vue/compat": "^3.5.3",

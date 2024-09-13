@@ -67,7 +67,7 @@ const router = useRouter();
 const route = useRoute();
 
 const businessId = ref(route.query.businessId);
-const business = reactive({});
+const business = ref({});
 const user = ref({});
 const cartArr = ref([]);
 const deliveryaddress = ref({});
@@ -100,6 +100,7 @@ const fetchBusinessData = async () => {
 	try {
 		const businessResponse = await axios.get(`businesses/${businessId.value}`);
 		business.value = businessResponse;
+		console.log(business.value.deliveryPrice)
 	} catch (error) {
 		console.error('Failed to fetch business data:', error);
 	}
