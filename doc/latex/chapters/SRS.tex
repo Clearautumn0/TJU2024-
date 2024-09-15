@@ -528,26 +528,26 @@ T软公司为了站在互联网的风口起飞，决定快速开发一个互联�
     \item 功能:根据商家编号查询商家信息
     \item 后端函数名:getBusinessById
     \end{itemize}
-    \item businesses
+    \item businesses/{userId}
     \begin{itemize}
     \item 请求方法:POST
-    \item 参数:businessName、businessImg、orderTypeId
+    \item 参数:businessName、businessImg、orderTypeId、userId
     \item 返回值:int(返回行数)
     \item 功能:向商家表中添加一条字段
-    \item 后端函数名:r egisterBusiness
+    \item 后端函数名:registerBusiness
     \end{itemize}
-    \item businesses
+    \item businesses/{userId}
     \begin{itemize}
     \item 请求方法:PUT
-    \item 参数:businessId、businessName、businessAddress、businessExplain、businessImg、orderTypeId、starPrice、deliveryPrice
+    \item 参数:businessId、businessName、businessAddress、businessExplain、businessImg、orderTypeId、starPrice、deliveryPrice、userId
     \item 返回值:int(返回影响的行数)
     \item 功能:向商家表中更新一条记录
     \item 后端函数名:updateBusiness
     \end{itemize}
-    \item 5. businesses
+    \item businesses/{userId}
     \begin{itemize}
     \item 请求方法:DELETE
-    \item 参数:businessId
+    \item 参数:businessId、userId
     \item 返回值:int(删除成功)
     \item 功能:根据商家编号删除一条商家记录（将delTag设为0）
     \item 后端函数名:deleteBusiness
@@ -581,7 +581,7 @@ T软公司为了站在互联网的风口起飞，决定快速开发一个互联�
     \item 功能:向食品表中添加一条记录
     \item 后端函数名:addfood
     \end{itemize}
-    \item foods/{foodId}
+    \item foods
     \begin{itemize}
     \item 请求方法:PUT
     \item 参数:businessId、foodId、foodName、foodExplain、foodImg、foodPrice、quantity
@@ -597,7 +597,7 @@ T软公司为了站在互联网的风口起飞，决定快速开发一个互联�
     \item 功能:根据商家编号、食品编号更新食品是否售罄
     \item 后端函数名:setFood
    \end{itemize}
-    \item foods/{foodId}
+    \item foods
     \begin{itemize}
     \item 请求方法:DELETE
     \item 参数:businessId、foodId
@@ -724,6 +724,24 @@ T软公司为了站在互联网的风口起飞，决定快速开发一个互联�
         3. 根据用户编号、商家编号删除购物车表中的数据。
     \item 后端函数名:createOrders
 \end{itemize}
+
+\item orders/{orderId}
+\begin{itemize}
+    \item 请求方法:PATCH
+    \item 参数:orderId
+    \item 返回值:int
+    \item 功能:设置订单为已支付状态
+    \item 后端函数名:setOrders
+\end{itemize}
+
+\item orders/{orderId}
+\begin{itemize}
+    \item 请求方法:DELETE
+    \item 参数:orderId
+    \item 返回值:int
+    \item 功能:设置订单为已支付状态
+    \item 后端函数名:cancelOrder
+\end{itemize}
 \end{itemize}
 
 \subsubsection*{user}
@@ -746,7 +764,16 @@ T软公司为了站在互联网的风口起飞，决定快速开发一个互联�
     \item 后端函数名:getUserById
 \end{itemize}
 
-\item users/register
+\item users/businessId/{userId}
+\begin{itemize}
+    \item 请求方法:GET
+    \item 参数:userId
+    \item 返回值:int
+    \item 功能:根据用户编号查询用户商家编号
+    \item 后端函数名:getBusinessIdById
+\end{itemize}
+
+\item users
 \begin{itemize}
     \item 请求方法:POST
     \item 参数:userId、password、userName、userSex
@@ -772,7 +799,18 @@ T软公司为了站在互联网的风口起飞，决定快速开发一个互联�
     \item 功能:根据用户编号与密码删除用户（将delTag设为0）
     \item 后端函数名:deleteUser
 \end{itemize}
+
+\item users
+\begin{itemize}
+    \item 请求方法:PATCH
+    \item 参数:userId、authorization
+    \item 返回值:int
+    \item 功能:根据用户编号更改用户权限状态
+    \item 后端函数名:updateAuthorization
 \end{itemize}
+
+\end{itemize}
+
 \subsubsection*{key}
 \begin{itemize}
   \item public-key
@@ -797,7 +835,6 @@ T软公司为了站在互联网的风口起飞，决定快速开发一个互联�
 \end{itemize}
 
  \item captcha
-
 \begin{itemize}
     \item 请求方法:POST
     \item 参数:session,captchaInput
@@ -806,6 +843,10 @@ T软公司为了站在互联网的风口起飞，决定快速开发一个互联�
     \item 后端函数名:verifyCaptcha
 \end{itemize}
 \end{itemize}
+
+
+
+
 
 
 \subsection{安全性}
